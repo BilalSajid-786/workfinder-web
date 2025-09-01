@@ -15,7 +15,7 @@
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <!-- Parent 1 -->
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a
               class="nav-link text-white"
               data-bs-toggle="collapse"
@@ -36,10 +36,10 @@
                 </li>
               </ul>
             </div>
-          </li>
+          </li> -->
 
           <!-- Parent 2 -->
-          <li class="nav-item">
+          <li class="nav-item" *ngFor="let module of modules">
             <a
               class="nav-link text-white"
               data-bs-toggle="collapse"
@@ -48,7 +48,7 @@
               aria-expanded="false"
               aria-controls="menu2"
             >
-              Users
+              {{ module.moduleName }}
             </a>
             <div class="collapse" id="menu2">
               <ul class="nav flex-column ms-3">
