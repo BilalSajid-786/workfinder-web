@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+.auth-bg {
+  background-image: url("/background/image.PNG"); // or /assets/images/bg.jpg
+  background-size: cover; // scale to cover
+  background-position: center; // center it
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
