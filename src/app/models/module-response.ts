@@ -1,4 +1,7 @@
+import { SubModule } from './sub-module';
+
 export interface ModuleResponse {
-  moduleId: number;
-  moduleName: string;
+  parentModuleId: number;
+  parentModuleName: string;
+  subModules: SubModule[];
 }

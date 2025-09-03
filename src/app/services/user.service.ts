@@ -12,6 +12,6 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   getModules(): Observable<ModuleResponse[]> {
-    return this.http.get<ModuleResponse[]>(`${this.apiUrl}/getModules`);
+    return this.http.get<ModuleResponse[]>(`${this.apiUrl}/getSideBarItems`);
   }
 }

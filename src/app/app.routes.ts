@@ -5,6 +5,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { authGuard } from './guards/auth.guard';
+import { PostJobComponent } from './components/post-job/post-job.component';
+import { AvailableJobsComponent } from './components/available-jobs/available-jobs.component';
 
 export const routes: Routes = [
   {
@@ -29,7 +31,19 @@ export const routes: Routes = [
         path: 'dashboard',
         component: DashboardComponent,
         canActivate: [authGuard],
-        data: { permissions: ['Job.Create'] },
+        data: { permissions: ['Dashboard.CanAccessDashboard'] },
+      },
+      {
+        path: 'postjob',
+        component: PostJobComponent,
+        canActivate: [authGuard],
+        data: { permissions: ['Job.PostJob'] },
+      },
+      {
+        path: 'availablejobs',
+        component: AvailableJobsComponent,
+        canActivate: [authGuard],
+        data: { permissions: ['Job.AvailableJobs'] },
       },
     ],
   },

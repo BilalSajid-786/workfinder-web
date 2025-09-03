@@ -48,15 +48,17 @@
               aria-expanded="false"
               aria-controls="menu2"
             >
-              {{ module.moduleName }}
+              {{ module.parentModuleName }}
             </a>
             <div class="collapse" id="menu2">
               <ul class="nav flex-column ms-3">
-                <li class="nav-item">
-                  <a class="nav-link text-white" href="#">Add User</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-white" href="#">Manage Users</a>
+                <li
+                  class="nav-item"
+                  *ngFor="let submodule of module.subModules"
+                >
+                  <a class="nav-link text-white" href="#">{{
+                    submodule.moduleName
+                  }}</a>
                 </li>
               </ul>
             </div>
