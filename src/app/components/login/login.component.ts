@@ -8,11 +8,13 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { LoginRequest } from '../../models/login-request.model';
+import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterOutlet],
+  imports: [ReactiveFormsModule, RouterOutlet, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -25,7 +27,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -46,15 +49,22 @@ export class LoginComponent {
       const loginData: LoginRequest = this.loginForm.value;
       this.authService.login(loginData).subscribe({
         next: (res) => {
-          console.log('Login success:', res);
+          this.toastr.success('Login Successfull');
           if (this.authService.getRole() == 'Admin') {
             this.router.navigate(['dashboard']);
-          } else {
-            this.router.navigate(['dashboard']);
+          } else if (this.authService.getRole() == 'Employer') {
+            this.router.navigate(['postjob']);
+          } else if (this.authService.getRole() == 'Applicant') {
+            this.router.navigate(['availablejobs']);
           }
         },
-        error: (err) => console.error('Login failed:', err),
+        error: (err) => {
+          console.error('Login failed:', err);
+          this.toastr.error('Login Failed');
+        },
       });
+    } else {
+      this.loginForm.markAllAsTouched();
     }
   }
 }
