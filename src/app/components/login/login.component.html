@@ -1,79 +1,59 @@
-<div class="auth-bg row">
-  <img src="/background/side-img.png" 
-       alt="" 
-       class="corner-img" />
-  <div class="d-flex flex-column justify-content-center vh-100 offset-md-3">
-    <!-- Title -->
-    <div class="row">
-      <div class="col-12 mb-3">
-        <h3 class="text-primary">Work Finder</h3>
-      </div>
-    </div>
+<div class="container-fluid auth-bg p-0 overflow-hidden">
+  <div class="row min-vh-100 g-0 m-0">
+    <!-- Left column: Form -->
+    <div
+      class="col-md-9 col-sm-8 d-flex flex-column justify-content-center align-items-center"
+    >
+      <h1 class="text-primary mb-4 fw-bold">Work Finder</h1>
 
-    <!-- Form -->
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="row">
-        <div class="col-md-4 mb-3">
-          <label for="email" class="form-label">Email address</label>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="w-50">
+        <!-- Email -->
+        <div class="mb-4 position-relative">
           <input
             type="email"
-            class="form-control"
+            class="form-control wf-input"
             id="email"
-            placeholder="Enter email"
+            placeholder="Email"
             formControlName="email"
+            [ngClass]="{
+              'is-invalid': email?.invalid && (email?.dirty || email?.touched)
+            }"
           />
-          <div
-            *ngIf="email?.invalid && (email?.dirty || email?.touched)"
-            class="error"
-          >
-            <small *ngIf="email?.errors?.['required']"
-              >Email is required.</small
-            >
-            <small *ngIf="email?.errors?.['email']"
-              >Invalid email format.</small
-            >
-          </div>
+          <span class="text-danger position-absolute required-star">*</span>
         </div>
-      </div>
-      <!-- </div> -->
 
-      <div class="row">
-        <div class="mb-3 col-md-4">
-          <label for="password" class="form-label">Password</label>
+        <!-- Password -->
+        <div class="mb-3 position-relative">
           <input
             type="password"
-            class="form-control"
-            id="password"
             placeholder="Password"
+            class="form-control wf-input"
+            id="password"
             formControlName="password"
+            [ngClass]="{
+              'is-invalid':
+                password?.invalid && (password?.dirty || password?.touched)
+            }"
           />
-
-          <div
-            *ngIf="password?.invalid && (password?.dirty || password?.touched)"
-            class="error"
-          >
-            <small *ngIf="password?.errors?.['required']">
-              Password is required.</small
-            >
-            <small *ngIf="password?.errors?.['minlength']"
-              >Password must be at least 8 characters.</small
-            >
-          </div>
+          <span class="text-danger position-absolute required-star">*</span>
         </div>
-      </div>
 
-      <div class="row">
-        <button type="submit" class="btn btn-primary col-1">Submit</button>
-      </div>
-    </form>
-  </div>
-</div>
+        <button type="submit" class="btn btn-primary d-block mx-auto px-4">
+          Login
+        </button>
+      </form>
+    </div>
 
-<!-- <div class="auth-bg row">
-  <div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="p-4 border rounded shadow bg-light">
-      <h3 class="text-center col-12">Centered Div</h3>
-      <p class="text-center">This div is vertically & horizontally centered.</p>
+    <!-- Right column: Image -->
+    <!-- <div
+      class="col-md-3 col-4 offset-md-0 offset-7 d-flex justify-content-end align-items-end p-0 mt-3 mt-md-0"
+    >
+      <img src="/background/side-img.png" alt="Side Image" class="img-fluid" />
+    </div> -->
+    <div
+      class="col-md-3 col-12 d-flex justify-content-end justify-content-end align-items-end p-0 mt-3 mt-md-0"
+    >
+      <img src="/background/side-img.png" alt="Side Image" class="img-fluid" />
     </div>
   </div>
-</div> -->
+</div>
