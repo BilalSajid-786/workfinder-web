@@ -7,6 +7,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { authGuard } from './guards/auth.guard';
 import { PostJobComponent } from './components/post-job/post-job.component';
 import { AvailableJobsComponent } from './components/available-jobs/available-jobs.component';
+import { RegisterEmployerComponent } from './components/register-employer/register-employer.component';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,10 @@ export const routes: Routes = [
       {
         path: 'register',
         component: RegisterComponent,
+      },
+      {
+        path: 'register-employer',
+        component: RegisterEmployerComponent,
       },
     ],
   },

@@ -1,0 +1,106 @@
+<div class="auth-bg row g-0">
+    <!-- Title -->
+    <header class="app-header" aria-labelledby="page-title">
+        <h1 id="page-title" class="brand-title">WorkFinder</h1>
+    </header>
+
+    <!-- Form -->
+    <section class="wf-form-wrap" aria-labelledby="employer-title">
+        <form class="wf-form" [formGroup]="employerForm" (ngSubmit)="onSubmit()" novalidate>
+
+            <!-- Row 1 -->
+            <div class="wf-field">
+                <input class="wf-input" type="text" formControlName="companyName" required autocomplete="organization"
+                    placeholder="Company Name"
+                    [class.is-invalid]="companyName?.invalid && (companyName?.touched || submitted)" />
+            </div>
+
+            <div class="wf-field wf-select-wrap">
+                <select class="wf-select" formControlName="companySize" required aria-label="Company Size"
+                    [class.is-invalid]="companySize?.invalid && (companySize?.touched || submitted)">
+                    <option value="" disabled>Company Size</option>
+                    <option>1–10</option>
+                    <option>11–50</option>
+                    <option>51–200</option>
+                    <option>201–500</option>
+                    <option>500+</option>
+                </select>
+                <span class="wf-chev" aria-hidden="true">▾</span>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="wf-field">
+                <input class="wf-input" type="email" formControlName="email" required autocomplete="email"
+                    placeholder="Company Email" [class.is-invalid]="email?.invalid && (email?.touched || submitted)" />
+                <div class="invalid-feedback d-block"
+                    *ngIf="email?.hasError('required') && (email?.touched || submitted)">
+                    Company Email is required.
+                </div>
+            </div>
+
+            <div class="wf-field">
+                <input class="wf-input" type="tel" formControlName="phoneNumber" required autocomplete="tel"
+                    placeholder="Phone number"
+                    [class.is-invalid]="phoneNumber?.invalid && (phoneNumber?.touched || submitted)" />
+            </div>
+
+            <!-- Row 3 -->
+            <div class="wf-field wf-field--icon">
+                <input class="wf-input" type="password" formControlName="password" required autocomplete="new-password"
+                    placeholder="Password" [class.is-invalid]="password?.invalid && (password?.touched || submitted)" />
+                <button type="button" class="wf-icon-btn" aria-label="Show password"></button>
+            </div>
+
+            <div class="wf-field">
+                <input class="wf-input" type="text" formControlName="contactPerson" required placeholder="Contact Person name"
+                    [class.is-invalid]="contactPerson?.invalid && (contactPerson?.touched || submitted)" />
+            </div>
+
+            <!-- Row 4 -->
+            <div class="wf-field">
+                <input class="wf-input" type="text" formControlName="city" required placeholder="Company’s Town/city"
+                    [class.is-invalid]="city?.invalid && (city?.touched || submitted)" />
+            </div>
+
+            <div class="wf-field">
+                <input class="wf-input" type="text" formControlName="registrationNumber"
+                    placeholder="NTN(company registered number)" />
+            </div>
+
+            <!-- Row 5 -->
+            <div class="wf-field wf-select-wrap">
+                <select class="wf-select" formControlName="industryId" required aria-label="Industry / Nature of Work"
+                    [class.is-invalid]="industryId?.invalid && (industryId?.touched || submitted)">
+                    <option [ngValue]="null" disabled>Industry / Nature of Work</option>
+                    <!-- replace with *ngFor when loading from API -->
+                    <option *ngFor="let ind of industries" [ngValue]="ind.industryId">
+                        {{ ind.industryName }}
+                    </option>
+                    </select>
+                <span class="wf-chev" aria-hidden="true">▾</span>
+            </div>
+
+            <div class="wf-field">
+                <input class="wf-input" type="url" formControlName="websiteUrl" autocomplete="url"
+                    placeholder="Website URL" />
+            </div>
+
+            <!-- Terms -->
+            <div class="wf-row-full">
+                <label class="wf-cbx">
+                    <input type="checkbox" formControlName="terms" required
+                        [class.is-invalid]="terms?.invalid && (terms?.touched || submitted)" />
+                    <span style="padding: 5px;">I agree to the <a href="#">Terms &amp; Privacy Policy</a></span>
+                </label>
+            </div>
+
+            <!-- CTA -->
+            <div class="wf-row-full">
+                <button class="wf-btn" type="submit">Sign up</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Decorative right illustration -->
+    <img src="/background/side-img.png" alt="" class="corner-img" />
+</div>
