@@ -8,6 +8,7 @@ import { authGuard } from './guards/auth.guard';
 import { PostJobComponent } from './components/post-job/post-job.component';
 import { AvailableJobsComponent } from './components/available-jobs/available-jobs.component';
 import { RegisterEmployerComponent } from './components/register-employer/register-employer.component';
+import { RegisterApplicantComponent } from './components/register-applicant/register-applicant.component';
 
 export const routes: Routes = [
   {
@@ -25,6 +26,10 @@ export const routes: Routes = [
       {
         path: 'register-employer',
         component: RegisterEmployerComponent,
+      },
+      {
+        path: 'register-applicant',
+        component: RegisterApplicantComponent,
       },
     ],
   },

@@ -372,3 +372,26 @@ body {
   font-size: 1rem; /* Keep it proportional */
   font-weight: 1000;
 }
+
+/* Custom blue dropdown */
+.custom-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff; /* keep dropdown white */
+  color: #000;
+  border: 1px solid #ced4da;
+  padding-right: 2rem; /* space for arrow */
+
+  /* Replace default arrow with a solid blue one */
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23007bff' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+}
+
+/* Focus effect */
+.custom-select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}

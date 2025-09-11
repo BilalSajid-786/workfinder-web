@@ -1,0 +1,226 @@
+<div class="container-fluid auth-bg p-0 overflow-hidden">
+  <div class="row min-vh-100 g-0 m-0">
+    <!-- Left column: Form -->
+    <div
+      style="padding-left: 80px"
+      class="col-md-9 d-flex flex-column justify-content-center"
+    >
+      <h1 class="text-primary mb-4 fw-bold">Work Finder</h1>
+
+      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <!-- FullName -->
+          <div class="mb-4 position-relative col-md-6 col-12">
+            <input
+              type="text"
+              class="form-control wf-input"
+              id="fullName"
+              placeholder="FullName"
+              formControlName="fullName"
+              [ngClass]="{
+                'is-invalid':
+                  fullName?.invalid && (fullName?.dirty || fullName?.touched)
+              }"
+            />
+            <span class="text-danger position-absolute required-star">*</span>
+          </div>
+
+          <!-- Country -->
+          <div class="mb-3 position-relative col-md-6 col-12 wf-select-wrap">
+            <select
+              class="wf-select"
+              formControlName="country"
+              required
+              aria-label="Country"
+              [class.is-invalid]="country?.invalid && country?.touched"
+            >
+              <option value="" disabled>Country</option>
+              <option value="Male">Pakistan</option>
+              <option value="Female">America</option>
+            </select>
+            <span class="wf-chev" aria-hidden="true">▾</span>
+            <span class="text-danger position-absolute required-star">*</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Phone -->
+          <div class="mb-4 col-md-6 col-12">
+            <div class="input-group">
+              <!-- Country Code Dropdown -->
+              <select class="form-select custom-select" style="max-width: 80px">
+                <option value="+92">+92</option>
+                <option value="+1">+1</option>
+                <option value="+44">+44</option>
+                <option value="+971">+971</option>
+                <!-- Add more as needed -->
+              </select>
+
+              <!-- Phone Number -->
+              <input
+                type="text"
+                class="form-control wf-input"
+                id="phoneNumber"
+                placeholder="Phone"
+                formControlName="phoneNumber"
+                [ngClass]="{
+                  'is-invalid':
+                    phoneNumber?.invalid &&
+                    (phoneNumber?.dirty || phoneNumber?.touched)
+                }"
+              />
+            </div>
+
+            <span class="text-danger position-absolute required-star">*</span>
+          </div>
+
+          <div class="mb-4 position-relative col-md-6 col-12">
+            <!-- Selected Skills -->
+            <!-- Wrapper like normal input -->
+            <div
+              class="form-control wf-input d-flex flex-wrap align-items-center gap-2"
+              style="min-height: 38px"
+            >
+              <!-- Selected Skills -->
+              <span
+                *ngFor="let skill of skills?.value; let i = index"
+                class="badge bg-primary"
+              >
+                {{ skill.skillName }}
+                <button
+                  type="button"
+                  class="btn-close btn-close-white ms-1"
+                  (click)="removeSkill(i)"
+                ></button>
+              </span>
+
+              <!-- Inline Input -->
+              <input
+                type="text"
+                class="border-0 flex-grow-1"
+                placeholder="Add a skill"
+                (input)="onSkillInput($event)"
+                (keydown)="onSkillEnter($event, skillInput)"
+                #skillInput
+                style="outline: none"
+              />
+            </div>
+
+            <!-- Dropdown -->
+            <ul
+              *ngIf="skillsList.length > 0"
+              class="list-group position-absolute w-100"
+              style="z-index: 1000"
+            >
+              <li
+                *ngFor="let item of skillsList"
+                class="list-group-item list-group-item-action"
+                (click)="selectSkill(item, skillInput)"
+              >
+                {{ item.skillName }}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Email -->
+          <div class="mb-4 position-relative col-md-6 col-12">
+            <input
+              type="email"
+              class="form-control wf-input"
+              id="email"
+              placeholder="Email"
+              formControlName="email"
+              [ngClass]="{
+                'is-invalid': email?.invalid && (email?.dirty || email?.touched)
+              }"
+            />
+            <span class="text-danger position-absolute required-star">*</span>
+          </div>
+
+          <!-- Qualification -->
+          <div class="mb-3 position-relative col-md-6 col-12 wf-select-wrap">
+            <select
+              class="wf-select"
+              formControlName="qualification"
+              required
+              aria-label="Qualification"
+              [class.is-invalid]="
+                qualification?.invalid && qualification?.touched
+              "
+            >
+              <option value="" disabled>Qualification</option>
+              <option value="Matric">Matric</option>
+              <option value="Intermediate">Intermediate</option>
+            </select>
+            <span class="wf-chev" aria-hidden="true">▾</span>
+            <span class="text-danger position-absolute required-star">*</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="mb-3 position-relative col-md-6 col-12">
+            <input
+              type="password"
+              placeholder="Password"
+              class="form-control wf-input"
+              id="password"
+              formControlName="password"
+              [ngClass]="{
+                'is-invalid':
+                  password?.invalid && (password?.dirty || password?.touched)
+              }"
+            />
+            <span class="text-danger position-absolute required-star">*</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Town/City -->
+          <div class="mb-3 position-relative col-md-6 col-12">
+            <input
+              type="text"
+              placeholder="Town/City"
+              class="form-control wf-input"
+              id="city"
+              formControlName="city"
+              [ngClass]="{
+                'is-invalid': city?.invalid && (city?.dirty || city?.touched)
+              }"
+            />
+            <span class="text-danger position-absolute required-star">*</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Gender -->
+          <div class="mb-3 position-relative col-md-6 col-12 wf-select-wrap">
+            <select
+              class="wf-select"
+              formControlName="gender"
+              required
+              aria-label="Gender"
+              [class.is-invalid]="gender?.invalid && gender?.touched"
+            >
+              <option value="" disabled>Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+            <span class="wf-chev" aria-hidden="true">▾</span>
+            <span class="text-danger position-absolute required-star">*</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary d-block mx-auto px-4">
+          Login
+        </button>
+      </form>
+    </div>
+    <div
+      class="col-md-3 col-12 d-flex justify-content-end justify-content-end align-items-end p-0 mt-3 mt-md-0"
+    >
+      <img src="/background/side-img.png" alt="Side Image" class="img-fluid" />
+    </div>
+  </div>
+</div>
