@@ -44,7 +44,10 @@ body {
   background: url("/background/login-bg.png") center / cover no-repeat;
   padding-bottom: clamp(120px, 28vh, 420px);
 }
-
+.content-stack{
+  position: relative;
+  z-index: 2;
+}
 /* ==========================================================================
    TITLE
    ========================================================================== */
@@ -127,7 +130,7 @@ body {
   font-size: 15px;
   outline: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease,
-    background-color 0.15s ease;
+  background-color 0.15s ease;
 }
 
 .wf-input::placeholder {
@@ -150,10 +153,9 @@ body {
 }
 
 .wf-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  padding-right: 40px; /* room for chevron */
+  appearance: auto;
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
 }
 
 .wf-chev {
@@ -282,7 +284,7 @@ body {
   max-width: 428.96px;
   height: auto;
   max-height: 90vh;
-  z-index: 1; /* behind form/title */
+  z-index: 0; /* behind form/title */
   pointer-events: none; /* never block clicks */
 }
 

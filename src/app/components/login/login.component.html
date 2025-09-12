@@ -1,40 +1,26 @@
 <div class="container-fluid auth-bg p-0 overflow-hidden">
   <div class="row min-vh-100 g-0 m-0">
     <!-- Left column: Form -->
-    <div
-      class="col-md-9 col-sm-8 d-flex flex-column justify-content-center align-items-center"
-    >
+    <div class="col-md-9 col-sm-8 d-flex flex-column justify-content-center align-items-center">
       <h1 class="text-primary mb-4 fw-bold">Work Finder</h1>
 
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="w-50">
         <!-- Email -->
         <div class="mb-4 position-relative">
-          <input
-            type="email"
-            class="form-control wf-input"
-            id="email"
-            placeholder="Email"
-            formControlName="email"
+          <input type="email" class="form-control wf-input" id="email" placeholder="Email" formControlName="email"
             [ngClass]="{
               'is-invalid': email?.invalid && (email?.dirty || email?.touched)
-            }"
-          />
+            }" />
           <span class="text-danger position-absolute required-star">*</span>
         </div>
 
         <!-- Password -->
         <div class="mb-3 position-relative">
-          <input
-            type="password"
-            placeholder="Password"
-            class="form-control wf-input"
-            id="password"
-            formControlName="password"
-            [ngClass]="{
+          <input type="password" placeholder="Password" class="form-control wf-input" id="password"
+            formControlName="password" [ngClass]="{
               'is-invalid':
                 password?.invalid && (password?.dirty || password?.touched)
-            }"
-          />
+            }" />
           <span class="text-danger position-absolute required-star">*</span>
         </div>
 
@@ -50,9 +36,7 @@
     >
       <img src="/background/side-img.png" alt="Side Image" class="img-fluid" />
     </div> -->
-    <div
-      class="col-md-3 col-12 d-flex justify-content-end justify-content-end align-items-end p-0 mt-3 mt-md-0"
-    >
+    <div class="col-md-3 col-12 d-flex justify-content-end justify-content-end align-items-end p-0 mt-3 mt-md-0">
       <img src="/background/side-img.png" alt="Side Image" class="img-fluid" />
     </div>
   </div>
