@@ -26,15 +26,18 @@
           </div>
 
           <!-- Country -->
-          <div class="mb-3 position-relative col-md-6 col-12 wf-select-wrap">
+          <div
+            class="mb-3 position-relative col-md-6 col-12 wf-field wf-select-wrap"
+          >
             <select
               class="wf-select"
               formControlName="country"
-              required
               aria-label="Country"
-              [class.is-invalid]="country?.invalid && country?.touched"
+              [class.is-invalid]="
+                country?.invalid && (country?.dirty || isSubmitted)
+              "
             >
-              <option value="" disabled>Country</option>
+              <option [ngValue]="null" disabled>Country</option>
               <option value="Male">Pakistan</option>
               <option value="Female">America</option>
             </select>
@@ -46,9 +49,17 @@
         <div class="row">
           <!-- Phone -->
           <div class="mb-4 col-md-6 col-12">
-            <div class="input-group">
+            <div class="input-group wf-field wf-select-wrap">
               <!-- Country Code Dropdown -->
-              <select class="form-select custom-select" style="max-width: 80px">
+              <select
+                class="form-select custom-select wf-select"
+                style="max-width: 80px"
+                formControlName="countryCode"
+                [class.is-invalid]="
+                  countryCode?.invalid && (countryCode?.touched || isSubmitted)
+                "
+              >
+                <option [ngValue]="null" disabled>+</option>
                 <option value="+92">+92</option>
                 <option value="+1">+1</option>
                 <option value="+44">+44</option>
@@ -60,13 +71,12 @@
               <input
                 type="text"
                 class="form-control wf-input"
-                id="phoneNumber"
+                id="phone"
                 placeholder="Phone"
-                formControlName="phoneNumber"
+                formControlName="phone"
                 [ngClass]="{
                   'is-invalid':
-                    phoneNumber?.invalid &&
-                    (phoneNumber?.dirty || phoneNumber?.touched)
+                    phone?.invalid && (phone?.dirty || phone?.touched)
                 }"
               />
             </div>
@@ -76,12 +86,24 @@
 
           <div class="mb-4 position-relative col-md-6 col-12">
             <!-- Selected Skills -->
-            <!-- Wrapper like normal input -->
-            <div
-              class="form-control wf-input d-flex flex-wrap align-items-center gap-2"
-              style="min-height: 38px"
-            >
-              <!-- Selected Skills -->
+            <!-- Inline Input -->
+            <input
+              type="text"
+              class="form-control wf-input"
+              placeholder="Add a skill"
+              (input)="onSkillInput($event)"
+              (keydown)="onSkillEnter($event, skillInput)"
+              #skillInput
+              style="outline: none"
+              [ngClass]="{
+                'is-invalid':
+                  skills?.invalid && (skills?.dirty || skills?.touched)
+              }"
+            />
+            <span class="text-danger position-absolute required-star">*</span>
+
+            <!-- Selected Skills BELOW field -->
+            <div class="d-flex flex-wrap gap-2 mt-2">
               <span
                 *ngFor="let skill of skills?.value; let i = index"
                 class="badge bg-primary"
@@ -93,17 +115,6 @@
                   (click)="removeSkill(i)"
                 ></button>
               </span>
-
-              <!-- Inline Input -->
-              <input
-                type="text"
-                class="border-0 flex-grow-1"
-                placeholder="Add a skill"
-                (input)="onSkillInput($event)"
-                (keydown)="onSkillEnter($event, skillInput)"
-                #skillInput
-                style="outline: none"
-              />
             </div>
 
             <!-- Dropdown -->
@@ -140,17 +151,19 @@
           </div>
 
           <!-- Qualification -->
-          <div class="mb-3 position-relative col-md-6 col-12 wf-select-wrap">
+          <div
+            class="mb-3 position-relative col-md-6 col-12 wf-field wf-select-wrap"
+          >
             <select
               class="wf-select"
               formControlName="qualification"
-              required
               aria-label="Qualification"
               [class.is-invalid]="
-                qualification?.invalid && qualification?.touched
+                qualification?.invalid &&
+                (qualification?.touched || isSubmitted)
               "
             >
-              <option value="" disabled>Qualification</option>
+              <option [ngValue]="null" disabled>Qualification</option>
               <option value="Matric">Matric</option>
               <option value="Intermediate">Intermediate</option>
             </select>
@@ -174,11 +187,50 @@
             />
             <span class="text-danger position-absolute required-star">*</span>
           </div>
+          <div
+            class="mb-3 position-relative col-md-6 col-12 wf-field wf-file-field"
+          >
+            <div class="file-input-wrapper position-relative">
+              <input
+                type="file"
+                id="resume"
+                class="custom-file-input"
+                aria-label="Upload resume"
+                (change)="onFileSelected($event, 'Resume')"
+              />
+
+              <!-- Fake placeholder -->
+              <span class="file-placeholder">Resume.pdf</span>
+
+              <!-- Icon -->
+              <span class="wf-chev" aria-hidden="true">
+                <i class="bi bi-paperclip text-primary"></i>
+              </span>
+            </div>
+
+            <!-- File tags -->
+            <div
+              class="d-flex flex-wrap gap-2 mt-2"
+              *ngIf="selectedResume.length > 0"
+            >
+              <span
+                *ngFor="let file of selectedResume; let i = index"
+                class="badge bg-primary"
+              >
+                {{ file.name }}
+                <button
+                  type="button"
+                  class="btn-close btn-close-white ms-1"
+                  (click)="removeFile(i, 'Resume')"
+                ></button>
+              </span>
+            </div>
+          </div>
         </div>
 
         <div class="row">
           <!-- Town/City -->
-          <div class="mb-3 position-relative col-md-6 col-12">
+          <div class="mb-4 position-relative col-md-6 col-12">
             <input
               type="text"
               placeholder="Town/City"
@@ -191,19 +243,99 @@
             />
             <span class="text-danger position-absolute required-star">*</span>
           </div>
+
+          <!--Certificate-->
+          <div
+            class="mb-3 position-relative col-md-6 col-12 wf-field wf-file-field"
+          >
+            <div class="file-input-wrapper position-relative">
+              <input
+                type="file"
+                id="certificate"
+                class="custom-file-input"
+                aria-label="Upload certificate"
+                multiple
+                (change)="onFileSelected($event, 'Certificates')"
+              />
+
+              <!-- Fake placeholder -->
+              <span class="file-placeholder">Certificate</span>
+
+              <!-- Icon -->
+              <span class="wf-chev" aria-hidden="true">
+                <i class="bi bi-paperclip text-primary"></i>
+              </span>
+            </div>
+
+            <!-- File tags -->
+            <div
+              class="d-flex flex-wrap gap-2 mt-2"
+              *ngIf="selectedCertificates.length > 0"
+            >
+              <span
+                *ngFor="let file of selectedCertificates; let i = index"
+                class="badge bg-primary"
+              >
+                {{ file.name }}
+                <button
+                  type="button"
+                  class="btn-close btn-close-white ms-1"
+                  (click)="removeFile(i, 'Certificates')"
+                ></button>
+              </span>
+            </div>
+          </div>
+
+          <!-- <div
+            class="mb-3 position-relative col-md-6 col-12 wf-field wf-file-field"
+          >
+            <input
+              type="file"
+              id="certificate"
+              class="custom-file-input"
+              aria-label="Upload certificate"
+              multiple
+              (change)="onFileSelected($event, 'Certificates')"
+            />
+
+            <span class="file-placeholder">Certificate</span>
+
+            <span class="wf-chev" aria-hidden="true">
+              <i class="bi bi-paperclip text-primary"></i>
+            </span>
+
+            <div
+              class="d-flex flex-wrap gap-2 mt-2"
+              *ngIf="selectedCertificates.length > 0"
+            >
+              <span
+                *ngFor="let file of selectedCertificates"
+                class="badge bg-primary"
+              >
+                {{ file.name }}
+                <button
+                  type="button"
+                  class="btn-close btn-close-white ms-1"
+                ></button>
+              </span>
+            </div>
+          </div> -->
         </div>
 
         <div class="row">
           <!-- Gender -->
-          <div class="mb-3 position-relative col-md-6 col-12 wf-select-wrap">
+          <div
+            class="mb-3 position-relative col-md-6 col-12 wf-field wf-select-wrap"
+          >
             <select
               class="wf-select"
               formControlName="gender"
-              required
               aria-label="Gender"
-              [class.is-invalid]="gender?.invalid && gender?.touched"
+              [class.is-invalid]="
+                gender?.invalid && (gender?.dirty || isSubmitted)
+              "
             >
-              <option value="" disabled>Gender</option>
+              <option [ngValue]="null" disabled>Gender</option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
             </select>
@@ -213,7 +345,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary d-block mx-auto px-4">
-          Login
+          Signup
         </button>
       </form>
     </div>

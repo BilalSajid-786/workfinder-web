@@ -11,6 +11,10 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable, debounceTime, of, switchMap } from 'rxjs';
 import { SkillService } from '../../services/skill.service';
 import { Skill } from '../../models/skill.model';
+import { Applicant } from '../../models/applicant.model';
+import { ApplicantService } from '../../services/applicant.service';
+import { FileService } from '../../services/file.service';
+import { Guid } from '../../models/types.model';
 
 @Component({
   selector: 'app-register-applicant',
@@ -23,6 +27,9 @@ export class RegisterApplicantComponent {
   registrationForm: FormGroup;
   skillsList: Skill[] = []; // not string[]
   selectedSkills: Skill[] = [];
+  isSubmitted = false;
+  selectedCertificates: File[] = [];
+  selectedResume: File[] = [];
 
   /**
    *
@@ -31,19 +38,22 @@ export class RegisterApplicantComponent {
     private fb: FormBuilder,
     private router: Router,
     private toastr: ToastrService,
-    private skillService: SkillService
+    private skillService: SkillService,
+    private applicantService: ApplicantService,
+    private fileService: FileService
   ) {
     this.registrationForm = this.fb.group({
       fullName: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      countryCode: [null, [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      country: ['', [Validators.required]],
+      country: [null, [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       city: ['', [Validators.required]],
       skills: [[], [Validators.required]],
-      qualification: ['', [Validators.required]],
+      qualification: [null, [Validators.required]],
       gender: [
-        '',
+        null,
         [Validators.required, Validators.pattern(/^(male|female)$/i)],
       ],
     });
@@ -53,8 +63,12 @@ export class RegisterApplicantComponent {
     return this.registrationForm.get('fullName');
   }
 
-  get phoneNumber() {
-    return this.registrationForm.get('phoneNumber');
+  get phone() {
+    return this.registrationForm.get('phone');
+  }
+
+  get countryCode() {
+    return this.registrationForm.get('countryCode');
   }
 
   get email() {
@@ -101,6 +115,22 @@ export class RegisterApplicantComponent {
 
     input.value = ''; // clear input
     this.skillsList = []; // hide dropdown
+  }
+
+  onFileSelected(event: Event, fileType: string): void {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files && input.files.length > 0 && fileType == 'Certificates') {
+      // Convert FileList to an array
+      this.selectedCertificates = Array.from(input.files);
+      console.log('Selected certificates:', this.selectedCertificates);
+    }
+
+    if (input.files && input.files.length > 0 && fileType == 'Resume') {
+      // Convert FileList to an array
+      this.selectedResume = Array.from(input.files);
+      console.log('Selected resume:', this.selectedResume);
+    }
   }
 
   // Handle "Enter" key for custom skills
@@ -159,6 +189,17 @@ export class RegisterApplicantComponent {
     control?.setValue([...current]); // update form control
   }
 
+  removeFile(index: number, fileType: string) {
+    if (fileType === 'Certificates') {
+      this.selectedCertificates.splice(index, 1);
+      console.log(this.selectedCertificates);
+    }
+    if (fileType === 'Resume') {
+      this.selectedResume.splice(index, 1);
+      console.log(this.selectedResume);
+    }
+  }
+
   fetchSkills(query: string): void {
     this.skillService.getSkillByName(query).subscribe({
       next: (res) => {
@@ -175,23 +216,68 @@ export class RegisterApplicantComponent {
       },
     });
   }
-  // Mock API
-  fakeApiCall(query: string): Observable<Skill[]> {
-    const skills: Skill[] = [
-      { skillId: 1, skillName: 'Angular' },
-      { skillId: 2, skillName: 'C#' },
-    ];
-
-    const filtered = skills.filter((s) =>
-      s.skillName.toLowerCase().includes(query.toLowerCase())
-    );
-
-    return of(filtered); // ✅ wrap in `of` to return Observable<Skill[]>
-  }
 
   onSubmit() {
-    console.log(this.registrationForm.value);
+    this.isSubmitted = true;
     if (this.registrationForm.valid) {
+      const values = this.registrationForm.getRawValue();
+      const payload: Applicant = {
+        name: values.fullName?.trim(),
+        email: values.email?.trim(),
+        password: values.password, // backend should hash
+        city: values.city?.trim(),
+        country: values.country?.trim(),
+        phone: values.countryCode?.trim() + values.phone?.trim(),
+        gender: values.gender?.trim(),
+        qualification: values.qualification?.trim(),
+        skills: values.skills,
+      } as unknown as Applicant;
+
+      this.applicantService.registerApplicantData(payload).subscribe({
+        next: (res: any) => {
+          console.log('Response', res);
+          this.toastr.success(res.message);
+          const applicantId: Guid = res.result.applicantId;
+          debugger;
+          this.uploadResume(applicantId);
+          this.uploadCertificates(applicantId);
+          this.registrationForm.markAllAsTouched();
+          this.router.navigate(['']);
+        },
+        error: (err: any) => {
+          this.toastr.error('Applicant registration Failed');
+        },
+      });
+    } else {
+      this.registrationForm.markAllAsTouched();
     }
+  }
+
+  uploadResume(applicantId: Guid) {
+    if (this.selectedResume.length > 0) {
+      this.selectedResume.forEach((resume) => {
+        this.UploadFile(applicantId, 'Resume', resume);
+      });
+    }
+  }
+
+  uploadCertificates(applicantId: Guid) {
+    if (this.selectedCertificates.length > 0) {
+      this.selectedCertificates.forEach((certificate) => {
+        this.UploadFile(applicantId, 'Certificate', certificate);
+      });
+    }
+  }
+
+  UploadFile(applicantId: Guid, fileType: string, file: File) {
+    debugger;
+    const formData = new FormData();
+    formData.append('formFile', file, file.name);
+    this.fileService.UploadFile(formData, fileType, applicantId).subscribe({
+      next: (res: any) => {
+        console.log('Response', res);
+      },
+      error: (err: any) => {},
+    });
   }
 }
