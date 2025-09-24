@@ -18,7 +18,7 @@
                         <!-- Company Size (required / dropdown) -->
                         <div class="col-md-6 position-relative">
                             <select class="form-select wf-select" id="companySize" formControlName="companySize"
-                            [ngClass]="{'is-invalid': companySize?.invalid && (companySize?.dirty || companySize?.touched)}">
+                                [ngClass]="{'is-invalid': companySize?.invalid && (companySize?.dirty || companySize?.touched)}">
                                 <option value="" selected disabled>Company Size</option>
                                 <option>1–10</option>
                                 <option>11–50</option>
@@ -28,25 +28,47 @@
                             </select>
                             <span class="text-danger position-absolute required-star">*</span>
                         </div>
-            
+                        
                         <!-- Company Email (required) -->
                         <div class="col-md-6 position-relative">
                             <input type="email" class="form-control wf-input" id="email" placeholder="Company Email" formControlName="email"
-                            [ngClass]="{'is-invalid': email?.invalid && (email?.dirty || email?.touched)}">
+                                [ngClass]="{'is-invalid': email?.invalid && (email?.dirty || email?.touched)}">
                             <span class="text-danger position-absolute required-star">*</span>
                         </div>
-            
+                        
                         <!-- Phone number (required) -->
+                        <!-- <div class="col-md-6 position-relative">
+                                                                            <input type="tel" class="form-control wf-input" id="phoneNumber" placeholder="Phone number" formControlName="phoneNumber"
+                                                                            [ngClass]="{'is-invalid': phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)}">
+                                                                            <span class="text-danger position-absolute required-star">*</span>
+                                                                        </div> -->
                         <div class="col-md-6 position-relative">
-                            <input type="tel" class="form-control wf-input" id="phoneNumber" placeholder="Phone number" formControlName="phoneNumber"
-                            [ngClass]="{'is-invalid': phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)}">
+                            <div class="d-flex phone-group">
+                                <!-- Country Code -->
+                                <select class="form-select country-code" formControlName="countryCode">
+                                    <option value="+92" selected>+92</option>
+                                    <option value="+1">+1</option>
+                                    <option value="+44">+44</option>
+                                    <option value="+61">+61</option>
+                                    <option value="+91">+91</option>
+                                </select>
+                        
+                                <!-- Phone Input -->
+                                <input type="tel" class="form-control wf-input" placeholder="Phone" formControlName="phoneNumber"
+                                    [ngClass]="{'is-invalid': phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)}">
+                            </div>
+                        
+                            <!-- Required star -->
                             <span class="text-danger position-absolute required-star">*</span>
                         </div>
-            
+                        
+                        
+                        
                         <!-- Password (required) -->
                         <div class="col-md-6 position-relative">
-                            <input type="password" class="form-control wf-input pe-5" id="password" placeholder="Password" formControlName="password"
-                            [ngClass]="{'is-invalid': password?.invalid && (password?.dirty || password?.touched)}">
+                            <input type="password" class="form-control wf-input pe-5" id="password" placeholder="Password"
+                                formControlName="password"
+                                [ngClass]="{'is-invalid': password?.invalid && (password?.dirty || password?.touched)}">
                             <span class="text-danger position-absolute required-star">*</span>
                         </div>
             

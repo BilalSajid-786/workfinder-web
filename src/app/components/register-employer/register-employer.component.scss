@@ -34,3 +34,23 @@
 
 /* center CTA like the mock */
 .wf-cta{ display:flex; justify-content:center; }
+
+.phone-group {
+  display: flex;
+  width: 100%;
+}
+
+/* Country code select */
+.phone-group .country-code {
+  max-width: 90px;
+  border-right: 0; /* merge with input */
+  border-radius: var(--wf-radius) 0 0 var(--wf-radius);
+  background-position: right 10px center; /* keep arrow inside neatly */
+  appearance: none;
+}
+
+/* Phone input */
+.phone-group .phone-input {
+  flex: 1; /* take full remaining width */
+  border-radius: 0 var(--wf-radius) var(--wf-radius) 0;
+}

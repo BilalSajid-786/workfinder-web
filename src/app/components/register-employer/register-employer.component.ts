@@ -32,7 +32,7 @@ export class RegisterEmployerComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.buildForm();
-    this.getIndustries(); 
+    this.getIndustries();
   }
 
   private buildForm(): void {
@@ -50,6 +50,7 @@ export class RegisterEmployerComponent implements OnInit {
       }),
       websiteUrl: new FormControl<string | null>(null),
       companySize: this.fb.control('', { validators: [Validators.required] }),
+      countryCode: this.fb.control('+1', { validators: [Validators.required] }),
       phoneNumber: this.fb.control('', { validators: [Validators.required] }),
       contactPerson: this.fb.control('', { validators: [Validators.required] }),
       registrationNumber: new FormControl<string | null>(null),
@@ -78,6 +79,10 @@ export class RegisterEmployerComponent implements OnInit {
   get companySize() {
     return this.employerForm.get('companySize');
   }
+
+  get countryCode() {
+    return this.employerForm.get('countryCode');
+  }
   get phoneNumber() {
     return this.employerForm.get('phoneNumber');
   }
@@ -96,6 +101,7 @@ export class RegisterEmployerComponent implements OnInit {
       this.submitted = true;
       const values = this.employerForm.getRawValue();
       console.log('Values', values);
+      const Phone = `${values.countryCode}${values.phoneNumber?.trim()}`;
 
       const payload: Employer = {
         // if your Employer model includes only employer fields, remove user props accordingly
@@ -112,32 +118,32 @@ export class RegisterEmployerComponent implements OnInit {
         password: values.password, // backend should hash
         city: values.city?.trim(),
         country: 'Germany',
-        phone: values.phoneNumber?.trim(),
+        phone: Phone,
         roleId: '0A4B5DAA-8E42-46F1-B7AB-304806C6B996',
         userId: null,
       } as unknown as Employer;
 
       console.log('EmployerData', payload);
-      this.employerSrvice.registerEmployer(payload).subscribe({
-        next: (res) => {
-          console.log('Response', res);
-          if (res.userId!= null && res.employerId!= null) {
-            this.toastr.success('Employer registered successfully');
-            this.employerForm.markAllAsTouched();
-            this.router.navigate(['']);
-          }
-        },
-        error: (err) => {
-          console.error('Employer registration failed:', err);
-          this.toastr.error('Employer registration Failed');
-        },
-      });
+      // this.employerSrvice.registerEmployer(payload).subscribe({
+      //   next: (res) => {
+      //     console.log('Response', res);
+      //     if (res.userId != null && res.employerId != null) {
+      //       this.toastr.success('Employer registered successfully');
+      //       this.employerForm.markAllAsTouched();
+      //       this.router.navigate(['']);
+      //     }
+      //   },
+      //   error: (err) => {
+      //     console.error('Employer registration failed:', err);
+      //     this.toastr.error('Employer registration Failed');
+      //   },
+      // });
     } else {
       this.employerForm.markAllAsTouched();
     }
   }
 
-  getIndustries(): void{
+  getIndustries(): void {
     this.industryService.getIndustries().subscribe((list) => {
       this.industries = list ?? [];
     });
