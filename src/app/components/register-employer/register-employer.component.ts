@@ -120,24 +120,24 @@ export class RegisterEmployerComponent implements OnInit {
         country: 'Germany',
         phone: Phone,
         roleId: '0A4B5DAA-8E42-46F1-B7AB-304806C6B996',
-        userId: null,
+        gender: 'Female'
       } as unknown as Employer;
 
       console.log('EmployerData', payload);
-      // this.employerSrvice.registerEmployer(payload).subscribe({
-      //   next: (res) => {
-      //     console.log('Response', res);
-      //     if (res.userId != null && res.employerId != null) {
-      //       this.toastr.success('Employer registered successfully');
-      //       this.employerForm.markAllAsTouched();
-      //       this.router.navigate(['']);
-      //     }
-      //   },
-      //   error: (err) => {
-      //     console.error('Employer registration failed:', err);
-      //     this.toastr.error('Employer registration Failed');
-      //   },
-      // });
+      this.employerSrvice.registerEmployer(payload).subscribe({
+        next: (res) => {
+          console.log('Response', res);
+          if (res.isSuccess) {
+            this.toastr.success(res.message);
+            this.employerForm.markAllAsTouched();
+            this.router.navigate(['']);
+          }
+        },
+        error: (err) => {
+          console.error('Employer registration failed:', err);
+          this.toastr.error(err.message);
+        },
+      });
     } else {
       this.employerForm.markAllAsTouched();
     }

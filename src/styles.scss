@@ -397,3 +397,10 @@ body {
   border-color: #007bff;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
+
+/* Remove Bootstrap's default validation icons */
+.form-control.is-invalid,
+.form-select.is-invalid {
+  background-image: none !important;
+  padding-right: 14px; /* reset if Bootstrap added extra space for the icon */
+}
