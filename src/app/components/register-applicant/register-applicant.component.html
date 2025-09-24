@@ -1,13 +1,16 @@
 <div class="container-fluid auth-bg p-0 overflow-hidden">
   <div class="row min-vh-100 g-0 m-0">
     <!-- Left column: Form -->
-    <div
-      style="padding-left: 80px"
-      class="col-md-9 d-flex flex-column justify-content-center"
-    >
-      <h1 class="text-primary mb-4 fw-bold">Work Finder</h1>
+    <div style="padding-left: 80px" class="col-md-9 d-flex flex-column mt-5">
+      <h1 class="mb-4 fw-bold text-center clr-txt" style="font-size: 55px">
+        Work Finder
+      </h1>
 
-      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+      <form
+        [formGroup]="registrationForm"
+        (ngSubmit)="onSubmit()"
+        class="col-sm-11 col-12"
+      >
         <div class="row">
           <!-- FullName -->
           <div class="mb-4 position-relative col-md-6 col-12">
@@ -52,7 +55,7 @@
             <div class="input-group wf-field wf-select-wrap">
               <!-- Country Code Dropdown -->
               <select
-                class="form-select custom-select wf-select"
+                class="form-select custom-select"
                 style="max-width: 80px"
                 formControlName="countryCode"
                 [class.is-invalid]="
@@ -173,11 +176,12 @@
         </div>
 
         <div class="row">
-          <div class="mb-3 position-relative col-md-6 col-12">
+          <!-- Password -->
+          <div class="mb-3 position-relative col-md-6 col-12 password-wrapper">
             <input
-              type="password"
+              [type]="showPassword ? 'password' : 'text'"
               placeholder="Password"
-              class="form-control wf-input"
+              class="form-control wf-input pe-5"
               id="password"
               formControlName="password"
               [ngClass]="{
@@ -185,6 +189,20 @@
                   password?.invalid && (password?.dirty || password?.touched)
               }"
             />
+
+            <!-- Eye Button -->
+            <button
+              type="button"
+              class="btn btn-link eye-btn"
+              (click)="togglePassword()"
+              [ngClass]="{ 'has-file': selectedResume.length > 0 }"
+            >
+              <i
+                class="bi"
+                [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"
+              ></i>
+            </button>
+
             <span class="text-danger position-absolute required-star">*</span>
           </div>
           <div
@@ -194,7 +212,7 @@
               <input
                 type="file"
                 id="resume"
-                class="custom-file-input"
+                class="custom-file-input wf-input"
                 aria-label="Upload resume"
                 (change)="onFileSelected($event, 'Resume')"
               />
@@ -204,7 +222,7 @@
 
               <!-- Icon -->
               <span class="wf-chev" aria-hidden="true">
-                <i class="bi bi-paperclip text-primary"></i>
+                <i class="bi bi-paperclip"></i>
               </span>
             </div>
 
@@ -339,20 +357,40 @@
               <option value="Male">Male</option>
               <option value="Female">Female</option>
             </select>
-            <span class="wf-chev" aria-hidden="true">▾</span>
+            <span class="wf-chev" style="top: 50%" aria-hidden="true">▾</span>
             <span class="text-danger position-absolute required-star">*</span>
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary d-block mx-auto px-4">
-          Signup
-        </button>
+        <!-- Terms -->
+        <div class="wf-row-full">
+          <label class="wf-cbx">
+            <input
+              type="checkbox"
+              formControlName="terms"
+              required
+              [class.is-invalid]="
+                terms?.invalid && (terms?.touched || isSubmitted)
+              "
+            />
+            <span style="padding: 5px"
+              >I agree to the <a href="#">Terms &amp; Privacy Policy</a></span
+            >
+          </label>
+        </div>
+
+        <button type="submit" class="wf-btn">Sign up</button>
       </form>
     </div>
     <div
-      class="col-md-3 col-12 d-flex justify-content-end justify-content-end align-items-end p-0 mt-3 mt-md-0"
+      class="col-md-3 col-12 d-flex justify-content-end align-items-end p-0 mt-3 mt-md-0"
     >
-      <img src="/background/side-img.png" alt="Side Image" class="img-fluid" />
+      <img
+        src="/background/side-img.png"
+        alt="Side Image"
+        class="img-fluid"
+        style="min-height: 450px"
+      />
     </div>
   </div>
 </div>
