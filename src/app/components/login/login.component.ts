@@ -20,6 +20,7 @@ import { CommonModule } from '@angular/common';
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  showPassword: boolean = true;
 
   /**
    *
@@ -42,6 +43,10 @@ export class LoginComponent {
 
   get password() {
     return this.loginForm.get('password');
+  }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
   }
 
   onSubmit() {

@@ -1,1 +1,18 @@
+.eye-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0;
+  border: none;
+  color: #0a66c2;
+  font-size: 1.6rem;
+}
 
+.eye-btn:hover {
+  color: #0a66c2;
+}
+
+.forgot-link {
+  text-decoration: none;
+}

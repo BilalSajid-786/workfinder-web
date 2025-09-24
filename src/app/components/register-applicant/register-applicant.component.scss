@@ -27,6 +27,7 @@
 .wf-file-field .custom-file-input {
   position: absolute;
   inset: 0;
+  padding: 0 14px;
   width: 100%;
   height: 100%;
   opacity: 0;
@@ -76,4 +77,52 @@
 .file-name {
   color: var(--bs-primary); /* Bootstrap primary color */
   font-weight: 500;
+}
+
+// .password-wrapper {
+//   position: relative;
+//   width: 100%;
+// }
+
+// .password-wrapper input {
+//   height: 48px; /* consistent height */
+//   padding-right: 40px; /* give space for eye icon */
+// }
+
+.has-file {
+  margin-top: -11px;
+}
+
+.password-wrapper .eye-btn {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #0a66c2;
+  font-size: 1.4rem;
+}
+
+// .eye-btn {
+//   position: absolute;
+//   right: 25px;
+//   top: 50%;
+//   transform: translateY(-50%);
+//   padding: 0;
+//   border: none;
+//   color: #0a66c2;
+//   font-size: 1.6rem;
+// }
+
+.eye-btn:hover {
+  color: #0a66c2;
+}
+
+.wf-chev i {
+  display: inline-block;
+  transform: rotate(45deg); /* taller */
+  font-size: 24px;
+  color: #0a66c2;
 }

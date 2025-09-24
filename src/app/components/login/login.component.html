@@ -2,13 +2,17 @@
   <div class="row min-vh-100 g-0 m-0">
     <!-- Left column: Form -->
     <div
-      class="col-md-9 col-sm-8 d-flex flex-column justify-content-center align-items-center"
+      class="col-md-8 col-sm-8 d-flex flex-column justify-content-center align-items-center"
     >
-      <h1 class="text-primary mb-4 fw-bold">Work Finder</h1>
+      <h1 class="mb-4 fw-bold clr-txt">Work Finder</h1>
 
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="w-50">
+      <form
+        [formGroup]="loginForm"
+        (ngSubmit)="onSubmit()"
+        class="col-sm-5 col-12"
+      >
         <!-- Email -->
-        <div class="mb-4 position-relative">
+        <div class="mb-4 position-relative col-12">
           <input
             type="email"
             class="form-control wf-input"
@@ -23,11 +27,11 @@
         </div>
 
         <!-- Password -->
-        <div class="mb-3 position-relative">
+        <div class="mb-2 position-relative">
           <input
-            type="password"
+            [type]="showPassword ? 'password' : 'text'"
             placeholder="Password"
-            class="form-control wf-input"
+            class="form-control wf-input pe-5"
             id="password"
             formControlName="password"
             [ngClass]="{
@@ -35,25 +39,39 @@
                 password?.invalid && (password?.dirty || password?.touched)
             }"
           />
+
+          <!-- Eye Button -->
+          <button
+            type="button"
+            class="btn btn-link eye-btn"
+            (click)="togglePassword()"
+          >
+            <i
+              class="bi"
+              [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"
+            ></i>
+          </button>
+
           <span class="text-danger position-absolute required-star">*</span>
         </div>
 
-        <button type="submit" class="btn btn-primary d-block mx-auto px-4">
-          Login
-        </button>
+        <!-- Forgot Password Link -->
+        <div class="d-flex justify-content-end mb-3">
+          <a class="forgot-link clr-txt">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="wf-btn">Login</button>
       </form>
     </div>
-
-    <!-- Right column: Image -->
-    <!-- <div
-      class="col-md-3 col-4 offset-md-0 offset-7 d-flex justify-content-end align-items-end p-0 mt-3 mt-md-0"
-    >
-      <img src="/background/side-img.png" alt="Side Image" class="img-fluid" />
-    </div> -->
     <div
-      class="col-md-3 col-12 d-flex justify-content-end justify-content-end align-items-end p-0 mt-3 mt-md-0"
+      class="col-md-4 col-sm-4 col-12 d-flex align-items-end p-0 mt-3 mt-md-0"
     >
-      <img src="/background/side-img.png" alt="Side Image" class="img-fluid" />
+      <img
+        src="/background/side-img.png"
+        alt="Side Image"
+        class="img-fluid w-100"
+        style="min-height: 250px"
+      />
     </div>
   </div>
 </div>

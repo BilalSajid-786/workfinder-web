@@ -30,6 +30,7 @@ export class RegisterApplicantComponent {
   isSubmitted = false;
   selectedCertificates: File[] = [];
   selectedResume: File[] = [];
+  showPassword: boolean = true;
 
   /**
    *
@@ -56,6 +57,7 @@ export class RegisterApplicantComponent {
         null,
         [Validators.required, Validators.pattern(/^(male|female)$/i)],
       ],
+      terms: [false, [Validators.required]],
     });
   }
 
@@ -97,6 +99,13 @@ export class RegisterApplicantComponent {
 
   get qualification() {
     return this.registrationForm.get('qualification');
+  }
+  get terms() {
+    return this.registrationForm.get('terms');
+  }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
   }
 
   // Add skill from dropdown OR free text

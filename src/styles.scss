@@ -17,7 +17,7 @@
 
   /* radii & sizing */
   --wf-radius: 8px;
-  --wf-input-h: 52px;
+  --wf-input-h: 58px;
 
   /* layout nudge (overridden by breakpoints) */
   --left-nudge: 0px;
@@ -156,14 +156,24 @@ body {
   padding-right: 40px; /* room for chevron */
 }
 
+// .wf-chev {
+//   position: absolute;
+//   right: 12px;
+//   top: 50%;
+//   transform: translateY(-50%);
+//   font-size: 18px;
+//   color: var(--wf-blue);
+//   pointer-events: none;
+// }
+
 .wf-chev {
   position: absolute;
-  right: 12px;
-  top: 50%;
+  right: 20px; /* push it away from border */
+  top: 45%;
   transform: translateY(-50%);
-  font-size: 18px;
+  font-size: 28px; /* increase size */
   color: var(--wf-blue);
-  pointer-events: none;
+  pointer-events: none; /* don’t block clicks */
 }
 
 /* ----- password eye placeholder ----- */
@@ -378,20 +388,35 @@ body {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background-color: #fff; /* keep dropdown white */
+  background-color: #fff;
   color: #000;
   border: 1px solid #ced4da;
-  padding-right: 2rem; /* space for arrow */
+  padding-right: 2rem;
 
-  /* Replace default arrow with a solid blue one */
-  background-image: url("data:image/svg+xml;utf8,<svg fill='%23007bff' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%230a66c2' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 27' width='20' height='27'><path d='M7 12l5 10 5-10z'/></svg>") !important;
+
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
-  background-size: 1rem;
+  background-size: auto 27px !important; /* force height = 27px */
 }
 
+.custom-select.is-invalid {
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%230a66c2' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 27' width='20' height='27'><path d='M7 10l5 7 5-7z'/></svg>") !important;
+  background-size: auto 27px !important; /* keep arrow size consistent */
+  background-position: right 0.75rem center !important;
+  padding-right: 2rem !important;
+}
 /* Focus effect */
 .custom-select:focus {
-  border-color: #007bff;
+  border-color: #0a66c2;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.clr-txt {
+  color: #0a66c2;
+}
+
+.form-control.is-invalid {
+  background-image: none !important;
+  padding-right: 0.75rem; /* reset padding */
 }
