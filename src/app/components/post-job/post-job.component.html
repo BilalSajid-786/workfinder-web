@@ -1,1 +1,134 @@
-<p>post-job works!</p>
+<div class="container-fluid mt-5">
+  <div class="row">
+    <div class="col-12">
+      <h4>Post a job</h4>
+    </div>
+  </div>
+
+  <div class="card mt-3">
+    <div class="card-body">
+      <h3 class="card-title text-center text-primary fw-bold">Post a Job</h3>
+
+      <!-- Row for form + placeholder -->
+      <div class="row mt-4">
+        <!-- Form column -->
+        <div class="col-md-6">
+          <form>
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control wf-input"
+                id="title"
+                placeholder="Job Title"
+              />
+            </div>
+            <div class="mb-3">
+              <div class="wf-select-wrap">
+                <select class="wf-select" aria-label="Country">
+                  <option disabled selected>Company Name</option>
+                </select>
+                <span class="wf-chev" aria-hidden="true">▾</span>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="wf-select-wrap">
+                <select class="wf-select" aria-label="Country">
+                  <option disabled selected>Industry</option>
+                </select>
+                <span class="wf-chev" aria-hidden="true">▾</span>
+              </div>
+            </div>
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control wf-input"
+                id="city"
+                placeholder="City"
+              />
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <div class="wf-select-wrap">
+                  <select class="wf-select" aria-label="Country">
+                    <option disabled selected>Job Type</option>
+                  </select>
+                  <span class="wf-chev" aria-hidden="true">▾</span>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <input type="date" class="form-control wf-input" id="date" />
+              </div>
+            </div>
+
+            <div class="mb-4 position-relative col-12">
+              <!-- Selected Skills -->
+              <!-- Inline Input -->
+              <input
+                type="text"
+                class="form-control wf-input"
+                placeholder="Add a skill"
+                (input)="onSkillInput($event)"
+                (keydown)="onSkillEnter($event, skillInput)"
+                #skillInput
+                style="outline: none"
+                [ngClass]="{
+                  'is-invalid':
+                    skills?.invalid && (skills?.dirty || skills?.touched)
+                }"
+              />
+              <!-- <span class="text-danger position-absolute required-star">*</span> -->
+
+              <!-- Selected Skills BELOW field -->
+              <div class="d-flex flex-wrap gap-2 mt-2">
+                <span
+                  *ngFor="let skill of skills?.value; let i = index"
+                  class="badge bg-primary"
+                >
+                  {{ skill.skillName }}
+                  <button
+                    type="button"
+                    class="btn-close btn-close-white ms-1"
+                    (click)="removeSkill(i)"
+                  ></button>
+                </span>
+              </div>
+
+              <!-- Dropdown -->
+              <ul
+                *ngIf="skillsList.length > 0"
+                class="list-group position-absolute w-100"
+                style="z-index: 1000"
+              >
+                <li
+                  *ngFor="let item of skillsList"
+                  class="list-group-item list-group-item-action"
+                  (click)="selectSkill(item, skillInput)"
+                >
+                  {{ item.skillName }}
+                </li>
+              </ul>
+            </div>
+          </form>
+        </div>
+
+        <!-- Placeholder column (Description) -->
+        <div class="col-md-6">
+          <div class="h-100 d-flex px-2 py-2" style="border-radius: 6px">
+            <textarea
+              class="form-control bg-light wf-input"
+              placeholder="Description"
+              rows="10"
+              style="
+                resize: none;
+                width: 100%;
+                height: 100%;
+                border-radius: 6px;
+              "
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
