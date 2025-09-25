@@ -1,7 +1,10 @@
 <div class="container-fluid auth-bg p-0 overflow-hidden">
   <div class="row min-vh-100 g-0 m-0">
     <!-- Left column: Form -->
-    <div style="padding-left: 80px" class="col-md-9 d-flex flex-column mt-5">
+    <div
+      style="padding-left: 80px"
+      class="col-md-9 d-flex flex-column mt-5 pt-3"
+    >
       <h1 class="mb-4 fw-bold text-center clr-txt" style="font-size: 55px">
         Work Finder
       </h1>
@@ -9,7 +12,7 @@
       <form
         [formGroup]="registrationForm"
         (ngSubmit)="onSubmit()"
-        class="col-sm-11 col-12"
+        class="col-sm-11 col-12 mt-2"
       >
         <div class="row">
           <!-- FullName -->
@@ -281,7 +284,7 @@
 
               <!-- Icon -->
               <span class="wf-chev" aria-hidden="true">
-                <i class="bi bi-paperclip text-primary"></i>
+                <i class="bi bi-paperclip clr-txt"></i>
               </span>
             </div>
 
@@ -382,14 +385,11 @@
         <button type="submit" class="wf-btn">Sign up</button>
       </form>
     </div>
-    <div
-      class="col-md-3 col-12 d-flex justify-content-end align-items-end p-0 mt-3 mt-md-0"
-    >
+    <div class="col-md-3 col-12 d-flex align-items-end p-0 mt-3 mt-md-0">
       <img
         src="/background/side-img.png"
         alt="Side Image"
-        class="img-fluid"
-        style="min-height: 450px"
+        class="img-fluid w-100"
       />
     </div>
   </div>
