@@ -21,6 +21,8 @@
   padding: 0.75rem 1rem; /* more vertical + horizontal padding */
   line-height: 1.5; /* improves vertical centering */
   font-size: 1rem;
+  padding-top: 16px;
+  padding-bottom: 15px;
 }
 
 /* Invisible real input on top */
@@ -90,7 +92,7 @@
 // }
 
 .has-file {
-  margin-top: -11px;
+  margin-top: -15px;
 }
 
 .password-wrapper .eye-btn {
