@@ -9,31 +9,48 @@
     <div class="card-body">
       <h3 class="card-title text-center text-primary fw-bold">Post a Job</h3>
 
-      <!-- Row for form + placeholder -->
-      <div class="row mt-4">
-        <!-- Form column -->
-        <div class="col-md-6">
-          <form>
+      <form [formGroup]="jobSubmissionForm" (ngSubmit)="onSubmit()">
+        <!-- Row for form + placeholder -->
+        <div class="row mt-4">
+          <!-- Form column -->
+          <div class="col-md-6">
             <div class="mb-3">
               <input
                 type="text"
                 class="form-control wf-input"
-                id="title"
+                id="jobTitle"
                 placeholder="Job Title"
+                formControlName="jobTitle"
               />
             </div>
             <div class="mb-3">
               <div class="wf-select-wrap">
-                <select class="wf-select" aria-label="Country">
-                  <option disabled selected>Company Name</option>
+                <select
+                  class="wf-select"
+                  aria-label="company"
+                  formControlName="company"
+                >
+                  <option [value]="companyName" disabled>
+                    {{ companyName }}
+                  </option>
                 </select>
                 <span class="wf-chev" aria-hidden="true">▾</span>
               </div>
             </div>
             <div class="mb-3">
               <div class="wf-select-wrap">
-                <select class="wf-select" aria-label="Country">
-                  <option disabled selected>Industry</option>
+                <select
+                  class="wf-select"
+                  aria-label="Industry"
+                  formControlName="industryId"
+                >
+                  <option [value]="null" disabled selected>Industry</option>
+                  <option
+                    *ngFor="let industry of industries"
+                    [value]="industry.industryId"
+                  >
+                    {{ industry.industryName }}
+                  </option>
                 </select>
                 <span class="wf-chev" aria-hidden="true">▾</span>
               </div>
@@ -44,20 +61,31 @@
                 class="form-control wf-input"
                 id="city"
                 placeholder="City"
+                formControlName="city"
               />
             </div>
 
             <div class="row">
               <div class="col-md-6 mb-3">
                 <div class="wf-select-wrap">
-                  <select class="wf-select" aria-label="Country">
-                    <option disabled selected>Job Type</option>
+                  <select
+                    class="wf-select"
+                    aria-label="JobType"
+                    formControlName="jobType"
+                  >
+                    <option [value]="null" disabled selected>Job Type</option>
+                    <option *ngFor="let job of jobTypes">{{ job }}</option>
                   </select>
                   <span class="wf-chev" aria-hidden="true">▾</span>
                 </div>
               </div>
               <div class="col-md-6 mb-3">
-                <input type="date" class="form-control wf-input" id="date" />
+                <input
+                  type="date"
+                  class="form-control wf-input"
+                  id="expiryDate"
+                  formControlName="expiryDate"
+                />
               </div>
             </div>
 
@@ -109,26 +137,28 @@
                 </li>
               </ul>
             </div>
-          </form>
-        </div>
+          </div>
 
-        <!-- Placeholder column (Description) -->
-        <div class="col-md-6">
-          <div class="h-100 d-flex px-2 py-2" style="border-radius: 6px">
-            <textarea
-              class="form-control bg-light wf-input"
-              placeholder="Description"
-              rows="10"
-              style="
-                resize: none;
-                width: 100%;
-                height: 100%;
-                border-radius: 6px;
-              "
-            ></textarea>
+          <!-- Placeholder column (Description) -->
+          <div class="col-md-6">
+            <div class="h-100 d-flex px-2 py-2" style="border-radius: 6px">
+              <textarea
+                class="form-control bg-light wf-input"
+                placeholder="Description"
+                formControlName="description"
+                rows="10"
+                style="
+                  resize: none;
+                  width: 100%;
+                  height: 100%;
+                  border-radius: 6px;
+                "
+              ></textarea>
+            </div>
           </div>
         </div>
-      </div>
+        <button type="submit" class="wf-btn">Post Job</button>
+      </form>
     </div>
   </div>
 </div>

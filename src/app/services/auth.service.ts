@@ -19,6 +19,15 @@ export class AuthService {
     return jwtDecode<JwtPayload>(token);
   }
 
+  getCompanyName() {
+    const decodeToken = this.getDecodeToken();
+    return decodeToken?.CompanyName;
+  }
+
+  getEmployerId() {
+    return this.getDecodeToken()?.UserId;
+  }
+
   hasPermission(permission: string): boolean {
     const decoded = this.getDecodeToken();
     if (!decoded || !decoded['Permissions']) return false;

@@ -1,0 +1,24 @@
+import { Injectable } from '@angular/core';
+import { ApiResponse } from '../models/api-response.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable, tap } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class JobService {
+  private apiUrl: string = 'https://localhost:7205/api/jobs';
+  constructor(private http: HttpClient) {}
+
+  GetJobTypes(): Observable<ApiResponse<string[]>> {
+    return this.http
+      .get(`${this.apiUrl}/jobtypes`)
+      .pipe(tap((response: any) => {}));
+  }
+
+  PostJob(jobModel: any): Observable<ApiResponse<any>> {
+    return this.http
+      .post(`${this.apiUrl}`, jobModel)
+      .pipe(tap((response: any) => {}));
+  }
+}
