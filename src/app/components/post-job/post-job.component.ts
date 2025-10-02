@@ -99,7 +99,7 @@ export class PostJobComponent {
           this.toastr.success(res.message);
         },
         error: (err: any) => {
-          this.toastr.error('Applicant registration Failed');
+          this.toastr.error('Post Job Failed');
         },
       });
     } else {
