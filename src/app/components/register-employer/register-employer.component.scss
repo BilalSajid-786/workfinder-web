@@ -1,0 +1,56 @@
+.text-brand { color: #0A66C2; }
+
+/* ---- brand & control look (keeps Bootstrap) ---- */
+:root { --wf-blue:#0A66C2; }
+
+.wf-control.form-control,
+.wf-control.form-select{
+  height: 48px;
+  border: 2px solid #e5e7eb;            /* light gray border */
+  background: rgba(255,255,255,.9);
+  border-radius: 7px;
+}
+
+.wf-control:focus{
+  border-color: var(--wf-blue);
+  box-shadow: 0 0 0 .25rem rgba(10,102,194,.2);
+  border-width: 3px;                 /* thicker border */
+}
+
+/* checkbox in brand color */
+.form-check-input{ accent-color: var(--wf-blue); width: 1.4em; height: 1.4em; border-width: 2px; margin-right: 5px;}
+
+// /* add a red asterisk to required fields */
+// .required { position: relative; }
+// .required::after{
+//   content:"*";
+//   position:absolute;
+//   top:-.35rem;          /* sit just above the rounded corner */
+//   right:.35rem;
+//   color:#dc3545;
+//   font-weight:700;
+//   pointer-events:none;
+// }
+
+/* center CTA like the mock */
+.wf-cta{ display:flex; justify-content:center; }
+
+.phone-group {
+  display: flex;
+  width: 100%;
+}
+
+/* Country code select */
+.phone-group .country-code {
+  max-width: 90px;
+  border-right: 0; /* merge with input */
+  border-radius: var(--wf-radius) 0 0 var(--wf-radius);
+  background-position: right 10px center; /* keep arrow inside neatly */
+  appearance: none;
+}
+
+/* Phone input */
+.phone-group .phone-input {
+  flex: 1; /* take full remaining width */
+  border-radius: 0 var(--wf-radius) var(--wf-radius) 0;
+}

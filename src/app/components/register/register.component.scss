@@ -1,0 +1,35 @@
+/* Brand color (matches WorkFinder blue) */
+.text-brand { color: #0A66C2; }
+
+/* Tweak Bootstrap button variables to use the brand color */
+.btn-outline-primary{
+  --bs-btn-color: #0A66C2;
+  --bs-btn-border-color: rgba(255,255,255,.9);
+  --bs-btn-hover-bg: rgba(255,255,255,.9);
+  --bs-btn-hover-border-color: #0A66C2;
+  --bs-btn-active-bg: rgba(255,255,255,.9);
+  --bs-btn-active-border-color: #0A66C2;
+  --bs-btn-disabled-color: #0A66C2;
+  --bs-btn-disabled-border-color: #0A66C2;
+}
+
+.btn-primary{
+  --bs-btn-bg: #0A66C2;
+  --bs-btn-border-color: #0A66C2;
+  --bs-btn-hover-bg: #095aab;
+  --bs-btn-hover-border-color: #095aab;
+}
+
+/* “Card” look for the role buttons */
+.role-card{
+  min-width: 260px;
+  background-color: rgba(255,255,255,.9);
+  border-width: 1px;
+}
+
+/* (Optional) bolder label when selected (btn-check checked) */
+.btn-check:checked + .role-card{
+  box-shadow: 0 0 0 .2rem rgba(10,102,194,.15);
+  border-width: 3px;                 /* thicker border */
+  border-color: #0A66C2; 
+}

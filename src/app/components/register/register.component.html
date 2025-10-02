@@ -1,5 +1,47 @@
-<div class="auth-bg row">
-    <img src="/background/side-img.png" 
-       alt="" 
-       class="corner-img" />
+<div class="container-fluid auth-bg p-0 overflow-hidden">
+  <div class="row min-vh-100 g-0 m-0">
+    <!-- Left: title + options -->
+    <div class="col-12 col-md-9 content-stack d-flex flex-column justify-content-center align-items-center py-5">
+      <!-- Brand -->
+      <h1 class="text-brand fw-bold display-5 mb-3">Work Finder</h1>
+
+      <!-- Subtitle -->
+      <h2 class="h2 fw-semibold text-brand mb-1">Create your account</h2>
+      <p class="fs-5 text-brand mb-4">Choose your role to get started</p>
+
+      <!-- Role options -->
+      <div class="d-flex flex-column flex-sm-row align-items-stretch gap-3 mb-4" style="margin-right: 10px;"
+        role="group" aria-label="Choose role">
+        <!-- Applicant -->
+        <input type="radio" class="btn-check" name="role" id="roleApplicant"
+          (change)="onRoleChange('register-applicant')" autocomplete="off" checked>
+        <label
+          class="btn btn-outline-primary btn-lg px-4 py-3 rounded-3 shadow-sm role-card d-flex align-items-center gap-3"
+          for="roleApplicant" style="color: #0A66C2;">
+          <i class="bi bi-person fs-2"></i>
+          <span class="fs-5">As an Applicant</span>
+        </label>
+
+        <!-- Employer -->
+        <input type="radio" class="btn-check" name="role" id="roleEmployer" (change)="onRoleChange('register-employer')"
+          autocomplete="off">
+        <label
+          class="btn btn-outline-primary btn-lg px-4 py-3 rounded-3 shadow-sm role-card d-flex align-items-center gap-3"
+          for="roleEmployer" style="color: #0A66C2;">
+          <i class="bi bi-person-workspace fs-2"></i>
+          <span class="fs-5">As an Employer</span>
+        </label>
+      </div>
+
+      <!-- Continue -->
+      <button type="button" class="btn btn-primary btn-lg px-5 rounded-1 fw-semibold" (click)="onSubmit()">
+        Continue
+      </button>
+    </div>
+
+    <!-- Right: decorative image -->
+    <div class="col-12 col-md-3 d-flex justify-content-end align-items-end p-0 mt-3 mt-md-0" style="margin-left: 10px;">
+      <img src="/background/side-img.png" alt="Side illustration" class="img-fluid corner-img">
+    </div>
+  </div>
 </div>
