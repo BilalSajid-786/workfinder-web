@@ -1,0 +1,118 @@
+<div class="container-fluid p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0">Active Jobs <span class="text-muted">(120)</span></h4>
+
+        <!-- Search bar -->
+        <div class="input-group w-25">
+            <input type="text" class="form-control" placeholder="Search" />
+            <button class="btn btn-outline-primary">
+                <i class="bi bi-search"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0 text-center align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" class="text-start ps-4" style="cursor:pointer">
+                            Job Title
+                            <i class="bi"></i>
+                        </th>
+                        <th scope="col" style="cursor:pointer">
+                            Industry
+                            <i class="bi"></i>
+                        </th>
+                        <th scope="col">Expiry Date</th>
+                        <th scope="col" style="cursor:pointer">
+                            City
+                            <i class="bi"></i>
+                        </th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+        
+                <tbody>
+                    <tr *ngFor="let job of pagedJobs">
+                        <td class="text-start ps-4">{{ job.title }}</td>
+                        <td>{{ job.industry }}</td>
+                        <td>{{ job.expiryDate}}</td>
+                        <td>{{ job.city }}</td>
+                        <td>
+                            <span class="badge rounded-pill bg-primary d-inline-flex align-items-center">
+                                Active
+                                <span class="ms-1 bg-white rounded-circle"
+                                    style="width:10px; height:10px; display:inline-block;"></span>
+                            </span>
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-center gap-2">
+                                <button class="btn btn-sm btn-outline-secondary" title="View">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary" title="Edit">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" title="Delete">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-between align-items-center p-3 border-top">
+            <div>
+                <label class="me-2 fw-semibold">Page size:</label>
+                <select class="form-select d-inline-block w-auto">
+                    <option *ngFor="let size of pageSizes" [value]="size">
+                        {{ size }}
+                    </option>
+                </select>
+            </div>
+        
+            <div>
+                <button class="btn btn-outline-primary me-2">
+                    <i class="bi bi-chevron-left"></i> Prev
+                </button>
+                <span class="fw-semibold"></span>
+                <button class="btn btn-outline-primary ms-2">
+                    Next <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <table class="table table-hover mb-0 text-center align-middle">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>mdo</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>fat</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td colspan="2">Larry the Bird</td>
+            <td>twitter</td>
+        </tr>
+    </tbody>
+</table> -->
