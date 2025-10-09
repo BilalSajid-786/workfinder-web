@@ -1,0 +1,13 @@
+.custom-table {
+  border: 1px solid #dee2e6; /* outer border */
+  border-radius: 10px;
+  overflow: hidden; /* keeps rounded corners */
+  border-collapse: separate; /* important for proper radius */
+  border-spacing: 0; /* no gaps between cells */
+}
+
+.custom-table th,
+.custom-table td {
+  border-bottom: 1px solid #a3c6e8 !important; /* remove inner borders */
+  padding: 15px 10px;
+}

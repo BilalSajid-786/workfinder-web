@@ -13,6 +13,7 @@ import { AuthService } from '../../services/auth.service';
 import { IndustryService } from '../../services/industry.service';
 import { Industry } from '../../models/industry.model';
 import { ToastrService } from 'ngx-toastr';
+import { CountryService } from '../../services/country.service';
 
 @Component({
   selector: 'app-post-job',
@@ -27,6 +28,7 @@ export class PostJobComponent {
   jobTypes: string[] = [];
   companyName: string | undefined = 'Company Name';
   industries: Industry[] = [];
+  countries: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -34,10 +36,13 @@ export class PostJobComponent {
     private jobService: JobService,
     private authService: AuthService,
     private industryService: IndustryService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private countryService: CountryService
   ) {
     this.GetJobTypes();
     this.getIndustries();
+    this.getCountries();
+
     this.companyName = authService.getCompanyName();
     if (this.companyName == undefined) {
       this.companyName = 'Company Name';
@@ -47,6 +52,7 @@ export class PostJobComponent {
       company: [this.companyName, [Validators.required]],
       industryId: [null, [Validators.required]],
       city: ['', [Validators.required]],
+      country: [null, [Validators.required]],
       jobType: [null, [Validators.required]],
       expiryDate: ['', [Validators.required]],
       skills: [[], [Validators.required]],
@@ -91,6 +97,7 @@ export class PostJobComponent {
         expiryDate: values.expiryDate,
         industryId: values.industryId,
         employerId: this.authService.getEmployerId(),
+        country: values.country,
       };
 
       this.jobService.PostJob(payload).subscribe({
@@ -106,6 +113,14 @@ export class PostJobComponent {
       this.jobSubmissionForm.markAllAsTouched();
     }
   }
+
+  getCountries() {
+    this.countryService.getCountries().subscribe((list) => {
+      this.countries = list.result ?? [];
+      console.log(this.countries);
+    });
+  }
+
   getIndustries(): void {
     this.industryService.getIndustries().subscribe((list) => {
       this.industries = list ?? [];

@@ -1,1 +1,69 @@
-<p>available-jobs works!</p>
+<table class="table custom-table">
+  <thead>
+    <tr>
+      <th scope="col">Job Title</th>
+      <th scope="col">Company</th>
+      <th scope="col">Posted Date</th>
+      <th scope="col">Location</th>
+      <th scope="col">JobType</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let job of availableJobs; let i = index">
+      <td>{{ job.title }}</td>
+      <td>{{ job.company }}</td>
+      <td>{{ job.postedDate | date : "MM/dd/yyyy" }}</td>
+      <td>{{ job.city }}, {{ job.country }}</td>
+      <td>{{ job.jobType }}</td>
+      <td><i class="bi bi-eye fs-5" (click)="openModal(i)"></i></td>
+    </tr>
+  </tbody>
+</table>
+
+<div #exampleModal class="modal fade modal-lg" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header d-flex justify-content-center position-relative">
+        <h5 class="modal-title">Job Details</h5>
+        <button
+          type="button"
+          class="btn-close position-absolute end-0 me-3"
+          (click)="closeModal()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row mb-2">
+            <div class="col-3 fw-bold">Name:</div>
+            <div class="col-9">{{ selectedJob.company }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3 fw-bold">Job Title:</div>
+            <div class="col-9">{{ selectedJob.title }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3 fw-bold">Industry:</div>
+            <div class="col-9">{{ selectedJob.industry }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3 fw-bold">City:</div>
+            <div class="col-9">{{ selectedJob.city }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3 fw-bold">Job Type:</div>
+            <div class="col-9">{{ selectedJob.jobType }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3 fw-bold">Posted Date:</div>
+            <div class="col-9">{{ selectedJob.postedDate }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3 fw-bold">Description:</div>
+            <div class="col-9">{{ selectedJob.description }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

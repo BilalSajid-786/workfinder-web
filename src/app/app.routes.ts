@@ -9,6 +9,8 @@ import { PostJobComponent } from './components/post-job/post-job.component';
 import { AvailableJobsComponent } from './components/available-jobs/available-jobs.component';
 import { RegisterEmployerComponent } from './components/register-employer/register-employer.component';
 import { RegisterApplicantComponent } from './components/register-applicant/register-applicant.component';
+import { AppliedJobsComponent } from './components/applied-jobs/applied-jobs.component';
+import { JobDetailsComponent } from './components/job-details/job-details.component';
 
 export const routes: Routes = [
   {
@@ -54,6 +56,16 @@ export const routes: Routes = [
         component: AvailableJobsComponent,
         canActivate: [authGuard],
         data: { permissions: ['Job.AvailableJobs'] },
+      },
+      {
+        path: 'appliedjobs',
+        component: AppliedJobsComponent,
+        canActivate: [authGuard],
+        data: { permissions: ['Job.AppliedJobs'] },
+      },
+      {
+        path: 'jobdetails',
+        component: JobDetailsComponent,
       },
     ],
   },

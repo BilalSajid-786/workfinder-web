@@ -44,7 +44,7 @@ body {
   background: url("/background/login-bg.png") center / cover no-repeat;
   padding-bottom: clamp(120px, 28vh, 420px);
 }
-.content-stack{
+.content-stack {
   position: relative;
   z-index: 2;
 }
@@ -130,7 +130,7 @@ body {
   font-size: 15px;
   outline: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease,
-  background-color 0.15s ease;
+    background-color 0.15s ease;
 }
 
 .wf-input::placeholder {
@@ -422,6 +422,10 @@ body {
 }
 .clr-txt {
   color: #0a66c2;
+}
+
+.bg-blue {
+  background-color: #0a66c2;
 }
 
 .form-control.is-invalid {

@@ -1,0 +1,15 @@
+<button class="btn btn-primary" (click)="openModal()">Open Modal</button>
+
+<div #exampleModal class="modal fade" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Dynamic Popup</h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <p>This popup opens from TypeScript!</p>
+      </div>
+    </div>
+  </div>
+</div>

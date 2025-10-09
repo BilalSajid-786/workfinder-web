@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiResponse } from '../models/api-response.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 
 @Injectable({
@@ -20,5 +20,13 @@ export class JobService {
     return this.http
       .post(`${this.apiUrl}`, jobModel)
       .pipe(tap((response: any) => {}));
+  }
+
+  GetAvailableJobs(filter: any): Observable<ApiResponse<any>> {
+    return this.http.post(`${this.apiUrl}/availableJobs`, filter).pipe(
+      tap((response: any) => {
+        // optional: handle response here if needed
+      })
+    );
   }
 }
