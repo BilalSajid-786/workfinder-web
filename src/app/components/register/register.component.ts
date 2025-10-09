@@ -16,7 +16,7 @@ export class RegisterComponent{
    *
    */
   constructor(private router: Router) {
-    
+    this.selectedRole = 'register-applicant';
   }
 
   // ngOnInit(): void {

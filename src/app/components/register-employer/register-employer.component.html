@@ -26,6 +26,7 @@
                                 <option>201–500</option>
                                 <option>500+</option>
                             </select>
+                            <span class="wf-chev" style="top: 50%" aria-hidden="true">▾</span>
                             <span class="text-danger position-absolute required-star">*</span>
                         </div>
                         
@@ -36,26 +37,25 @@
                             <span class="text-danger position-absolute required-star">*</span>
                         </div>
                         
-                        <!-- Phone number (required) -->
-                        <!-- <div class="col-md-6 position-relative">
-                                                                            <input type="tel" class="form-control wf-input" id="phoneNumber" placeholder="Phone number" formControlName="phoneNumber"
-                                                                            [ngClass]="{'is-invalid': phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)}">
-                                                                            <span class="text-danger position-absolute required-star">*</span>
-                                                                        </div> -->
                         <div class="col-md-6 position-relative">
-                            <div class="d-flex phone-group">
-                                <!-- Country Code -->
-                                <select class="form-select country-code" formControlName="countryCode">
-                                    <option value="+92" selected>+92</option>
+                            <div class="input-group wf-field wf-select-wrap">
+                                <!-- Country Code Dropdown -->
+                                <select class="form-select custom-select" style="max-width: 80px" formControlName="countryCode" [class.is-invalid]="
+                                              countryCode?.invalid && (countryCode?.touched || countryCode?.dirty)
+                                            ">
+                                    <option [ngValue]="null" disabled>+</option>
+                                    <option value="+92">+92</option>
                                     <option value="+1">+1</option>
                                     <option value="+44">+44</option>
-                                    <option value="+61">+61</option>
-                                    <option value="+91">+91</option>
+                                    <option value="+971">+971</option>
+                                    <!-- Add more as needed -->
                                 </select>
-                        
-                                <!-- Phone Input -->
-                                <input type="tel" class="form-control wf-input" placeholder="Phone" formControlName="phoneNumber"
-                                    [ngClass]="{'is-invalid': phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)}">
+                            
+                                <!-- Phone Number -->
+                                <input type="text" class="form-control wf-input" id="phoneNumber" placeholder="phoneNumber" formControlName="phoneNumber" [ngClass]="{
+                                              'is-invalid':
+                                                phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)
+                                            }" />
                             </div>
                         
                             <!-- Required star -->
@@ -101,6 +101,7 @@
                                     {{ ind.industryName }}
                                 </option>
                             </select>
+                            <span class="wf-chev" style="top: 50%" aria-hidden="true">▾</span>
                             <span class="text-danger position-absolute required-star">*</span>
                         </div>
             
@@ -110,7 +111,7 @@
                         </div>
             
                         <!-- Terms -->
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="terms" formControlName="terms"
                                 [ngClass]="{'is-invalid': terms?.invalid && (terms?.dirty || terms?.touched)}">
@@ -119,6 +120,14 @@
                                 </label>
                                 <span class="text-danger"></span>
                             </div>
+                        </div> -->
+                        <div class="wf-row-full">
+                            <label class="wf-cbx">
+                                <input type="checkbox" formControlName="terms" required [class.is-invalid]="
+                                        terms?.invalid && (terms?.touched || terms?.touched)
+                                      " />
+                                <span style="padding: 5px">I agree to the <a href="#">Terms &amp; Privacy Policy</a></span>
+                            </label>
                         </div>
             
                         <!-- Sign up -->

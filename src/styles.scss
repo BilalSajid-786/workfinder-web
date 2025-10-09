@@ -32,7 +32,7 @@ html,
 body {
   height: auto;
   min-height: 90%;
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 
 /* main hero background and bottom padding so button/checkbox
@@ -153,9 +153,9 @@ body {
 }
 
 .wf-select {
-  appearance: auto;
-  -webkit-appearance: auto;
-  -moz-appearance: auto;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 // .wf-chev {
@@ -199,16 +199,16 @@ body {
 
 .wf-field .wf-input.is-invalid,
 .wf-field .wf-select.is-invalid {
-  border-color: var(--wf-danger) !important;
-  background-color: #fff5f5 !important;
-  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.12);
+  // border-color: var(--wf-danger) !important;
+  // background-color: #fff5f5 !important;
+  // box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.12);
 }
 
 .wf-field .wf-input.is-invalid:focus,
 .wf-field .wf-select.is-invalid:focus {
-  border-color: var(--wf-danger) !important;
-  background-color: #fff2f2 !important;
-  box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.18);
+  // border-color: var(--wf-danger) !important;
+  // background-color: #fff2f2 !important;
+  //box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.18);
 }
 
 /* checkbox invalid ring */
@@ -431,4 +431,5 @@ body {
 .form-control.is-invalid {
   background-image: none !important;
   padding-right: 0.75rem; /* reset padding */
+  
 }
