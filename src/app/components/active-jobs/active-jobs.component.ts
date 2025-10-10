@@ -127,6 +127,16 @@ export class ActiveJobsComponent implements AfterViewInit {
   }
 
   onToggleStatus(job: Job, checked: boolean) {
-
+    console.log("Job", job);
+    console.log("checked", checked);
+    var jobId = job.jobId;
+    var status = !job.isActive;
+    this.jobService.UpdateJobStatus(jobId, status).subscribe({
+      next: (res) => {
+        this.toastr.success('Job status updated.');
+        this.getActiveJobs();
+      },
+      error: () => this.toastr.error('Failed to update status.'),
+    });
   }
 }

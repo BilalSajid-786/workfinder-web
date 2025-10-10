@@ -35,4 +35,9 @@ export class JobService {
       .post(`${this.apiUrl}/activejobs`, pagingModel)
       .pipe(tap((response: any) => {}));
   }
+
+  UpdateJobStatus(jobId: number, status: boolean): Observable<ApiResponse<any>>{
+    return this.http.post(`${this.apiUrl}/updateJobStatusAsync/${jobId}/${status}`, null)
+    .pipe(tap((response: any) => {}));
+  }
 }
