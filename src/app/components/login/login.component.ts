@@ -58,7 +58,7 @@ export class LoginComponent {
           if (this.authService.getRole() == 'Admin') {
             this.router.navigate(['dashboard']);
           } else if (this.authService.getRole() == 'Employer') {
-            this.router.navigate(['activejobs']);
+            this.router.navigate(['postjob']);
           } else if (this.authService.getRole() == 'Applicant') {
             this.router.navigate(['availablejobs']);
           }

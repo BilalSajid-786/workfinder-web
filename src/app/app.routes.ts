@@ -13,6 +13,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { ActiveJobsComponent } from './components/active-jobs/active-jobs.component';
 import { AppliedJobsComponent } from './components/applied-jobs/applied-jobs.component';
 import { JobDetailsComponent } from './components/job-details/job-details.component';
+import { InactiveJobsComponent } from './components/inactive-jobs/inactive-jobs.component';
 import { SavedJobsComponent } from './components/saved-jobs/saved-jobs.component';
 
 export const routes: Routes = [
@@ -81,6 +82,12 @@ export const routes: Routes = [
         component: SavedJobsComponent,
         canActivate: [authGuard],
         data: { permissions: ['Job.SavedJobs'] },
+      },
+      {
+        path: 'inactivejobs',
+        component: InactiveJobsComponent,
+        canActivate: [authGuard],
+        data: { permissions: ['Job.InActiveJobs'] },
       },
     ],
   },
