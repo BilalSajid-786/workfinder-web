@@ -13,6 +13,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { ActiveJobsComponent } from './components/active-jobs/active-jobs.component';
 import { AppliedJobsComponent } from './components/applied-jobs/applied-jobs.component';
 import { JobDetailsComponent } from './components/job-details/job-details.component';
+import { SavedJobsComponent } from './components/saved-jobs/saved-jobs.component';
 
 export const routes: Routes = [
   {
@@ -70,14 +71,16 @@ export const routes: Routes = [
         data: { permissions: ['Job.AppliedJobs'] },
       },
       {
-        path: 'jobdetails',
-        component: JobDetailsComponent,
-      },
-      {
         path: 'activejobs',
         component: ActiveJobsComponent,
         canActivate: [authGuard],
         data: { permissions: ['Job.ActiveJobs'] },
+      },
+      {
+        path: 'savedjobs',
+        component: SavedJobsComponent,
+        canActivate: [authGuard],
+        data: { permissions: ['Job.SavedJobs'] },
       },
     ],
   },

@@ -22,8 +22,32 @@ export class JobService {
       .pipe(tap((response: any) => {}));
   }
 
-  GetAvailableJobs(filter: any): Observable<ApiResponse<any>> {
+  GetAvailableJobs(filter: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/availableJobs`, filter).pipe(
+      tap((response: any) => {
+        // optional: handle response here if needed
+      })
+    );
+  }
+
+  GetSavedJobs(filter: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/savedJobs`, filter).pipe(
+      tap((response: any) => {
+        // optional: handle response here if needed
+      })
+    );
+  }
+
+  ApplyJob(filter: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/applyJob`, filter).pipe(
+      tap((response: any) => {
+        // optional: handle response here if needed
+      })
+    );
+  }
+
+  SaveJob(filter: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/saveJob`, filter).pipe(
       tap((response: any) => {
         // optional: handle response here if needed
       })
@@ -33,6 +57,12 @@ export class JobService {
   GetActiveJobs(pagingModel: any): Observable<ApiResponse<any>> {
     return this.http
       .post(`${this.apiUrl}/activejobs`, pagingModel)
+      .pipe(tap((response: any) => {}));
+  }
+
+  GetAppliedJobs(pagingModel: any): Observable<any> {
+    return this.http
+      .post(`${this.apiUrl}/appliedjobs`, pagingModel)
       .pipe(tap((response: any) => {}));
   }
 }

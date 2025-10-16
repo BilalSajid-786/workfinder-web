@@ -1,18 +1,3 @@
-<!-- <button class="btn btn-primary" (click)="openModal()">Open Modal</button>
-
-<div #exampleModal class="modal fade" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Dynamic Popup</h5>
-        <button type="button" class="btn-close" (click)="closeModal()"></button>
-      </div>
-      <div class="modal-body">
-        <p>{{ componentName }}</p>
-      </div>
-    </div>
-  </div>
-</div> -->
 <div #exampleModal class="modal fade modal-lg" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -69,8 +54,6 @@
                   type="submit"
                   class="wf-btn me-3"
                   style="font-weight: normal; margin: 0"
-                  (click)="saveJob()"
-                  *ngIf="componentName == 'AvailableJobs'"
                 >
                   Save
                 </button>
@@ -78,8 +61,6 @@
                   type="submit"
                   class="wf-btn"
                   style="font-weight: normal; margin: 0"
-                  (click)="applyJob()"
-                  *ngIf="componentName == 'AvailableJobs'"
                 >
                   Apply Now
                 </button>
