@@ -16,7 +16,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-active-jobs',
+  selector: 'app-inactive-jobs',
   standalone: true,
   imports: [
     CommonModule,
@@ -30,10 +30,10 @@ import { CommonModule } from '@angular/common';
     MatTooltipModule,
     MatSlideToggleModule
   ],
-  templateUrl: './active-jobs.component.html',
-  styleUrl: './active-jobs.component.scss',
+  templateUrl: './inactive-jobs.component.html',
+  styleUrl: './inactive-jobs.component.scss'
 })
-export class ActiveJobsComponent implements AfterViewInit {
+export class InactiveJobsComponent implements AfterViewInit {
   displayedColumns: string[] = [
     'title',
     'industryName',
@@ -50,7 +50,7 @@ export class ActiveJobsComponent implements AfterViewInit {
     length: 0,
     pageSize: 5,
     pageNo: 0,
-    status: true,
+    status: false,
     pageIndex: 0
   };
 
@@ -61,10 +61,11 @@ export class ActiveJobsComponent implements AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  
+
   constructor(private jobService: JobService, private toastr: ToastrService, private pagingService: PagingService) {}
 
   ngAfterViewInit(): void {
+    console.log("GetInativeJobs");
     this.getEmployerJobs();
   }
 
@@ -128,4 +129,5 @@ export class ActiveJobsComponent implements AfterViewInit {
       error: () => this.toastr.error('Failed to update status.'),
     });
   }
+
 }

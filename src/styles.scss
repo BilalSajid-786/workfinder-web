@@ -438,3 +438,84 @@ body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/*TABLES*/
+
+/* Layout shell (navbar + sidebar are already in your app) */
+.page-wrap {
+  padding: 20px 10px 25px 10px;
+}
+
+.page-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.page-title {
+  font-weight: 500;
+  font-size: 24px;
+  color: #0b2748;
+  margin: 0;
+}
+
+.page-title .count {
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+.search-icon { 
+  color: #1f66b2 !important;
+}
+
+/* Card look */
+.card {
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 0 2px 8px rgba(9, 30, 66, 0.08);
+  overflow: hidden;
+}
+
+/* Table styles */
+table.jobs-table {
+  width: 100%;
+}
+
+.mat-mdc-cell,
+.mat-mdc-header-cell {
+  padding: 14px 18px !important;
+  border-bottom: 2px solid #004a94 !important;
+}
+
+.cell-strong {
+  color: #0b2748;
+  font-weight: 500;
+  font-size: large;
+}
+
+.toggle-sm {
+  transform: scale(0.60);          /* 0.78–0.88 depending on your taste */
+  transform-origin: left center;   /* so it shrinks toward the text */
+  margin-left: 2px;                /* tiny nudge after scaling */
+}
+
+.status-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;                         /* space between "Active" text and toggle */
+}
+/* Actions */
+td.actions button.mat-mdc-icon-button {
+  width: 34px;
+  height: 34px;
+  margin-right: 6px;
+  color: #1f66b2;
+}
+
+mat-paginator {
+  border-top: 1px solid #e1e7ef;
+}
+

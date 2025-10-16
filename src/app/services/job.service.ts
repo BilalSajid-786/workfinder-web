@@ -30,9 +30,9 @@ export class JobService {
     );
   }
 
-  GetActiveJobs(pagingModel: any): Observable<ApiResponse<any>> {
+  getEmployerJobs(pagingModel: any): Observable<ApiResponse<any>> {
     return this.http
-      .post(`${this.apiUrl}/activejobs`, pagingModel)
+      .post(`${this.apiUrl}/employerjobs`, pagingModel)
       .pipe(tap((response: any) => {}));
   }
 
