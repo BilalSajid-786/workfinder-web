@@ -13,11 +13,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-active-jobs',
+  selector: 'app-job-applicants',
   standalone: true,
   imports: [
     CommonModule,
@@ -30,12 +31,12 @@ import { RouterModule } from '@angular/router';
     MatButtonModule,
     MatTooltipModule,
     MatSlideToggleModule,
-    RouterModule
+    MatButtonToggleModule,
   ],
-  templateUrl: './active-jobs.component.html',
-  styleUrl: './active-jobs.component.scss',
+  templateUrl: './job-applicants.component.html',
+  styleUrl: './job-applicants.component.scss',
 })
-export class ActiveJobsComponent implements AfterViewInit {
+export class JobApplicantsComponent implements AfterViewInit {
   displayedColumns: string[] = [
     'title',
     'industryName',
@@ -53,25 +54,37 @@ export class ActiveJobsComponent implements AfterViewInit {
     pageSize: 5,
     pageNo: 0,
     status: true,
-    pageIndex: 0
+    pageIndex: 0,
+    tab: 'all'
   };
+
+  selectedTab: 'all' | 'shortlisted' | 'hired' | 'reviewed' | 'rejected' =
+    'all';
 
   dataSource = new MatTableDataSource<Job>([]);
   activeJobs: Job[] = [];
   totalCount: number = 0;
-  EnterSearchValue:string='';
+  EnterSearchValue: string = '';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  
-  constructor(private jobService: JobService, private toastr: ToastrService, private pagingService: PagingService) {}
+
+  constructor(
+    private route: ActivatedRoute,
+    private jobService: JobService,
+    private toastr: ToastrService,
+    private pagingService: PagingService
+  ) {
+    const jobId = Number(this.route.snapshot.paramMap.get('jobId'));
+    console.log('JobId', jobId);
+  }
 
   ngAfterViewInit(): void {
     this.getEmployerJobs();
   }
 
-  OnSearchTextChange(){
-    this.dataTable.searchValue=this.EnterSearchValue;
+  OnSearchTextChange() {
+    this.dataTable.searchValue = this.EnterSearchValue;
     this.getEmployerJobs();
   }
 
@@ -80,7 +93,7 @@ export class ActiveJobsComponent implements AfterViewInit {
   }
 
   tableSortChange(event: any) {
-    console.log("Sort Event", event);
+    console.log('Sort Event', event);
     this.dataTable.sortColumn = event.active;
     this.dataTable.sortOrder = event.direction;
     this.getEmployerJobs();
@@ -93,7 +106,7 @@ export class ActiveJobsComponent implements AfterViewInit {
   }
 
   applyFilter(value: string): void {
-    console.log("applyfilter", value);
+    console.log('applyfilter', value);
     this.dataSource.filter = value;
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
@@ -118,8 +131,8 @@ export class ActiveJobsComponent implements AfterViewInit {
   }
 
   onToggleStatus(job: Job, checked: boolean) {
-    console.log("Job", job);
-    console.log("checked", checked);
+    console.log('Job', job);
+    console.log('checked', checked);
     var jobId = job.jobId;
     var status = !job.isActive;
     this.jobService.UpdateJobStatus(jobId, status).subscribe({
@@ -129,5 +142,12 @@ export class ActiveJobsComponent implements AfterViewInit {
       },
       error: () => this.toastr.error('Failed to update status.'),
     });
+  }
+
+  onTabChange(value: typeof this.selectedTab) {
+    this.selectedTab = value;
+    this.dataTable.tab = value; // pass to API
+    this.dataTable.pageIndex = 0; // usually reset to first page
+    this.getEmployerJobs();
   }
 }

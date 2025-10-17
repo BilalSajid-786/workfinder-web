@@ -14,6 +14,7 @@ import { ActiveJobsComponent } from './components/active-jobs/active-jobs.compon
 import { AppliedJobsComponent } from './components/applied-jobs/applied-jobs.component';
 import { JobDetailsComponent } from './components/job-details/job-details.component';
 import { InactiveJobsComponent } from './components/inactive-jobs/inactive-jobs.component';
+import { JobApplicantsComponent } from './components/job-applicants/job-applicants.component';
 
 export const routes: Routes = [
   {
@@ -86,6 +87,12 @@ export const routes: Routes = [
         canActivate: [authGuard],
         data: { permissions: ['Job.InActiveJobs'] },
       },
+      {
+        path: 'jobapplicants/:jobId',
+        component: JobApplicantsComponent,
+        canActivate: [authGuard],
+        data: { permissions: ['Job.ActiveJobs'] }
+      }
     ],
   },
 ];

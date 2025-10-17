@@ -14,12 +14,15 @@
                 (click)="applyFilter(searchBox.value)"></i>
         </div>
     </div>
-    <!-- <button class="btn btn-outline-primary" type="button" disabled (click)="applyFilter(searchBox.value)"
-                aria-label="Search">
-                <i class="bi bi-search"></i>
-            </button> -->
-
-    <!-- table card -->
+    <div class="stage-tabs mb-3">
+        <mat-button-toggle-group [value]="selectedTab" (change)="onTabChange($event.value)" appearance="legacy">
+            <mat-button-toggle value="all">All</mat-button-toggle>
+            <mat-button-toggle value="shortlisted">Shortlisted</mat-button-toggle>
+            <mat-button-toggle value="hired">Hired</mat-button-toggle>
+            <mat-button-toggle value="reviewed">Reviewed</mat-button-toggle>
+            <mat-button-toggle value="rejected">Rejected</mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
     <div class="card">
         <table class="jobs-table" mat-table [dataSource]="dataSource" matSort (matSortChange)="tableSortChange($event)" matSortDisableClear style="background-color: #fff;">
             <!-- Job Title -->
@@ -85,7 +88,7 @@
                     <button mat-icon-button matTooltip="Duplicate">
                         <mat-icon>content_copy</mat-icon>
                     </button>
-                    <button mat-icon-button matTooltip="Applicants" [routerLink]="['/jobapplicants', row.jobId]">
+                    <button mat-icon-button matTooltip="Applicants">
                         <mat-icon>group</mat-icon>
                     </button>
                 </td>

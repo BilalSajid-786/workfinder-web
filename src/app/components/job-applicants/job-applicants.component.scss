@@ -1,0 +1,42 @@
+.page-title {
+  font-weight: 500;
+  font-size: 24px;
+  color: #0b2748;
+  margin: 0;
+}
+
+.page-title .count {
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+/* pill-like look; minimal overrides */
+
+.stage-tabs {
+    //transform: translateX(15%);
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.stage-tabs .mat-button-toggle-group {
+  border: 0;
+  gap: 14px;
+}
+.stage-tabs .mat-button-toggle {
+  border-radius: 5px;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 14px;
+}
+.stage-tabs .mat-button-toggle-checked {
+  background: #1f66b2;
+  color: #fff;
+}
+.stage-tabs .mat-button-toggle:not(.mat-button-toggle-checked) {
+  background: #f3f6fb;
+  color: #1b2b40;
+}
+
