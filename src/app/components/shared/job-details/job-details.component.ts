@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -8,25 +7,26 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { Modal } from 'bootstrap';
+import bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-job-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './job-details.component.html',
-  styleUrl: './job-details.component.scss',
+  styleUrls: ['./job-details.component.scss'],
 })
 export class JobDetailsComponent implements AfterViewInit {
-  @ViewChild('exampleModal') modalElement!: ElementRef;
-  modalInstance!: Modal;
-  @Input() componentName: string = '';
   @Input() selectedJob: any;
+  @Input() componentName: string = ''; // identifies where it's used: AppliedJobs / SavedJobs etc.
   @Output() onSave = new EventEmitter<any>();
   @Output() onApply = new EventEmitter<any>();
 
+  @ViewChild('exampleModal') modalElement!: ElementRef;
+  private modalInstance: any;
+
   ngAfterViewInit() {
-    this.modalInstance = new Modal(this.modalElement.nativeElement);
+    this.modalInstance = new bootstrap.Modal(this.modalElement.nativeElement);
   }
 
   openModal() {

@@ -1,6 +1,5 @@
 @import "ngx-toastr/toastr";
-@import 'bootstrap-icons/font/bootstrap-icons.css';
-
+@import "bootstrap-icons/font/bootstrap-icons.css";
 
 /* ==========================================================================
    TOKENS
@@ -433,12 +432,24 @@ body {
 .form-control.is-invalid {
   background-image: none !important;
   padding-right: 0.75rem; /* reset padding */
-  
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 /*TABLES*/
 
@@ -467,7 +478,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   margin-left: 6px;
 }
 
-.search-icon { 
+.search-icon {
   color: #1f66b2 !important;
 }
 
@@ -497,15 +508,15 @@ table.jobs-table {
 }
 
 .toggle-sm {
-  transform: scale(0.60);          /* 0.78–0.88 depending on your taste */
-  transform-origin: left center;   /* so it shrinks toward the text */
-  margin-left: 2px;                /* tiny nudge after scaling */
+  transform: scale(0.6); /* 0.78–0.88 depending on your taste */
+  transform-origin: left center; /* so it shrinks toward the text */
+  margin-left: 2px; /* tiny nudge after scaling */
 }
 
 .status-cell {
   display: flex;
   align-items: center;
-  gap: 8px;                         /* space between "Active" text and toggle */
+  gap: 8px; /* space between "Active" text and toggle */
 }
 /* Actions */
 td.actions button.mat-mdc-icon-button {
@@ -518,4 +529,3 @@ td.actions button.mat-mdc-icon-button {
 mat-paginator {
   border-top: 1px solid #e1e7ef;
 }
-
