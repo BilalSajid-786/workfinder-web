@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { JobService } from '../../services/job.service';
 import { CommonModule } from '@angular/common';
 import { Modal } from 'bootstrap';
@@ -70,11 +64,7 @@ export class AvailableJobsComponent implements AfterViewInit {
   /**
    *
    */
-  constructor(
-    private jobService: JobService,
-    private cd: ChangeDetectorRef,
-    private toastr: ToastrService
-  ) {
+  constructor(private jobService: JobService, private toastr: ToastrService) {
     this.GetAvailableJobs(this.pageNo, this.pageSize);
   }
 
@@ -145,7 +135,6 @@ export class AvailableJobsComponent implements AfterViewInit {
   }
 
   openModal(index: number) {
-    debugger;
     this.selectedJob = this.availableJobs[index];
     this.modalInstance.show();
   }

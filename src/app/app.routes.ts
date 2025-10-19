@@ -15,6 +15,7 @@ import { AppliedJobsComponent } from './components/applied-jobs/applied-jobs.com
 import { JobDetailsComponent } from './components/job-details/job-details.component';
 import { InactiveJobsComponent } from './components/inactive-jobs/inactive-jobs.component';
 import { SavedJobsComponent } from './components/saved-jobs/saved-jobs.component';
+import { ChatComponent } from './components/SignalRTemp/chat/chat.component';
 
 export const routes: Routes = [
   {
@@ -88,6 +89,10 @@ export const routes: Routes = [
         component: InactiveJobsComponent,
         canActivate: [authGuard],
         data: { permissions: ['Job.InActiveJobs'] },
+      },
+      {
+        path: 'sendmessage',
+        component: ChatComponent,
       },
     ],
   },

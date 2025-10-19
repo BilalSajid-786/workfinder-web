@@ -62,4 +62,9 @@ export class AuthService {
     const decoded = this.getDecodeToken();
     return decoded ? decoded['UserRole'] : null;
   }
+
+  getBaseUserId() {
+    const decoded = this.getDecodeToken();
+    return decoded ? decoded['BaseUserId'] : '';
+  }
 }

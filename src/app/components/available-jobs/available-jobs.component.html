@@ -77,14 +77,12 @@
           <button mat-icon-button matTooltip="View" (click)="openJobDetails(i)">
             <mat-icon>visibility</mat-icon>
           </button>
-          <button mat-icon-button matTooltip="Save">
+          <button
+            mat-icon-button
+            matTooltip="Save"
+            (click)="SaveJob(row.jobId)"
+          >
             <mat-icon>bookmark_border</mat-icon>
-          </button>
-          <button mat-icon-button matTooltip="Duplicate">
-            <mat-icon>content_copy</mat-icon>
-          </button>
-          <button mat-icon-button matTooltip="Applicants">
-            <mat-icon>group</mat-icon>
           </button>
         </td>
       </ng-container>

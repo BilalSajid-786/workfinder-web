@@ -85,6 +85,24 @@ export class SavedJobsComponent implements AfterViewInit {
     this.jobModal.openModal();
   }
 
+  handleApply(job: any) {
+    this.ApplyJob(job.jobId);
+  }
+
+  ApplyJob(jobId: number): void {
+    this.jobService.ApplyJob({ jobId }).subscribe({
+      next: (res: any) => {
+        this.toastr.success(res.message);
+        this.pageNo = 1;
+        this.pageSize = 2;
+        this.GetSavedJobs(this.pageNo, this.pageSize);
+      },
+      error: (err: any) => {
+        this.toastr.error('Job application unsuccessfull');
+      },
+    });
+  }
+
   GetSavedJobs(pageNo: number, pageSize: number): void {
     this.jobService.GetSavedJobs({ pageNo, pageSize }).subscribe((list) => {
       this.savedJobs = list.result.items ?? [];
