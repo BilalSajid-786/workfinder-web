@@ -19,31 +19,58 @@ import { Modal } from 'bootstrap';
 })
 export class JobDetailsComponent implements AfterViewInit {
   @ViewChild('exampleModal') modalElement!: ElementRef;
+  @ViewChild('confirmationModal') confirmationModalElement!: ElementRef;
   modalInstance!: Modal;
+  confirmationModalInstance!: Modal;
   @Input() componentName: string = '';
   @Input() selectedJob: any;
   @Output() onSave = new EventEmitter<any>();
   @Output() onApply = new EventEmitter<any>();
+  action: string = '';
 
   ngAfterViewInit() {
     this.modalInstance = new Modal(this.modalElement.nativeElement);
+    this.confirmationModalInstance = new Modal(
+      this.confirmationModalElement.nativeElement
+    );
   }
 
   openModal() {
     this.modalInstance.show();
   }
 
+  openConfirmationModal() {
+    this.confirmationModalInstance.show();
+  }
+
   closeModal() {
     this.modalInstance.hide();
   }
 
+  onConfirm() {
+    this.confirmationModalInstance.hide();
+    if (this.action == 'apply') this.onApply.emit(this.selectedJob);
+    if (this.action == 'save') this.onSave.emit(this.selectedJob);
+  }
+
+  onCancel() {
+    this.confirmationModalInstance.hide();
+    this.openModal();
+  }
+
   saveJob() {
-    this.onSave.emit(this.selectedJob);
+    this.action = 'save';
     this.closeModal();
+    this.openConfirmationModal();
+    // this.onSave.emit(this.selectedJob);
+    // this.closeModal();
   }
 
   applyJob() {
-    this.onApply.emit(this.selectedJob);
+    this.action = 'apply';
     this.closeModal();
+    this.openConfirmationModal();
+    // this.onApply.emit(this.selectedJob);
+    // this.closeModal();
   }
 }

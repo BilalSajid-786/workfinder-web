@@ -78,13 +78,7 @@
             <mat-icon>visibility</mat-icon>
           </button>
           <button mat-icon-button matTooltip="Save">
-            <mat-icon>bookmark_border</mat-icon>
-          </button>
-          <button mat-icon-button matTooltip="Duplicate">
-            <mat-icon>content_copy</mat-icon>
-          </button>
-          <button mat-icon-button matTooltip="Applicants">
-            <mat-icon>group</mat-icon>
+            <mat-icon>bookmark</mat-icon>
           </button>
         </td>
       </ng-container>
@@ -109,3 +103,9 @@
     </mat-paginator>
   </div>
 </div>
+
+<app-job-details
+  [selectedJob]="selectedJob"
+  componentName="SavedJobs"
+  (onApply)="handleApply($event)"
+></app-job-details>

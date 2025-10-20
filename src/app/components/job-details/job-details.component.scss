@@ -1,0 +1,35 @@
+// .modal-content {
+//   border-radius: 10px;
+//   overflow: hidden;
+// }
+
+// .modal-header {
+//   font-weight: 600;
+// }
+
+// .modal-body {
+//   font-size: 1.1rem;
+// }
+
+// .modal-footer button {
+//   min-width: 100px;
+// }
+
+// /* --- allow multiple stacked modals --- */
+// /* fix stacking for nested modals */
+// .modal.show {
+//   z-index: 1050;
+// }
+
+// .modal-backdrop.show {
+//   z-index: 1040;
+// }
+
+// /* when second modal (confirmation) opens */
+// body .modal.modal-top {
+//   z-index: 1065 !important;
+// }
+
+// body .modal-backdrop.modal-top-backdrop {
+//   z-index: 1060 !important;
+// }

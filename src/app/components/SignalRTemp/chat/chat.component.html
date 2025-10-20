@@ -1,0 +1,49 @@
+<!-- <div class="chat-container">
+  <div class="chat-box" id="chatBox">
+    <div
+      *ngFor="let msg of messages"
+      class="message"
+      [ngClass]="{ sent: msg.sentByMe, received: !msg.sentByMe }"
+    >
+      <span>{{ msg.message }}</span>
+    </div>
+  </div>
+
+  <div class="chat-input">
+    <input
+      [(ngModel)]="newMessage"
+      placeholder="Type a message..."
+      (keydown.enter)="sendMessage()"
+    />
+    <button (click)="sendMessage()">Send</button>
+  </div>
+</div> -->
+
+<div class="chat-container">
+  <h3>Your ID:</h3>
+  <p>{{ currentUserId }}</p>
+
+  <input
+    [(ngModel)]="receiverId"
+    placeholder="Enter receiver's GUID"
+    class="receiver-input"
+  />
+
+  <div class="messages">
+    <div
+      *ngFor="let msg of messages"
+      [ngClass]="{ sent: msg.sentByMe, received: !msg.sentByMe }"
+    >
+      {{ msg.message }}
+    </div>
+  </div>
+
+  <div class="controls">
+    <input
+      [(ngModel)]="newMessage"
+      placeholder="Type a message..."
+      (keydown.enter)="sendMessage()"
+    />
+    <button (click)="sendMessage()">Send</button>
+  </div>
+</div>

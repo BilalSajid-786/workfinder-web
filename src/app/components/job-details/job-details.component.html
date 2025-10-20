@@ -1,18 +1,43 @@
-<!-- <button class="btn btn-primary" (click)="openModal()">Open Modal</button>
-
-<div #exampleModal class="modal fade" tabindex="-1">
-  <div class="modal-dialog">
+<div
+  #confirmationModal
+  class="modal fade"
+  id="confirmationModal"
+  tabindex="-1"
+  aria-labelledby="confirmationModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Dynamic Popup</h5>
-        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
       </div>
-      <div class="modal-body">
-        <p>{{ componentName }}</p>
+
+      <div class="modal-body text-center">
+        <p>Are you sure, you want to {{ action }} this job</p>
+      </div>
+
+      <div class="modal-footer justify-content-center">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          (click)="onCancel()"
+        >
+          No
+        </button>
+        <button type="button" class="btn btn-success" (click)="onConfirm()">
+          Yes
+        </button>
       </div>
     </div>
   </div>
-</div> -->
+</div>
+
 <div #exampleModal class="modal fade modal-lg" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -79,7 +104,10 @@
                   class="wf-btn"
                   style="font-weight: normal; margin: 0"
                   (click)="applyJob()"
-                  *ngIf="componentName == 'AvailableJobs'"
+                  *ngIf="
+                    componentName == 'AvailableJobs' ||
+                    componentName == 'SavedJobs'
+                  "
                 >
                   Apply Now
                 </button>
