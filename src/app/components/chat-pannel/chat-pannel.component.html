@@ -1,0 +1,40 @@
+<div class="chat-panel">
+  <div class="chat-header">
+    <h5>Chat with {{ userName }}</h5>
+    <button mat-icon-button (click)="closeChat()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="chat-body">
+    <!-- <div
+      class="message"
+      *ngFor="let msg of messages"
+      [ngClass]="{ sent: msg.sender === 'me', received: msg.sender === 'user' }"
+    >
+      {{ msg.text }}
+    </div> -->
+    <div
+      class="message"
+      *ngFor="let msg of allMessages"
+      [ngClass]="{
+        sent: msg.senderId == senderId,
+        received: msg.senderId == userId
+      }"
+    >
+      {{ msg.text }}
+    </div>
+  </div>
+
+  <div class="chat-footer">
+    <input
+      type="text"
+      [(ngModel)]="newMessage"
+      placeholder="Type a message..."
+      (keyup.enter)="sendMessage()"
+    />
+    <button mat-icon-button color="primary" (click)="sendMessage()">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</div>

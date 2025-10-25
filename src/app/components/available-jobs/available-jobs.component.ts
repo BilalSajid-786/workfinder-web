@@ -17,6 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ToastrService } from 'ngx-toastr';
 import { JobDetailsComponent } from '../job-details/job-details.component';
+import { FormsModule } from '@angular/forms';
+import { ChatPannelComponent } from '../chat-pannel/chat-pannel.component';
 
 @Component({
   selector: 'app-available-jobs',
@@ -32,6 +34,8 @@ import { JobDetailsComponent } from '../job-details/job-details.component';
     MatButtonModule,
     MatTooltipModule,
     JobDetailsComponent,
+    FormsModule,
+    ChatPannelComponent,
   ],
   templateUrl: './available-jobs.component.html',
   styleUrl: './available-jobs.component.scss',
@@ -57,8 +61,11 @@ export class AvailableJobsComponent implements AfterViewInit {
     'actions',
   ];
 
+  selectedUserId: any = null;
+  chatMessages: { sender: string; text: string }[] = [];
+
   ngAfterViewInit() {
-    this.modalInstance = new Modal(this.modalElement.nativeElement);
+    // this.modalInstance = new Modal(this.modalElement.nativeElement);
   }
 
   /**
@@ -66,6 +73,30 @@ export class AvailableJobsComponent implements AfterViewInit {
    */
   constructor(private jobService: JobService, private toastr: ToastrService) {
     this.GetAvailableJobs(this.pageNo, this.pageSize);
+  }
+
+  openChat(user: any) {
+    debugger;
+    this.selectedUserId = user;
+
+    // Example initial messages
+    this.chatMessages = [
+      { sender: 'user', text: 'Hi, is this job still available?' },
+      { sender: 'me', text: 'Yes, please apply through the link!' },
+    ];
+  }
+
+  handleMessageSend(messageText: any) {
+    this.chatMessages.push({ sender: 'me', text: messageText });
+
+    // Simulate a reply
+    setTimeout(() => {
+      this.chatMessages.push({
+        sender: 'user',
+        text: 'Thank you! Ill check it out.',
+      });
+    }, 1000);
+    console.log('message to sent', this.chatMessages);
   }
 
   applyJob(selectedJob: Job) {

@@ -28,6 +28,10 @@ export class AuthService {
     return this.getDecodeToken()?.UserId;
   }
 
+  getUserId() {
+    return this.getDecodeToken()?.UserId;
+  }
+
   hasPermission(permission: string): boolean {
     const decoded = this.getDecodeToken();
     if (!decoded || !decoded['Permissions']) return false;

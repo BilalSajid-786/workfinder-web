@@ -1,25 +1,4 @@
 <!-- <div class="chat-container">
-  <div class="chat-box" id="chatBox">
-    <div
-      *ngFor="let msg of messages"
-      class="message"
-      [ngClass]="{ sent: msg.sentByMe, received: !msg.sentByMe }"
-    >
-      <span>{{ msg.message }}</span>
-    </div>
-  </div>
-
-  <div class="chat-input">
-    <input
-      [(ngModel)]="newMessage"
-      placeholder="Type a message..."
-      (keydown.enter)="sendMessage()"
-    />
-    <button (click)="sendMessage()">Send</button>
-  </div>
-</div> -->
-
-<div class="chat-container">
   <h3>Your ID:</h3>
   <p>{{ currentUserId }}</p>
 
@@ -46,4 +25,13 @@
     />
     <button (click)="sendMessage()">Send</button>
   </div>
-</div>
+</div> -->
+
+<button (click)="openChat()">OpenChatBox</button>
+
+<app-chat-pannel
+  *ngIf="selectedUserId"
+  [userId]="selectedUserId"
+  [userName]="selectedUserName"
+  (onClose)="selectedUserId = null"
+></app-chat-pannel>
