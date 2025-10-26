@@ -27,6 +27,7 @@ export class ChatPannelComponent implements OnInit, OnDestroy {
   isChatOpen = false;
   newMessage = '';
   allMessages: any = [];
+  groupedMessages: { date: string; messages: any[] }[] = [];
 
   /**
    *
@@ -53,7 +54,24 @@ export class ChatPannelComponent implements OnInit, OnDestroy {
         senderId: senderId,
         text: message,
       });
+
+      this.groupedMessages[this.groupedMessages.length - 1].messages.push({
+        senderId: senderId,
+        receiverId: this.userId,
+        text: message,
+      });
     });
+  }
+  private getFriendlyDateLabel(dateString: string): string {
+    const today = new Date();
+    const date = new Date(dateString);
+    const diffDays = Math.floor(
+      (today.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)
+    );
+
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Yesterday';
+    return date.toDateString();
   }
 
   getMessages() {
@@ -66,9 +84,30 @@ export class ChatPannelComponent implements OnInit, OnDestroy {
     this.chatService.getUserMessages(message).subscribe({
       next: (res: any) => {
         this.allMessages = res.result;
+        this.groupMessagesByDate();
       },
       error: (err: any) => {},
     });
+  }
+
+  groupMessagesByDate() {
+    const grouped: { [key: string]: any[] } = {};
+
+    this.allMessages.forEach((msg: any) => {
+      const date = new Date(msg.sentAt).toDateString(); // e.g. "Sat Oct 26 2025"
+      if (!grouped[date]) {
+        grouped[date] = [];
+      }
+      grouped[date].push(msg);
+    });
+
+    // Convert object to array for ngFor
+    this.groupedMessages = Object.keys(grouped).map((date) => ({
+      date: this.getFriendlyDateLabel(date),
+      messages: grouped[date],
+    }));
+
+    console.log(this.groupedMessages);
   }
 
   sendMessage() {
@@ -76,6 +115,12 @@ export class ChatPannelComponent implements OnInit, OnDestroy {
     if (messageText) {
       // Add to the chat visually
       this.allMessages.push({
+        senderId: this.senderId,
+        receiverId: this.userId,
+        text: messageText,
+      });
+
+      this.groupedMessages[this.groupedMessages.length - 1].messages.push({
         senderId: this.senderId,
         receiverId: this.userId,
         text: messageText,

@@ -85,7 +85,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   openChat() {
-    this.selectedUserId = '5CA757F8-6A90-F011-94F7-34E6D70183E9';
+    this.selectedUserId = '5ca757f8-6a90-f011-94f7-34e6d70183e9';
     this.selectedUserName = 'Web Applicant';
   }
 }
