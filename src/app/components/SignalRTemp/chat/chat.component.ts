@@ -3,6 +3,7 @@ import { ChatService } from '../../../services/signalR/chat.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
+import { ChatPannelComponent } from '../../chat-pannel/chat-pannel.component';
 
 interface ChatMessage {
   senderId: string;
@@ -13,16 +14,19 @@ interface ChatMessage {
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ChatPannelComponent],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
 })
 export class ChatComponent implements OnInit, OnDestroy {
-  currentUserId = '66361C54-B1FC-4BF8-9D43-011AFA33A1B4'; // 👈 Replace with logged-in user's GUID
-  receiverId = 'F838AD0D-4162-40D5-B117-31BBACD19230'; // 👈 Example receiver's GUID
+  currentUserId: string = ''; // 👈 Replace with logged-in user's GUID
+  receiverId = 'CFC430DF-C256-41B3-A949-BCCD41CE27C0'; // 👈 Example receiver's GUID
 
   messages: ChatMessage[] = [];
   newMessage = '';
+  selectedUserId: any = null;
+  selectedUserName: string = '';
+  chatMessages: { sender: string; text: string }[] = [];
 
   constructor(
     private chatService: ChatService,
@@ -31,69 +35,57 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Start SignalR connection
-    this.currentUserId = this.authService.getBaseUserId();
+    this.currentUserId = this.authService.getUserId() ?? '';
 
     this.chatService.startConnection(this.currentUserId);
 
-    this.chatService.onReceiveMessage((senderId: string, message: string) => {
-      console.log('📥 Received message:', senderId, message);
-      this.messages.push({
-        senderId,
-        message,
-        sentByMe: senderId === this.currentUserId,
-      });
-    });
-
-    // // Listen for incoming messages
-    // this.chatService.onReceiveMessage((senderId, message) => {
-    //   console.log(`Messages ${senderId}, ${message}`);
-    //   this.messages.push({
-    //     senderId,
-    //     message,
-    //     sentByMe: senderId === this.currentUserId ? true : false,
+    //   this.chatService.onReceiveMessage((senderId: string, message: string) => {
+    //     console.log('📥 Received message:', senderId, message);
+    //     this.messages.push({
+    //       senderId,
+    //       message,
+    //       sentByMe: senderId === this.currentUserId,
+    //     });
     //   });
-    // });
-  }
+    // }
+    // sendMessage() {
+    //   if (this.newMessage.trim() && this.receiverId) {
+    //     this.chatService.sendMessage(
+    //       this.currentUserId,
+    //       this.receiverId,
+    //       this.newMessage
+    //     );
+    //     this.messages.push({
+    //       senderId: this.currentUserId,
+    //       message: this.newMessage,
+    //       sentByMe: true,
+    //     });
+    //     this.newMessage = '';
+    //   } else {
+    //     console.warn('Receiver ID missing or empty message');
+    //   }
+    // }
 
-  // sendMessage() {
-  //   if (!this.newMessage.trim()) return;
+    // handleMessageSend(messageText: any) {
+    //   this.chatMessages.push({ sender: 'me', text: messageText });
 
-  //   // Send message via SignalR
-  //   this.chatService.sendMessage(
-  //     this.currentUserId,
-  //     this.receiverId,
-  //     this.newMessage
-  //   );
-
-  //   // Add to local list for instant display
-  //   this.messages.push({
-  //     senderId: this.currentUserId,
-  //     message: this.newMessage,
-  //     sentByMe: true,
-  //   });
-
-  //   this.newMessage = '';
-  // }
-
-  sendMessage() {
-    if (this.newMessage.trim() && this.receiverId) {
-      this.chatService.sendMessage(
-        this.currentUserId,
-        this.receiverId,
-        this.newMessage
-      );
-      this.messages.push({
-        senderId: this.currentUserId,
-        message: this.newMessage,
-        sentByMe: true,
-      });
-      this.newMessage = '';
-    } else {
-      console.warn('Receiver ID missing or empty message');
-    }
+    //   // Simulate a reply
+    //   setTimeout(() => {
+    //     this.chatMessages.push({
+    //       sender: 'user',
+    //       text: 'Thank you! Ill check it out.',
+    //     });
+    //   }, 1000);
+    //   console.log('message to sent', this.chatMessages);
+    // }
   }
 
   ngOnDestroy() {
     this.chatService.stopConnection();
+  }
+
+  openChat() {
+    this.selectedUserId = '5ca757f8-6a90-f011-94f7-34e6d70183e9';
+    this.selectedUserName = 'Web Applicant';
   }
 }

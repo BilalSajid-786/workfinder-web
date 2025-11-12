@@ -170,8 +170,12 @@
               "
             >
               <option [ngValue]="null" disabled>Qualification</option>
-              <option value="Matric">Matric</option>
-              <option value="Intermediate">Intermediate</option>
+              <option
+                *ngFor="let q of qualificationList"
+                [value]="q.qualificationId"
+              >
+                {{ q.qualificationName }}
+              </option>
             </select>
             <span class="wf-chev" aria-hidden="true">▾</span>
             <span class="text-danger position-absolute required-star">*</span>

@@ -23,6 +23,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { JobDetailsComponent } from '../job-details/job-details.component';
+import { ChatPannelComponent } from '../chat-pannel/chat-pannel.component';
 
 @Component({
   selector: 'app-applied-jobs',
@@ -38,6 +39,7 @@ import { JobDetailsComponent } from '../job-details/job-details.component';
     MatButtonModule,
     MatTooltipModule,
     JobDetailsComponent,
+    ChatPannelComponent,
   ],
   templateUrl: './applied-jobs.component.html',
   styleUrls: ['./applied-jobs.component.scss'],
@@ -62,6 +64,9 @@ export class AppliedJobsComponent {
     'status',
     'actions',
   ];
+  selectedUserId: any = null;
+  selectedUserName: string = '';
+  chatMessages: { sender: string; text: string }[] = [];
 
   /**
    *
@@ -75,13 +80,6 @@ export class AppliedJobsComponent {
   }
 
   GetAppliedJobs(pageNo: number, pageSize: number): void {
-    // this.GetAppliedJobs({ pageNo, pageSize }).subscribe((list) => {
-    //   this.appliedJobs = list.result.items ?? [];
-    //   this.dataSource.data = this.appliedJobs;
-    //   this.totalJobs = list.result.totalCount;
-    //   this.pageNo = list.result.pageNumber;
-    //   this.pageSize = list.result.pageSize;
-    // });
     this.jobService.GetAppliedJobs({ pageNo, pageSize }).subscribe((list) => {
       this.appliedJobs = list.result.items ?? [];
       this.dataSource.data = this.appliedJobs;
@@ -89,6 +87,24 @@ export class AppliedJobsComponent {
       this.pageNo = list.result.pageNumber;
       this.pageSize = list.result.pageSize;
     });
+  }
+
+  openChat(user: any) {
+    this.selectedUserId = user.employerId;
+    this.selectedUserName = user.company;
+  }
+
+  handleMessageSend(messageText: any) {
+    this.chatMessages.push({ sender: 'me', text: messageText });
+
+    // Simulate a reply
+    setTimeout(() => {
+      this.chatMessages.push({
+        sender: 'user',
+        text: 'Thank you! Ill check it out.',
+      });
+    }, 1000);
+    console.log('message to sent', this.chatMessages);
   }
 
   onPageChange(event: PageEvent) {

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -15,6 +15,8 @@ import { Applicant } from '../../models/applicant.model';
 import { ApplicantService } from '../../services/applicant.service';
 import { FileService } from '../../services/file.service';
 import { Guid } from '../../models/types.model';
+import { QualificationService } from '../../services/qualification.service';
+import { Qualification } from '../../models/qualification.model';
 
 @Component({
   selector: 'app-register-applicant',
@@ -23,9 +25,10 @@ import { Guid } from '../../models/types.model';
   templateUrl: './register-applicant.component.html',
   styleUrl: './register-applicant.component.scss',
 })
-export class RegisterApplicantComponent {
+export class RegisterApplicantComponent implements OnInit {
   registrationForm: FormGroup;
   skillsList: Skill[] = []; // not string[]
+  qualificationList: Qualification[] = [];
   selectedSkills: Skill[] = [];
   isSubmitted = false;
   selectedCertificates: File[] = [];
@@ -41,7 +44,8 @@ export class RegisterApplicantComponent {
     private toastr: ToastrService,
     private skillService: SkillService,
     private applicantService: ApplicantService,
-    private fileService: FileService
+    private fileService: FileService,
+    private qualificationService: QualificationService
   ) {
     this.registrationForm = this.fb.group({
       fullName: ['', [Validators.required]],
@@ -102,6 +106,27 @@ export class RegisterApplicantComponent {
   }
   get terms() {
     return this.registrationForm.get('terms');
+  }
+
+  ngOnInit(): void {
+    this.getQualifications();
+  }
+
+  getQualifications() {
+    this.qualificationService.getQualifications().subscribe({
+      next: (res) => {
+        if (res.isSuccess) {
+          // res.result should be Skill[]
+          this.qualificationList = res.result;
+        } else {
+          this.qualificationList = [];
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching skills:', err);
+        this.qualificationList = [];
+      },
+    });
   }
 
   togglePassword() {
@@ -228,6 +253,7 @@ export class RegisterApplicantComponent {
 
   onSubmit() {
     this.isSubmitted = true;
+    debugger;
     if (this.registrationForm.valid) {
       const values = this.registrationForm.getRawValue();
       const payload: Applicant = {
@@ -238,7 +264,7 @@ export class RegisterApplicantComponent {
         country: values.country?.trim(),
         phone: values.countryCode?.trim() + values.phone?.trim(),
         gender: values.gender?.trim(),
-        qualification: values.qualification?.trim(),
+        qualificationId: values.qualification?.trim(),
         skills: values.skills,
       } as unknown as Applicant;
 

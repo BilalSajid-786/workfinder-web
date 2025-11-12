@@ -1,14 +1,20 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   private hubConnection!: signalR.HubConnection;
-  private readonly hubUrl = 'https://localhost:7205/chatHub';
+  // private readonly hubUrl = 'https://localhost:7205/chatHub';
+  // private apiUrl: string = 'https://localhost:7205/api/messages';
+  private readonly hubUrl = 'http://bilalsajid-001-site1.mtempurl.com/chatHub';
+  private apiUrl: string =
+    'http://bilalsajid-001-site1.mtempurl.com/api/messages';
 
   // Start SignalR connection
   startConnection(userId: string) {
@@ -36,6 +42,19 @@ export class ChatService {
     this.hubConnection
       .invoke('SendMessage', senderId, receiverId, message)
       .catch((err) => console.error('SendMessage error:', err));
+  }
+
+  //Send a message via api endpoint and for persistance
+  sendPersistMessage(messageRequestDto: any) {
+    return this.http
+      .post(`${this.apiUrl}/sendMessage`, messageRequestDto)
+      .pipe(tap((response: any) => {}));
+  }
+
+  getUserMessages(messageRequestDto: any) {
+    return this.http
+      .post(`${this.apiUrl}/getMessages`, messageRequestDto)
+      .pipe(tap((response: any) => {}));
   }
 
   // Listen for incoming messages

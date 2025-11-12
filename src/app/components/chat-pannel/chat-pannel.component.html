@@ -1,0 +1,50 @@
+<div class="chat-panel">
+  <div class="chat-header">
+    <h5>Chat with {{ userName }}</h5>
+    <button style="border: none" (click)="closeChat()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="chat-body">
+    <ng-container *ngFor="let group of groupedMessages">
+      <div class="date-label">{{ group.date }}</div>
+
+      <div
+        class="message-row"
+        *ngFor="let msg of group.messages"
+        [ngClass]="{
+          sent: msg.senderId === senderId,
+          received: msg.senderId === userId
+        }"
+      >
+        <!-- Avatar -->
+        <div class="avatar" *ngIf="msg.senderId !== senderId">
+          {{ getInitials(userName) }}
+        </div>
+
+        <div class="message">
+          <div class="message-text">{{ msg.text }}</div>
+          <div class="message-time">{{ msg.sentAt | date : "shortTime" }}</div>
+        </div>
+
+        <!-- Avatar for sent messages -->
+        <div class="avatar sent-avatar" *ngIf="msg.senderId === senderId">
+          {{ getInitials(senderName) }}
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="chat-footer mb-3">
+    <input
+      type="text"
+      [(ngModel)]="newMessage"
+      placeholder="Type a message..."
+      (keyup.enter)="sendMessage()"
+    />
+    <button mat-icon-button color="primary" (click)="sendMessage()">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</div>
