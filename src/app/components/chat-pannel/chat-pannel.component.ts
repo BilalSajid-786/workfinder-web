@@ -24,6 +24,7 @@ export class ChatPannelComponent implements OnInit, OnDestroy {
   @Input() userName: string = '';
   @Output() onClose = new EventEmitter<void>();
   senderId: string = '';
+  senderName: string = '';
   isChatOpen = false;
   newMessage = '';
   allMessages: any = [];
@@ -47,6 +48,7 @@ export class ChatPannelComponent implements OnInit, OnDestroy {
     this.getMessages();
 
     this.senderId = this.authService.getUserId() ?? '';
+    this.senderName = this.authService.getUserName() ?? '';
 
     //listen for the real time messages for the specific sender
     this.chatService.onReceiveMessage((senderId: string, message: string) => {
@@ -54,7 +56,6 @@ export class ChatPannelComponent implements OnInit, OnDestroy {
         senderId: senderId,
         text: message,
       });
-
       this.groupedMessages[this.groupedMessages.length - 1].messages.push({
         senderId: senderId,
         receiverId: this.userId,
@@ -72,6 +73,15 @@ export class ChatPannelComponent implements OnInit, OnDestroy {
     if (diffDays === 0) return 'Today';
     if (diffDays === 1) return 'Yesterday';
     return date.toDateString();
+  }
+
+  getInitials(fullName: string): string {
+    if (!fullName) return '';
+    const names = fullName.split(' ');
+    const firstInitial = names[0]?.charAt(0).toUpperCase() || '';
+    const lastInitial =
+      names.length > 1 ? names[names.length - 1].charAt(0).toUpperCase() : '';
+    return firstInitial + lastInitial;
   }
 
   getMessages() {
@@ -107,7 +117,7 @@ export class ChatPannelComponent implements OnInit, OnDestroy {
       messages: grouped[date],
     }));
 
-    console.log(this.groupedMessages);
+    console.log('grouped messages are as', this.groupedMessages);
   }
 
   sendMessage() {
@@ -120,17 +130,20 @@ export class ChatPannelComponent implements OnInit, OnDestroy {
         text: messageText,
       });
 
-      this.groupedMessages[this.groupedMessages.length - 1].messages.push({
-        senderId: this.senderId,
-        receiverId: this.userId,
-        text: messageText,
-      });
+      if (this.groupedMessages.length > 0) {
+        this.groupedMessages[this.groupedMessages.length - 1].messages.push({
+          senderId: this.senderId,
+          receiverId: this.userId,
+          text: messageText,
+        });
+      }
 
       //message payload
       var message = {
         senderId: this.authService.getUserId(),
         receiverId: this.userId,
         text: this.newMessage,
+        senderName: this.senderName,
       };
 
       //use api endpoint to persist and send message

@@ -5,12 +5,14 @@ import { HttpClient } from '@angular/common/http';
 import { Industry } from '../models/industry.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IndustryService {
-  private apiUrl: string = 'https://localhost:7205/api/industries';
+  // private apiUrl: string = 'https://localhost:7205/api/industries';
+  private apiUrl: string =
+    'http://bilalsajid-001-site1.mtempurl.com/api/industries';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getIndustries(): Observable<Industry[]> {
     return this.http.get<Industry[]>(`${this.apiUrl}/getIndustries`);

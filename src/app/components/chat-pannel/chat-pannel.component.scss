@@ -162,3 +162,64 @@
   border: none;
   color: #0a66c2;
 }
+
+.message-row {
+  display: flex;
+  align-items: flex-end;
+  margin: 8px 0;
+}
+
+.message-row.sent {
+  justify-content: flex-end;
+}
+
+.message-row.received {
+  justify-content: flex-start;
+}
+
+.avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: #3f51b5;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0 8px;
+  flex-shrink: 0;
+}
+
+.sent-avatar {
+  background-color: #2196f3;
+}
+
+.message {
+  padding: 10px 14px;
+  border-radius: 18px;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+.message-row.received .message {
+  background-color: #f1f1f1;
+  border-top-left-radius: 0;
+}
+
+.message-row.sent .message {
+  background-color: #e3f2fd;
+  border-top-right-radius: 0;
+}
+
+.message-text {
+  font-size: 15px;
+}
+
+.message-time {
+  text-align: right;
+  font-size: 11px;
+  color: #777;
+  margin-top: 3px;
+}

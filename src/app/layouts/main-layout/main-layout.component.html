@@ -1,11 +1,32 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-12">
-      <nav class="navbar navbar-light bg-light justify-content-between">
+      <nav
+        class="navbar navbar-light bg-light justify-content-between"
+        style="height: 60px"
+      >
         <a class="navbar-brand">WorkFinder</a>
-        <button class="btn btn-primary my-2 my-sm-0" type="submit">
-          SignUp
-        </button>
+        <div class="nav-right">
+          <div
+            class="notification-wrapper"
+            (click)="toggleNotifications($event)"
+          >
+            <mat-icon>notifications</mat-icon>
+
+            <span class="badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+          </div>
+
+          <!-- Notification dropdown -->
+          <div
+            class="notification-dropdown"
+            *ngIf="showNotifications"
+            (click)="$event.stopPropagation()"
+          >
+            <app-notification-pannel
+              [notifications]="notifications"
+            ></app-notification-pannel>
+          </div>
+        </div>
       </nav>
     </div>
   </div>

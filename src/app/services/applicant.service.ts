@@ -7,7 +7,9 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class ApplicantService {
-  private apiUrl: string = 'https://localhost:7205/api/authentication';
+  // private apiUrl: string = 'https://localhost:7205/api/authentication';
+  private apiUrl: string =
+    'http://bilalsajid-001-site1.mtempurl.com/api/authentication';
 
   constructor(private http: HttpClient) {}
 

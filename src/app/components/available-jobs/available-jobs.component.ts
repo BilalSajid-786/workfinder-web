@@ -19,6 +19,9 @@ import { ToastrService } from 'ngx-toastr';
 import { JobDetailsComponent } from '../job-details/job-details.component';
 import { FormsModule } from '@angular/forms';
 import { ChatPannelComponent } from '../chat-pannel/chat-pannel.component';
+import { CountryService } from '../../services/country.service';
+import { IndustryService } from '../../services/industry.service';
+import { Industry } from '../../models/industry.model';
 
 @Component({
   selector: 'app-available-jobs',
@@ -41,6 +44,11 @@ import { ChatPannelComponent } from '../chat-pannel/chat-pannel.component';
   styleUrl: './available-jobs.component.scss',
 })
 export class AvailableJobsComponent implements AfterViewInit {
+  jobTypes: any[] = [];
+  // Selected values
+  selectedJobType = '';
+  selectedIndustry = '';
+  selectedCountry = '';
   availableJobs: Job[] = [];
   selectedJob: any = {};
   dataSource = new MatTableDataSource<Job>([]);
@@ -60,7 +68,9 @@ export class AvailableJobsComponent implements AfterViewInit {
     'jobType',
     'actions',
   ];
-
+  filters: any = {};
+  industries: Industry[] = [];
+  countries: any[] = [];
   selectedUserId: any = null;
   chatMessages: { sender: string; text: string }[] = [];
 
@@ -71,8 +81,58 @@ export class AvailableJobsComponent implements AfterViewInit {
   /**
    *
    */
-  constructor(private jobService: JobService, private toastr: ToastrService) {
+  constructor(
+    private jobService: JobService,
+    private toastr: ToastrService,
+    private countryService: CountryService,
+    private industryService: IndustryService
+  ) {
     this.GetAvailableJobs(this.pageNo, this.pageSize);
+    this.GetJobTypes();
+    this.getIndustries();
+    this.getCountries();
+  }
+
+  GetJobTypes() {
+    this.jobService.GetJobTypes().subscribe({
+      next: (res) => {
+        if (res.isSuccess) {
+          this.jobTypes = res.result.flat();
+        } else {
+          this.jobTypes = [];
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching jobTypes:', err);
+        this.jobTypes = [];
+      },
+    });
+  }
+
+  getCountries() {
+    this.countryService.getCountries().subscribe((list) => {
+      this.countries = list.result ?? [];
+    });
+  }
+
+  getIndustries(): void {
+    this.industryService.getIndustries().subscribe((list) => {
+      this.industries = list ?? [];
+    });
+  }
+
+  onFilterChange(event: Event) {
+    const value = (event.target as HTMLSelectElement).value;
+    console.log('Selected rating:', value);
+    this.pageNo = 1;
+    this.pageSize = 2;
+    this.filters = {
+      ...this.filters,
+      jobType: this.selectedJobType,
+      industryId: this.selectedIndustry == '' ? null : this.selectedIndustry,
+      location: this.selectedCountry,
+    };
+    this.GetAvailableJobs(this.pageNo, this.pageSize, this.filters);
   }
 
   openChat(user: any) {
@@ -114,14 +174,20 @@ export class AvailableJobsComponent implements AfterViewInit {
     });
   }
 
-  GetAvailableJobs(pageNo: number, pageSize: number): void {
-    this.jobService.GetAvailableJobs({ pageNo, pageSize }).subscribe((list) => {
-      this.availableJobs = list.result.items ?? [];
-      this.dataSource.data = this.availableJobs;
-      this.totalJobs = list.result.totalCount;
-      this.pageNo = list.result.pageNumber;
-      this.pageSize = list.result.pageSize;
-    });
+  GetAvailableJobs(
+    pageNo: number,
+    pageSize: number,
+    filters: any = null
+  ): void {
+    this.jobService
+      .GetAvailableJobs({ pageNo, pageSize, filters })
+      .subscribe((list) => {
+        this.availableJobs = list.result.items ?? [];
+        this.dataSource.data = this.availableJobs;
+        this.totalJobs = list.result.totalCount;
+        this.pageNo = list.result.pageNumber;
+        this.pageSize = list.result.pageSize;
+      });
   }
 
   applyFilter(value: string): void {
@@ -162,7 +228,7 @@ export class AvailableJobsComponent implements AfterViewInit {
   onPageChange(event: PageEvent) {
     this.pageNo = event.pageIndex + 1; // MatPaginator is 0-indexed
     this.pageSize = event.pageSize;
-    this.GetAvailableJobs(this.pageNo, this.pageSize);
+    this.GetAvailableJobs(this.pageNo, this.pageSize, this.filters);
   }
 
   openModal(index: number) {

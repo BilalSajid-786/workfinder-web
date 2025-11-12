@@ -9,7 +9,9 @@ import { JwtPayload } from '../models/jwt-payload.model';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl: string = 'https://localhost:7205/api/authentication';
+  // private apiUrl: string = 'https://localhost:7205/api/authentication';
+  private apiUrl: string =
+    'http://bilalsajid-001-site1.mtempurl.com/api/authentication';
 
   constructor(private http: HttpClient) {}
 
@@ -26,6 +28,10 @@ export class AuthService {
 
   getEmployerId() {
     return this.getDecodeToken()?.UserId;
+  }
+
+  getUserName() {
+    return this.getDecodeToken()?.UserName;
   }
 
   getUserId() {

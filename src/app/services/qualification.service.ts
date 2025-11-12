@@ -8,7 +8,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class QualificationService {
-  private apiUrl: string = 'https://localhost:7205/api/qualifications';
+  // private apiUrl: string = 'https://localhost:7205/api/qualifications';
+  private apiUrl: string =
+    'http://bilalsajid-001-site1.mtempurl.com/api/qualifications';
 
   constructor(private http: HttpClient) {}
 

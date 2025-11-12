@@ -20,6 +20,34 @@
     </mat-form-field>
   </div>
 
+  <div class="filter-section">
+    <p>Filters</p>
+
+    <select [(ngModel)]="selectedJobType" (change)="onFilterChange($event)">
+      <option value="" selected>All JobType</option>
+      <!-- <option value="null">All</option> -->
+      <option *ngFor="let jobType of jobTypes" [value]="jobType">
+        {{ jobType }}
+      </option>
+    </select>
+
+    <select [(ngModel)]="selectedIndustry" (change)="onFilterChange($event)">
+      <option value="" selected>All Industry</option>
+      <!-- <option value="null">All</option> -->
+      <option *ngFor="let industry of industries" [value]="industry.industryId">
+        {{ industry.industryName }}
+      </option>
+    </select>
+
+    <select [(ngModel)]="selectedCountry" (change)="onFilterChange($event)">
+      <option value="" selected>All Location</option>
+      <!-- <option value="null">All</option> -->
+      <option *ngFor="let country of countries" [value]="country.countryName">
+        {{ country.countryName }}
+      </option>
+    </select>
+  </div>
+
   <!-- table card -->
   <div class="card">
     <table
