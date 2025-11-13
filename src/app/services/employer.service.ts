@@ -7,9 +7,9 @@ import { Employer } from '../models/employer.model';
   providedIn: 'root',
 })
 export class EmployerService {
-  // private apiUrl: string = 'https://localhost:7205/api/authentication';
-  private apiUrl: string =
-    'http://bilalsajid-001-site1.mtempurl.com/api/authentication';
+   private apiUrl: string = 'https://localhost:7205/api/authentication';
+  // private apiUrl: string =
+  //   'http://bilalsajid-001-site1.mtempurl.com/api/authentication';
 
   constructor(private http: HttpClient) {}
 

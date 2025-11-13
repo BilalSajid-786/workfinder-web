@@ -15,7 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-job-applicants',
@@ -38,31 +38,36 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class JobApplicantsComponent implements AfterViewInit {
   displayedColumns: string[] = [
-    'title',
-    'industryName',
-    'expiryDate',
+    'name',
+    'email',
     'city',
-    'status',
-    'actions',
+    'country',
+    'phone',
+    'resume',
+    'actions'
   ];
 
   dataTable = {
+    filters: {
+      applicantStatus: 'applied',
+      jobId: 0
+    },
     searchValue: '',
-    sortColumn: 'title',
+    sortColumn: 'name',
     sortOrder: 'asc',
     length: 0,
     pageSize: 5,
     pageNo: 0,
     status: true,
-    pageIndex: 0,
-    tab: 'all'
+    pageIndex: 0
   };
 
-  selectedTab: 'all' | 'shortlisted' | 'hired' | 'reviewed' | 'rejected' =
-    'all';
+  jobId: number = 0;
+  jobRow: any;
+  selectedTab: 'applied' | 'shortlisted' | 'hired' | 'reviewed' | 'rejected' = 'applied';
 
-  dataSource = new MatTableDataSource<Job>([]);
-  activeJobs: Job[] = [];
+  dataSource = new MatTableDataSource<any>([]);
+  jobApplicants: any[] = [];
   totalCount: number = 0;
   EnterSearchValue: string = '';
 
@@ -71,21 +76,25 @@ export class JobApplicantsComponent implements AfterViewInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private jobService: JobService,
     private toastr: ToastrService,
     private pagingService: PagingService
   ) {
-    const jobId = Number(this.route.snapshot.paramMap.get('jobId'));
-    console.log('JobId', jobId);
+    this.jobId = Number(this.route.snapshot.paramMap.get('jobId'));
+    this.jobRow = this.router.getCurrentNavigation()?.extras?.state?.['job'] ?? window.history.state?.job;
+    console.log("JobId", this.jobId);
+    console.log("jobRow", this.jobRow);
   }
 
   ngAfterViewInit(): void {
-    this.getEmployerJobs();
+    this.dataTable.filters.jobId = this.jobId;
+    this.getJobApplicants();
   }
 
   OnSearchTextChange() {
     this.dataTable.searchValue = this.EnterSearchValue;
-    this.getEmployerJobs();
+    this.getJobApplicants();
   }
 
   getPagingSizeIntervals(): number[] {
@@ -96,13 +105,13 @@ export class JobApplicantsComponent implements AfterViewInit {
     console.log('Sort Event', event);
     this.dataTable.sortColumn = event.active;
     this.dataTable.sortOrder = event.direction;
-    this.getEmployerJobs();
+    this.getJobApplicants();
   }
 
   handlePage(event: PageEvent) {
     this.dataTable.pageIndex = event.pageIndex;
     this.dataTable.pageSize = event.pageSize;
-    this.getEmployerJobs();
+    this.getJobApplicants();
   }
 
   applyFilter(value: string): void {
@@ -113,41 +122,46 @@ export class JobApplicantsComponent implements AfterViewInit {
     }
   }
 
-  getEmployerJobs(): void {
+  getJobApplicants(): void {
     this.dataTable.pageNo = this.dataTable.pageIndex + 1;
 
-    this.jobService.getEmployerJobs(this.dataTable).subscribe({
+    this.jobService.getJobApplicants(this.dataTable).subscribe({
       next: (res) => {
-        //console.log('res', res);
-        this.activeJobs = res.result;
-        this.totalCount = res.result[0].totalRows;
+        console.log('res', res);
+        this.jobApplicants = res.result.items;
+        this.totalCount = res.result.totalCount;
         this.dataTable.length = this.totalCount;
         //console.log('activeJobs', this.activeJobs);
-        this.dataSource.data = this.activeJobs;
+        this.dataSource.data = this.jobApplicants;
         //console.log('dataSource', this.dataSource.data);
       },
       error: () => this.toastr.error('Failed to get jobs'),
     });
   }
 
-  onToggleStatus(job: Job, checked: boolean) {
-    console.log('Job', job);
-    console.log('checked', checked);
-    var jobId = job.jobId;
-    var status = !job.isActive;
-    this.jobService.UpdateJobStatus(jobId, status).subscribe({
+  onTabChange(value: typeof this.selectedTab) {
+    this.selectedTab = value;
+    this.dataTable.filters.applicantStatus = value; // pass to API
+    this.dataTable.pageIndex = 0; // usually reset to first page
+    this.getJobApplicants();
+  }
+
+  updateJobApplicantStatus(row: any, status: string){
+    console.log("Row", row);
+    console.log("status", status);
+    const payload: any ={
+      applicantId: row.applicantId,
+      jobId: this.jobId,
+      applicantStatus: status
+    };
+    console.log("payload", payload);
+    this.jobService.updateJobApplicantStatus(payload).subscribe({
       next: (res) => {
-        this.toastr.success('Job status updated.');
-        this.getEmployerJobs();
+        console.log("res", res);
+        this.toastr.success('Applicant status updated.');
+        this.getJobApplicants();
       },
       error: () => this.toastr.error('Failed to update status.'),
     });
-  }
-
-  onTabChange(value: typeof this.selectedTab) {
-    this.selectedTab = value;
-    this.dataTable.tab = value; // pass to API
-    this.dataTable.pageIndex = 0; // usually reset to first page
-    this.getEmployerJobs();
   }
 }

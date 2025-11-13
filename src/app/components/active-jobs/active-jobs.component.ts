@@ -46,6 +46,10 @@ export class ActiveJobsComponent implements AfterViewInit {
   ];
 
   dataTable = {
+    filters: {
+      status: true,
+      applicantId: "00000000-0000-0000-0000-000000000000"
+    },
     searchValue: '',
     sortColumn: 'title',
     sortOrder: 'asc',
@@ -105,13 +109,13 @@ export class ActiveJobsComponent implements AfterViewInit {
 
     this.jobService.getEmployerJobs(this.dataTable).subscribe({
       next: (res) => {
-        //console.log('res', res);
-        this.activeJobs = res.result;
-        this.totalCount = res.result[0].totalRows;
-        this.dataTable.length = this.totalCount;
-        //console.log('activeJobs', this.activeJobs);
+        console.log('res', res.result);
+        this.activeJobs = res.result.items;
+        this.totalCount = res.result.totalCount;
+        this.dataTable.length = this.totalCount
+        console.log('dataTable.length', this.dataTable.length);
         this.dataSource.data = this.activeJobs;
-        //console.log('dataSource', this.dataSource.data);
+        console.log('dataSource', this.dataSource.data);
       },
       error: () => this.toastr.error('Failed to get jobs'),
     });

@@ -85,7 +85,7 @@
                     <button mat-icon-button matTooltip="Duplicate">
                         <mat-icon>content_copy</mat-icon>
                     </button>
-                    <button mat-icon-button matTooltip="Applicants" [routerLink]="['/jobapplicants', row.jobId]">
+                    <button mat-icon-button matTooltip="Applicants" [routerLink]="['/jobapplicants', row.jobId]" [state]="{ job: row }">
                         <mat-icon>group</mat-icon>
                     </button>
                 </td>

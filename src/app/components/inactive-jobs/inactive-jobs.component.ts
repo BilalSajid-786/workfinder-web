@@ -44,6 +44,10 @@ export class InactiveJobsComponent implements AfterViewInit {
   ];
 
   dataTable = {
+    filters: {
+      status: false,
+      applicantId: "00000000-0000-0000-0000-000000000000"
+    },
     searchValue: '',
     sortColumn: 'title',
     sortOrder: 'asc',
@@ -55,7 +59,7 @@ export class InactiveJobsComponent implements AfterViewInit {
   };
 
   dataSource = new MatTableDataSource<Job>([]);
-  activeJobs: Job[] = [];
+  inActiveJobs: Job[] = [];
   totalCount: number = 0;
   EnterSearchValue:string='';
 
@@ -105,11 +109,11 @@ export class InactiveJobsComponent implements AfterViewInit {
     this.jobService.getEmployerJobs(this.dataTable).subscribe({
       next: (res) => {
         //console.log('res', res);
-        this.activeJobs = res.result;
-        this.totalCount = res.result[0].totalRows;
+        this.inActiveJobs = res.result.items;
+        this.totalCount = res.result.totalCount;
         this.dataTable.length = this.totalCount;
         //console.log('activeJobs', this.activeJobs);
-        this.dataSource.data = this.activeJobs;
+        this.dataSource.data = this.inActiveJobs;
         //console.log('dataSource', this.dataSource.data);
       },
       error: () => this.toastr.error('Failed to get jobs'),

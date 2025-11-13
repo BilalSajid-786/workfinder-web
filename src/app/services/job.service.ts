@@ -7,8 +7,8 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class JobService {
-  // private apiUrl: string = 'https://localhost:7205/api/jobs';
-  private apiUrl: string = 'http://bilalsajid-001-site1.mtempurl.com/api/jobs';
+  private apiUrl: string = 'https://localhost:7205/api/jobs';
+  //private apiUrl: string = 'http://bilalsajid-001-site1.mtempurl.com/api/jobs';
   constructor(private http: HttpClient) {}
 
   GetJobTypes(): Observable<ApiResponse<string[]>> {
@@ -55,10 +55,21 @@ export class JobService {
     );
   }
 
-  getEmployerJobs(pagingModel: any): Observable<ApiResponse<any>> {
+  getEmployerJobs(pagingModel: any): Observable<any> {
     return this.http
       .post(`${this.apiUrl}/employerjobs`, pagingModel)
       .pipe(tap((response: any) => {}));
+  }
+
+  getJobApplicants(pagingModel: any): Observable<any> {
+    return this.http
+      .post(`${this.apiUrl}/jobApplicantsById`, pagingModel)
+      .pipe(tap((response: any) => {}));
+  }
+
+  updateJobApplicantStatus(model: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/UpdateJobApplicantStatus`, model)
+    .pipe(tap((response: any) => {}));
   }
 
   UpdateJobStatus(

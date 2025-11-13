@@ -7,15 +7,19 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class ApplicantService {
-  // private apiUrl: string = 'https://localhost:7205/api/authentication';
-  private apiUrl: string =
-    'http://bilalsajid-001-site1.mtempurl.com/api/authentication';
+  private apiUrl: string = 'https://localhost:7205/api';
 
   constructor(private http: HttpClient) {}
 
   registerApplicantData(applicantModel: Applicant): Observable<any> {
     return this.http
-      .post(`${this.apiUrl}/registerApplicant`, applicantModel)
+      .post(`${this.apiUrl}/authentication/registerApplicant`, applicantModel)
+      .pipe(tap((response: any) => {}));
+  }
+
+  getApplicants(pagingModel: any): Observable<any> {
+    return this.http
+      .post(`${this.apiUrl}/applicants/getApplicants`, pagingModel)
       .pipe(tap((response: any) => {}));
   }
 }
