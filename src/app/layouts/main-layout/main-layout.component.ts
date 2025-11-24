@@ -26,6 +26,7 @@ export class MainLayoutComponent implements OnInit {
   showNotifications = false;
   unreadCount = 2; // Example count
   count: number = 0;
+  sidebarOpen: boolean = true;
 
   /**
    *
@@ -61,6 +62,10 @@ export class MainLayoutComponent implements OnInit {
   toggleNotifications(event: Event) {
     event.stopPropagation();
     this.showNotifications = !this.showNotifications;
+  }
+
+  toggleSidebar() {
+    this.sidebarOpen = !this.sidebarOpen;
   }
 
   // Close dropdown if user clicks anywhere outside

@@ -22,6 +22,7 @@ import { ChatPannelComponent } from '../chat-pannel/chat-pannel.component';
 import { CountryService } from '../../services/country.service';
 import { IndustryService } from '../../services/industry.service';
 import { Industry } from '../../models/industry.model';
+import { ConfirmationPopupComponent } from '../shared/confirmation-popup/confirmation-popup.component';
 
 @Component({
   selector: 'app-available-jobs',
@@ -39,6 +40,7 @@ import { Industry } from '../../models/industry.model';
     JobDetailsComponent,
     FormsModule,
     ChatPannelComponent,
+    ConfirmationPopupComponent,
   ],
   templateUrl: './available-jobs.component.html',
   styleUrl: './available-jobs.component.scss',
@@ -53,12 +55,14 @@ export class AvailableJobsComponent implements AfterViewInit {
   selectedJob: any = {};
   dataSource = new MatTableDataSource<Job>([]);
   totalJobs: number = 0;
-  pageSize = 2;
+  pageSize = 5;
   pageNo = 1;
   @ViewChild('exampleModal') modalElement!: ElementRef;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(JobDetailsComponent) jobModal!: JobDetailsComponent;
+  @ViewChild(ConfirmationPopupComponent)
+  confirmationModal!: ConfirmationPopupComponent;
   modalInstance!: Modal;
   displayedColumns: string[] = [
     'title',
@@ -125,7 +129,7 @@ export class AvailableJobsComponent implements AfterViewInit {
     const value = (event.target as HTMLSelectElement).value;
     console.log('Selected rating:', value);
     this.pageNo = 1;
-    this.pageSize = 2;
+    this.pageSize = 5;
     this.filters = {
       ...this.filters,
       jobType: this.selectedJobType,
@@ -159,13 +163,17 @@ export class AvailableJobsComponent implements AfterViewInit {
     console.log('message to sent', this.chatMessages);
   }
 
+  handleConfirmation(selectedJob: any) {
+    if (selectedJob > 0) this.SaveJob(selectedJob);
+  }
+
   applyJob(selectedJob: Job) {
     this.jobService.ApplyJob({ jobId: selectedJob.jobId }).subscribe({
       next: (res: any) => {
         this.toastr.success(res.message);
         this.closeModal();
         this.pageNo = 1;
-        this.pageSize = 2;
+        this.pageSize = 5;
         this.GetAvailableJobs(this.pageNo, this.pageSize);
       },
       error: (err: any) => {
@@ -197,12 +205,16 @@ export class AvailableJobsComponent implements AfterViewInit {
     }
   }
 
+  GetSaveJobConfirmation(jobId: number) {
+    this.confirmationModal.openConfirmationModal('save', jobId);
+  }
+
   SaveJob(jobId: number): void {
     this.jobService.SaveJob({ jobId }).subscribe({
       next: (res: any) => {
         this.toastr.success(res.message);
         this.pageNo = 1;
-        this.pageSize = 2;
+        this.pageSize = 5;
         this.GetAvailableJobs(this.pageNo, this.pageSize);
       },
       error: (err: any) => {
@@ -216,7 +228,7 @@ export class AvailableJobsComponent implements AfterViewInit {
       next: (res: any) => {
         this.toastr.success(res.message);
         this.pageNo = 1;
-        this.pageSize = 2;
+        this.pageSize = 5;
         this.GetAvailableJobs(this.pageNo, this.pageSize);
       },
       error: (err: any) => {

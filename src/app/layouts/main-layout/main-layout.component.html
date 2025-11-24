@@ -1,22 +1,37 @@
-<div class="container-fluid">
+<div class="container-fluid layout-container">
+  <!-- Navbar -->
   <div class="row">
     <div class="col-12">
       <nav
         class="navbar navbar-light bg-light justify-content-between"
-        style="height: 60px"
+        style="height: 60px; padding-left: 20px"
       >
-        <a class="navbar-brand">WorkFinder</a>
+        <div>
+          <button
+            style="
+              border: hidden;
+              background-color: white;
+              vertical-align: middle;
+            "
+          >
+            <mat-icon (click)="toggleSidebar()">menu</mat-icon>
+          </button>
+          <a
+            class="navbar-brand"
+            style="padding-left: 5px; vertical-align: middle"
+            >WorkFinder</a
+          >
+        </div>
+
         <div class="nav-right">
           <div
             class="notification-wrapper"
             (click)="toggleNotifications($event)"
           >
             <mat-icon>notifications</mat-icon>
-
             <span class="badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
           </div>
 
-          <!-- Notification dropdown -->
           <div
             class="notification-dropdown"
             *ngIf="showNotifications"
@@ -30,9 +45,11 @@
       </nav>
     </div>
   </div>
-  <div class="row">
-    <!-- Sidebar -->
-    <nav class="col-md-3 col-lg-2 d-md-block bg-sidebar-light sidebar vh-100">
+
+  <!-- FLEX LAYOUT FOR SIDEBAR + CONTENT -->
+  <div class="d-flex">
+    <!-- Sidebar (NO bootstrap column classes) -->
+    <nav class="sidebar bg-sidebar-light vh-100" [class.closed]="!sidebarOpen">
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item" *ngFor="let module of modules; let i = index">
@@ -46,6 +63,7 @@
             >
               {{ module.parentModuleName }}
             </a>
+
             <div class="collapse show" [attr.id]="'menu' + i">
               <ul class="nav flex-column ms-3">
                 <li
@@ -68,8 +86,8 @@
       </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <!-- Main Content (flex-grow makes it expand) -->
+    <main class="content flex-grow-1 px-md-4">
       <router-outlet></router-outlet>
     </main>
   </div>

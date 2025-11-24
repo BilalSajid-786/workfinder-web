@@ -77,7 +77,11 @@
           <button mat-icon-button matTooltip="View" (click)="openJobDetails(i)">
             <mat-icon>visibility</mat-icon>
           </button>
-          <button mat-icon-button matTooltip="Save">
+          <button
+            mat-icon-button
+            matTooltip="Unsave"
+            (click)="GetUnSaveJobConfirmation(i)"
+          >
             <mat-icon>bookmark</mat-icon>
           </button>
         </td>
@@ -109,3 +113,8 @@
   componentName="SavedJobs"
   (onApply)="handleApply($event)"
 ></app-job-details>
+
+<app-confirmation-popup
+  [selectedJob]="selectedJob"
+  (onSelection)="handleConfirmation($event)"
+></app-confirmation-popup>

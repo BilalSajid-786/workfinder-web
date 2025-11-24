@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ConfirmationPopupComponent } from '../shared/confirmation-popup/confirmation-popup.component';
 
 @Component({
   selector: 'app-saved-jobs',
@@ -32,6 +33,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatButtonModule,
     MatTooltipModule,
     JobDetailsComponent,
+    ConfirmationPopupComponent,
   ],
   templateUrl: './saved-jobs.component.html',
   styleUrl: './saved-jobs.component.scss',
@@ -41,12 +43,14 @@ export class SavedJobsComponent implements AfterViewInit {
   selectedJob: any = {};
   dataSource = new MatTableDataSource<Job>([]);
   totalJobs: number = 0;
-  pageSize = 2;
+  pageSize = 5;
   pageNo = 1;
   @ViewChild('exampleModal') modalElement!: ElementRef;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(JobDetailsComponent) jobModal!: JobDetailsComponent;
+  @ViewChild(ConfirmationPopupComponent)
+  confirmationModal!: ConfirmationPopupComponent;
   modalInstance!: Modal;
   displayedColumns: string[] = [
     'title',
@@ -58,7 +62,7 @@ export class SavedJobsComponent implements AfterViewInit {
   ];
 
   ngAfterViewInit() {
-    this.modalInstance = new Modal(this.modalElement.nativeElement);
+    // this.modalInstance = new Modal(this.modalElement.nativeElement);
   }
   /**
    *
@@ -85,8 +89,19 @@ export class SavedJobsComponent implements AfterViewInit {
     this.jobModal.openModal();
   }
 
+  unSaveJob(index: number) {
+    var job = this.savedJobs[index];
+  }
+
   handleApply(job: any) {
     this.ApplyJob(job.jobId);
+  }
+
+  GetUnSaveJobConfirmation(index: number) {
+    this.confirmationModal.openConfirmationModal(
+      'unsave',
+      this.savedJobs[index].jobId
+    );
   }
 
   ApplyJob(jobId: number): void {
@@ -94,11 +109,29 @@ export class SavedJobsComponent implements AfterViewInit {
       next: (res: any) => {
         this.toastr.success(res.message);
         this.pageNo = 1;
-        this.pageSize = 2;
+        this.pageSize = 5;
         this.GetSavedJobs(this.pageNo, this.pageSize);
       },
       error: (err: any) => {
         this.toastr.error('Job application unsuccessfull');
+      },
+    });
+  }
+
+  handleConfirmation(selectedJob: any) {
+    if (selectedJob > 0) this.UnSaveJob(selectedJob);
+  }
+
+  UnSaveJob(jobId: number): void {
+    this.jobService.UnSaveJob({ jobId }).subscribe({
+      next: (res: any) => {
+        this.toastr.success(res.message);
+        this.pageNo = 1;
+        this.pageSize = 5;
+        this.GetSavedJobs(this.pageNo, this.pageSize);
+      },
+      error: (err: any) => {
+        this.toastr.error('Job save unsuccessfull');
       },
     });
   }

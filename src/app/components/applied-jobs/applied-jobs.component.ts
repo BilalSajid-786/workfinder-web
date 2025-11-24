@@ -49,7 +49,7 @@ export class AppliedJobsComponent {
   selectedJob: any = {};
   dataSource = new MatTableDataSource<Job>([]);
   totalJobs: number = 0;
-  pageSize = 2;
+  pageSize = 5;
   pageNo = 1;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;

@@ -108,7 +108,7 @@
           <button
             mat-icon-button
             matTooltip="Save"
-            (click)="SaveJob(row.jobId)"
+            (click)="GetSaveJobConfirmation(row.jobId)"
           >
             <mat-icon>bookmark_border</mat-icon>
           </button>
@@ -145,6 +145,11 @@
   (onSave)="handleSave($event)"
   (onApply)="handleApply($event)"
 ></app-job-details>
+
+<app-confirmation-popup
+  [selectedJob]="selectedJob"
+  (onSelection)="handleConfirmation($event)"
+></app-confirmation-popup>
 
 <app-chat-pannel
   *ngIf="selectedUserId"

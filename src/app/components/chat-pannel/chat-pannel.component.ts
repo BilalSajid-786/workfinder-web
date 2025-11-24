@@ -55,12 +55,14 @@ export class ChatPannelComponent implements OnInit, OnDestroy {
       this.allMessages.push({
         senderId: senderId,
         text: message,
+        sentAt: new Date(),
       });
-      this.groupedMessages[this.groupedMessages.length - 1].messages.push({
-        senderId: senderId,
-        receiverId: this.userId,
-        text: message,
-      });
+      this.groupMessagesByDate();
+      // this.groupedMessages[this.groupedMessages.length - 1].messages.push({
+      //   senderId: senderId,
+      //   receiverId: this.userId,
+      //   text: message,
+      // });
     });
   }
   private getFriendlyDateLabel(dateString: string): string {
@@ -128,15 +130,21 @@ export class ChatPannelComponent implements OnInit, OnDestroy {
         senderId: this.senderId,
         receiverId: this.userId,
         text: messageText,
+        sentAt: new Date(),
       });
 
-      if (this.groupedMessages.length > 0) {
-        this.groupedMessages[this.groupedMessages.length - 1].messages.push({
-          senderId: this.senderId,
-          receiverId: this.userId,
-          text: messageText,
-        });
-      }
+      this.groupMessagesByDate();
+
+      // if (this.groupedMessages.length > 0) {
+      //   // this.groupedMessages[this.groupedMessages.length - 1].messages.push({
+      //   //   senderId: this.senderId,
+      //   //   receiverId: this.userId,
+      //   //   text: messageText,
+      //   // });
+      //   this.groupMessagesByDate();
+      // } else {
+      //   this.groupMessagesByDate();
+      // }
 
       //message payload
       var message = {
