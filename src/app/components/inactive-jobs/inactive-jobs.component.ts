@@ -14,11 +14,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CommonModule } from '@angular/common';
+import { JobDetailsComponent } from '../job-details/job-details.component';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-inactive-jobs',
   standalone: true,
   imports: [
+    JobDetailsComponent,
     CommonModule,
     MatTableModule,
     MatPaginatorModule,
@@ -62,9 +65,12 @@ export class InactiveJobsComponent implements AfterViewInit {
   inActiveJobs: Job[] = [];
   totalCount: number = 0;
   EnterSearchValue:string='';
+  selectedJob: any = {};
+  modalInstance!: Modal;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(JobDetailsComponent) jobModal!: JobDetailsComponent;
 
   constructor(private jobService: JobService, private toastr: ToastrService, private pagingService: PagingService) {}
 
@@ -132,6 +138,48 @@ export class InactiveJobsComponent implements AfterViewInit {
       },
       error: () => this.toastr.error('Failed to update status.'),
     });
+  }
+
+  deleteJob(jobId: number): void {
+    console.log("DeleteJobCalled", jobId);
+    this.jobService.deleteJob(jobId).subscribe({
+      next: (res: any) => {
+        console.log("res", res);
+        this.toastr.success(res.message);
+        this.dataTable.pageNo = 0;
+        this.dataTable.pageSize = 5;
+        this.getEmployerJobs();
+      },
+      error: (err: any) => {
+        this.toastr.error('Job application unsuccessfull');
+      },
+    });
+  }
+
+  openModal(index: any) {
+    this.selectedJob = this.inActiveJobs[index];
+    this.modalInstance.show();
+  }
+
+  closeModal() {
+    this.modalInstance.hide();
+  }
+
+  openJobDetails(index: number) {
+    console.log("index", index);
+    this.selectedJob = this.inActiveJobs[index];
+    console.log(" this.selectedJob",  this.selectedJob);
+    this.jobModal.openModal();
+  }
+
+  updateStatus(job: any){
+    console.log("Jobevent", job);
+    this.onToggleStatus(job, job.isActive);
+  }
+
+  handleDelete(job: any){
+    console.log("Delete", job);
+    this.deleteJob(job.jobId);
   }
 
 }

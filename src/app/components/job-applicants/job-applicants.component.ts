@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, viewChild, ViewChild } from '@angular/core';
 import { JobService } from '../../services/job.service';
 import { ToastrService } from 'ngx-toastr';
 import { Job } from '../../models/job.model';
@@ -16,6 +16,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ApplicantDetailsComponent } from '../applicant-details/applicant-details.component';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-job-applicants',
@@ -32,6 +34,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     MatTooltipModule,
     MatSlideToggleModule,
     MatButtonToggleModule,
+    ApplicantDetailsComponent
   ],
   templateUrl: './job-applicants.component.html',
   styleUrl: './job-applicants.component.scss',
@@ -49,7 +52,7 @@ export class JobApplicantsComponent implements AfterViewInit {
 
   dataTable = {
     filters: {
-      applicantStatus: 'applied',
+      applicantStatus: 'Applied',
       jobId: 0
     },
     searchValue: '',
@@ -64,15 +67,18 @@ export class JobApplicantsComponent implements AfterViewInit {
 
   jobId: number = 0;
   jobRow: any;
-  selectedTab: 'applied' | 'shortlisted' | 'hired' | 'reviewed' | 'rejected' = 'applied';
+  selectedTab: 'Applied' | 'Shortlisted' | 'Hired' | 'Reviewed' | 'Rejected' = 'Applied';
 
   dataSource = new MatTableDataSource<any>([]);
   jobApplicants: any[] = [];
   totalCount: number = 0;
   EnterSearchValue: string = '';
+  selectedApplicant: any = {};
+  modalInstance!: Modal;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(ApplicantDetailsComponent) applicantModal!: ApplicantDetailsComponent
 
   constructor(
     private route: ActivatedRoute,
@@ -124,6 +130,7 @@ export class JobApplicantsComponent implements AfterViewInit {
 
   getJobApplicants(): void {
     this.dataTable.pageNo = this.dataTable.pageIndex + 1;
+    console.log("DataTable", this.dataTable);
 
     this.jobService.getJobApplicants(this.dataTable).subscribe({
       next: (res) => {
@@ -147,6 +154,7 @@ export class JobApplicantsComponent implements AfterViewInit {
   }
 
   updateJobApplicantStatus(row: any, status: string){
+    debugger;
     console.log("Row", row);
     console.log("status", status);
     const payload: any ={
@@ -164,4 +172,35 @@ export class JobApplicantsComponent implements AfterViewInit {
       error: () => this.toastr.error('Failed to update status.'),
     });
   }
+
+  openModal(index: any) {
+    this.selectedApplicant = this.jobApplicants[index];
+    this.modalInstance.show();
+  }
+
+  closeModal() {
+    this.modalInstance.hide();
+  }
+
+  openApplicantDetails(index: number) {
+    console.log("index", index);
+    this.selectedApplicant = this.jobApplicants[index];
+    this.selectedApplicant.jobName = this.jobRow.title;
+    this.selectedApplicant.applicantStatus = this.dataTable.filters.applicantStatus;
+    console.log(" this.selectedApplicant",  this.selectedApplicant);
+    this.applicantModal.openModal();
+  }
+
+  handleApplicantStatus(applicant: any) {
+    console.log("handleApplicant", applicant);
+    this.updateJobApplicantStatus(applicant,applicant.applicantStatus);
+  }
+
+  handleCommunication(applicant: any){
+    console.log("handleApplicant", applicant);
+  }
+  // updateStatus(job: any){
+  //   console.log("Jobevent", job);
+  //   this.onToggleStatus(job, job.isActive);
+  // }
 }

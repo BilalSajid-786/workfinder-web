@@ -16,11 +16,11 @@
     </div>
     <div class="stage-tabs mb-3">
         <mat-button-toggle-group [value]="selectedTab" (change)="onTabChange($event.value)" appearance="legacy">
-            <mat-button-toggle value="applied">All</mat-button-toggle>
-            <mat-button-toggle value="shortlisted">Shortlisted</mat-button-toggle>
-            <mat-button-toggle value="hired">Hired</mat-button-toggle>
-            <mat-button-toggle value="reviewed">Reviewed</mat-button-toggle>
-            <mat-button-toggle value="rejected">Rejected</mat-button-toggle>
+            <mat-button-toggle value="Applied">All</mat-button-toggle>
+            <mat-button-toggle value="Shortlisted">Shortlisted</mat-button-toggle>
+            <mat-button-toggle value="Hired">Hired</mat-button-toggle>
+            <mat-button-toggle value="Reviewed">Reviewed</mat-button-toggle>
+            <mat-button-toggle value="Rejected">Rejected</mat-button-toggle>
         </mat-button-toggle-group>
     </div>
     <div class="card">
@@ -80,25 +80,25 @@
                 <th mat-header-cell *matHeaderCellDef>
                     <span class="cell-strong">Actions</span>
                 </th>
-                <td mat-cell *matCellDef="let row" class="actions">
-                    <button mat-icon-button matTooltip="View">
+                <td mat-cell *matCellDef="let row let i = index" class="actions">
+                    <button mat-icon-button matTooltip="View" (click)="openApplicantDetails(i)">
                         <i class="bi bi-eye"></i>
                     </button>
-                    <button *ngIf="['applied','reviewed'].includes(selectedTab)" mat-icon-button matTooltip="Shortlist"
+                    <button *ngIf="['Applied','Reviewed'].includes(selectedTab)" mat-icon-button matTooltip="Shortlist"
                     (click)="updateJobApplicantStatus(row, 'Shortlisted'); $event.stopPropagation()">
                         <i class="bi bi-person-check"></i>
                     </button>
-                    <button *ngIf="['shortlisted','hired'].includes(selectedTab)" mat-icon-button matTooltip="Chat">
+                    <button *ngIf="['Shortlisted','Hired'].includes(selectedTab)" mat-icon-button matTooltip="Chat">
                         <i class="bi bi-chat-square-text"></i>
                     </button>
-                    <button *ngIf="['shortlisted','hired'].includes(selectedTab)" mat-icon-button matTooltip="Call">
+                    <button *ngIf="['Shortlisted','Hired'].includes(selectedTab)" mat-icon-button matTooltip="Call">
                         <i class="bi bi-camera-video"></i>
                     </button>
-                    <button  *ngIf="['applied'].includes(selectedTab)" mat-icon-button matTooltip="Review"
+                    <button  *ngIf="['Applied'].includes(selectedTab)" mat-icon-button matTooltip="Review"
                     (click)="updateJobApplicantStatus(row, 'Reviewed'); $event.stopPropagation()">
                         <i class="bi bi-file-earmark-check"></i>
                     </button>
-                    <button *ngIf="['applied','shortlisted','hired','reviewed'].includes(selectedTab)" mat-icon-button matTooltip="Reject" class="text-danger"
+                    <button *ngIf="['Applied','Shortlisted','Hired','Reviewed'].includes(selectedTab)" mat-icon-button matTooltip="Reject" class="text-danger"
                     (click)="updateJobApplicantStatus(row, 'Rejected'); $event.stopPropagation()">
                         <i class="bi bi-person-x"></i>
                     </button>
@@ -118,3 +118,9 @@
         <!-- <mat-paginator style="background-color: #fff;" [pageSize]="10" [pageSizeOptions]="[5,10,20,50]" showFirstLastButtons></mat-paginator> -->
     </div>
 </div>
+
+<app-applicant-details [selectedApplicant]="selectedApplicant" componentName="JobApplicants"
+(onChangeStatus)="handleApplicantStatus($event)"
+(onCommunicate)="handleCommunication($event)">
+
+</app-applicant-details>
