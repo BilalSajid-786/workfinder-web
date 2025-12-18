@@ -62,6 +62,12 @@ export class JobService {
       })
     );
   }
+  deleteJob(jobId: number): Observable<ApiResponse<any>> {
+    console.log('deleteJobService', jobId);
+    return this.http
+      .post(`${this.apiUrl}/deleteJobAsync/${jobId}`, null)
+      .pipe(tap((response: any) => {}));
+  }
 
   getEmployerJobs(pagingModel: any): Observable<any> {
     return this.http

@@ -33,11 +33,11 @@
       (change)="onTabChange($event.value)"
       appearance="legacy"
     >
-      <mat-button-toggle value="applied">All</mat-button-toggle>
-      <mat-button-toggle value="shortlisted">Shortlisted</mat-button-toggle>
-      <mat-button-toggle value="hired">Hired</mat-button-toggle>
-      <mat-button-toggle value="reviewed">Reviewed</mat-button-toggle>
-      <mat-button-toggle value="rejected">Rejected</mat-button-toggle>
+      <mat-button-toggle value="Applied">All</mat-button-toggle>
+      <mat-button-toggle value="Shortlisted">Shortlisted</mat-button-toggle>
+      <mat-button-toggle value="Hired">Hired</mat-button-toggle>
+      <mat-button-toggle value="Reviewed">Reviewed</mat-button-toggle>
+      <mat-button-toggle value="Rejected">Rejected</mat-button-toggle>
     </mat-button-toggle-group>
   </div>
   <div class="card">
@@ -124,12 +124,16 @@
         <th mat-header-cell *matHeaderCellDef>
           <span class="cell-strong">Actions</span>
         </th>
-        <td mat-cell *matCellDef="let row" class="actions">
-          <button mat-icon-button matTooltip="View">
-            <mat-icon>visibility</mat-icon>
+        <td mat-cell *matCellDef="let row; let i = index" class="actions">
+          <button
+            mat-icon-button
+            matTooltip="View"
+            (click)="openApplicantDetails(i)"
+          >
+            <i class="bi bi-eye"></i>
           </button>
           <button
-            *ngIf="['applied', 'reviewed'].includes(selectedTab)"
+            *ngIf="['Applied', 'Reviewed'].includes(selectedTab)"
             mat-icon-button
             matTooltip="Shortlist"
             (click)="
@@ -140,25 +144,23 @@
             <i class="bi bi-person-check"></i>
           </button>
           <button
-            *ngIf="['shortlisted', 'hired'].includes(selectedTab)"
+            *ngIf="['Shortlisted', 'Hired'].includes(selectedTab)"
             mat-icon-button
             matTooltip="Chat"
             (click)="openChat(row)"
           >
-            <mat-icon>message</mat-icon>
+            <i class="bi bi-chat-square-text"></i>
           </button>
           <button
-            *ngIf="['shortlisted', 'hired'].includes(selectedTab)"
+            *ngIf="['Shortlisted', 'Hired'].includes(selectedTab)"
             mat-icon-button
             matTooltip="Call"
-            data-bs-toggle="modal"
-            data-bs-target="#meetingModal"
             (click)="saveMeetingUser(row)"
           >
-            <mat-icon>videocam</mat-icon>
+            <i class="bi bi-camera-video"></i>
           </button>
           <button
-            *ngIf="['applied'].includes(selectedTab)"
+            *ngIf="['Applied'].includes(selectedTab)"
             mat-icon-button
             matTooltip="Review"
             (click)="
@@ -170,7 +172,7 @@
           </button>
           <button
             *ngIf="
-              ['applied', 'shortlisted', 'hired', 'reviewed'].includes(
+              ['Applied', 'Shortlisted', 'Hired', 'Reviewed'].includes(
                 selectedTab
               )
             "
@@ -210,6 +212,14 @@
   </div>
 </div>
 
+<app-applicant-details
+  [selectedApplicant]="selectedApplicant"
+  componentName="JobApplicants"
+  (onChangeStatus)="handleApplicantStatus($event)"
+  (onCommunicate)="handleCommunication($event)"
+>
+</app-applicant-details>
+
 <!--Chat pannel-->
 <app-chat-pannel
   *ngIf="selectedUserId"
@@ -219,7 +229,7 @@
 ></app-chat-pannel>
 
 <!--Video Meeting Popup-->
-<div class="modal fade" id="meetingModal" tabindex="-1">
+<div class="modal fade" id="meetingModal" #meetingModal tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">

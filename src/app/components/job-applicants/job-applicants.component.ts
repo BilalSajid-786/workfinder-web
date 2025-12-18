@@ -3,8 +3,10 @@ import {
   Component,
   ElementRef,
   OnInit,
+  viewChild,
   ViewChild,
 } from '@angular/core';
+
 import { JobService } from '../../services/job.service';
 import { ToastrService } from 'ngx-toastr';
 import { Job } from '../../models/job.model';
@@ -38,6 +40,9 @@ import { MeetingService } from '../../services/meeting.service';
 import { AuthService } from '../../services/auth.service';
 import { Guid } from '../../models/types.model';
 
+import { ApplicantDetailsComponent } from '../applicant-details/applicant-details.component';
+import { Modal } from 'bootstrap';
+
 @Component({
   selector: 'app-job-applicants',
   standalone: true,
@@ -55,11 +60,12 @@ import { Guid } from '../../models/types.model';
     MatButtonToggleModule,
     ChatPannelComponent,
     ReactiveFormsModule,
+    ApplicantDetailsComponent,
   ],
   templateUrl: './job-applicants.component.html',
   styleUrl: './job-applicants.component.scss',
 })
-export class JobApplicantsComponent implements AfterViewInit {
+export class JobApplicantsComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = [
     'name',
     'email',
@@ -72,7 +78,7 @@ export class JobApplicantsComponent implements AfterViewInit {
 
   dataTable = {
     filters: {
-      applicantStatus: 'applied',
+      applicantStatus: 'Applied',
       jobId: 0,
     },
     searchValue: '',
@@ -89,19 +95,26 @@ export class JobApplicantsComponent implements AfterViewInit {
   selectedUserId: any = null;
   selectedUserName: string = '';
   jobRow: any;
-  selectedTab: 'applied' | 'shortlisted' | 'hired' | 'reviewed' | 'rejected' =
-    'applied';
+  selectedTab: 'Applied' | 'Shortlisted' | 'Hired' | 'Reviewed' | 'Rejected' =
+    'Applied';
 
   dataSource = new MatTableDataSource<any>([]);
   jobApplicants: any[] = [];
   totalCount: number = 0;
   meetingUserId: Guid = '';
   EnterSearchValue: string = '';
+
   meetingForm!: FormGroup;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('meetingModal') meetingModal!: ElementRef;
+
+  selectedApplicant: any = {};
+  modalInstance!: Modal;
+
+  @ViewChild(ApplicantDetailsComponent)
+  applicantModal!: ApplicantDetailsComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -123,10 +136,19 @@ export class JobApplicantsComponent implements AfterViewInit {
       duration: ['', [Validators.required, Validators.min(1)]],
     });
   }
+  ngOnInit(): void {
+    this.modalInstance = new Modal(this.meetingModal.nativeElement);
+  }
 
   saveMeetingUser(user: any) {
     console.log(user);
     this.meetingUserId = user.applicantId;
+
+    if (this.modalInstance) {
+      this.modalInstance.show();
+    } else {
+      console.error('Modal instance is not initialized');
+    }
   }
   submitForm() {
     if (this.meetingForm.valid) {
@@ -175,6 +197,11 @@ export class JobApplicantsComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.dataTable.filters.jobId = this.jobId;
     this.getJobApplicants();
+
+    // Initialize Bootstrap modal here
+    if (this.meetingModal) {
+      this.modalInstance = new Modal(this.meetingModal.nativeElement);
+    }
   }
 
   OnSearchTextChange() {
@@ -214,6 +241,7 @@ export class JobApplicantsComponent implements AfterViewInit {
 
   getJobApplicants(): void {
     this.dataTable.pageNo = this.dataTable.pageIndex + 1;
+    console.log('DataTable', this.dataTable);
 
     this.jobService.getJobApplicants(this.dataTable).subscribe({
       next: (res) => {
@@ -237,6 +265,7 @@ export class JobApplicantsComponent implements AfterViewInit {
   }
 
   updateJobApplicantStatus(row: any, status: string) {
+    debugger;
     console.log('Row', row);
     console.log('status', status);
     const payload: any = {
@@ -254,4 +283,36 @@ export class JobApplicantsComponent implements AfterViewInit {
       error: () => this.toastr.error('Failed to update status.'),
     });
   }
+
+  openModal(index: any) {
+    this.selectedApplicant = this.jobApplicants[index];
+    this.modalInstance.show();
+  }
+
+  closeModal() {
+    this.modalInstance.hide();
+  }
+
+  openApplicantDetails(index: number) {
+    console.log('index', index);
+    this.selectedApplicant = this.jobApplicants[index];
+    this.selectedApplicant.jobName = this.jobRow.title;
+    this.selectedApplicant.applicantStatus =
+      this.dataTable.filters.applicantStatus;
+    console.log(' this.selectedApplicant', this.selectedApplicant);
+    this.applicantModal.openModal();
+  }
+
+  handleApplicantStatus(applicant: any) {
+    console.log('handleApplicant', applicant);
+    this.updateJobApplicantStatus(applicant, applicant.applicantStatus);
+  }
+
+  handleCommunication(applicant: any) {
+    console.log('handleApplicant', applicant);
+  }
+  // updateStatus(job: any){
+  //   console.log("Jobevent", job);
+  //   this.onToggleStatus(job, job.isActive);
+  // }
 }
