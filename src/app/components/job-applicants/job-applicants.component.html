@@ -130,7 +130,7 @@
             matTooltip="View"
             (click)="openApplicantDetails(i)"
           >
-            <i class="bi bi-eye"></i>
+            <mat-icon>visibility</mat-icon>
           </button>
           <button
             *ngIf="['Applied', 'Reviewed'].includes(selectedTab)"
@@ -149,7 +149,7 @@
             matTooltip="Chat"
             (click)="openChat(row)"
           >
-            <i class="bi bi-chat-square-text"></i>
+            <mat-icon>message</mat-icon>
           </button>
           <button
             *ngIf="['Shortlisted', 'Hired'].includes(selectedTab)"
@@ -157,7 +157,7 @@
             matTooltip="Call"
             (click)="saveMeetingUser(row)"
           >
-            <i class="bi bi-camera-video"></i>
+            <mat-icon>videocam</mat-icon>
           </button>
           <button
             *ngIf="['Applied'].includes(selectedTab)"
