@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CountryService {
-   private apiUrl: string = 'https://localhost:7205/api/countries';
+  private apiUrl: string = 'https://localhost:7205/api/countries';
   // private apiUrl: string =
   //   'http://bilalsajid-001-site1.mtempurl.com/api/countries';
 

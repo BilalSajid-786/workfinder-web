@@ -13,12 +13,12 @@
 /* pill-like look; minimal overrides */
 
 .stage-tabs {
-    //transform: translateX(15%);
-    display: flex;
-    justify-content: center;
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
+  //transform: translateX(15%);
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .stage-tabs .mat-button-toggle-group {
@@ -40,3 +40,14 @@
   color: #1b2b40;
 }
 
+.modal-content {
+  border-radius: 12px;
+}
+
+.modal-header {
+  border-bottom: none;
+}
+
+.modal-footer {
+  border-top: none;
+}

@@ -10,8 +10,11 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   if (authService.hasPermission(requiredPermission)) {
     return true;
-  } else {
-    router.navigate(['register']);
-    return false;
   }
+  if (authService.getToken()) {
+    // assuming getToken() returns token or null
+    return true; // allow access even without permission
+  }
+  router.navigate(['register']);
+  return false;
 };

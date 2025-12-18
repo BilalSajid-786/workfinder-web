@@ -8,7 +8,7 @@ import { Guid } from '../models/types.model';
 })
 export class FileService {
   private apiUrl: string = 'https://localhost:7205/api/Files';
-  //private apiUrl: string = 'http://bilalsajid-001-site1.mtempurl.com/api/Files';
+  // private apiUrl: string = 'http://bilalsajid-001-site1.mtempurl.com/api/Files';
 
   constructor(private http: HttpClient) {}
 

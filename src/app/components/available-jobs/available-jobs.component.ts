@@ -72,6 +72,8 @@ export class AvailableJobsComponent implements AfterViewInit {
     'jobType',
     'actions',
   ];
+  sortOrder: string = 'ASC';
+  sortColumn: string = 'Title';
   filters: any = {};
   industries: Industry[] = [];
   countries: any[] = [];
@@ -111,6 +113,12 @@ export class AvailableJobsComponent implements AfterViewInit {
         this.jobTypes = [];
       },
     });
+  }
+
+  tableSortChange(event: any) {
+    this.sortColumn = event.active;
+    this.sortOrder = event.direction;
+    this.GetAvailableJobs(this.pageNo, this.pageSize, this.filters);
   }
 
   getCountries() {
@@ -187,8 +195,10 @@ export class AvailableJobsComponent implements AfterViewInit {
     pageSize: number,
     filters: any = null
   ): void {
+    var sortColumn = this.sortColumn;
+    var sortOrder = this.sortOrder;
     this.jobService
-      .GetAvailableJobs({ pageNo, pageSize, filters })
+      .GetAvailableJobs({ pageNo, pageSize, filters, sortColumn, sortOrder })
       .subscribe((list) => {
         this.availableJobs = list.result.items ?? [];
         this.dataSource.data = this.availableJobs;

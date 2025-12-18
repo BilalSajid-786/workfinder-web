@@ -16,5 +16,83 @@
 .forgot-link {
   //-decoration: none;
   cursor: pointer;
-  text-decoration: underline; 
+  text-decoration: underline;
+}
+
+.auth-bg {
+  position: relative; /* needed for absolute positioning */
+}
+
+.lang-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+.lang-toggle input {
+  display: none; /* hide checkbox */
+}
+
+.lang-toggle label {
+  display: block;
+  width: 80px;
+  height: 36px;
+  background: #ccc; /* track background */
+  border-radius: 36px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s;
+  overflow: hidden;
+}
+
+/* Text inside track */
+.switch-text {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  line-height: 36px;
+  text-align: center;
+  font-weight: bold;
+  transition: 0.3s;
+  color: #000;
+  pointer-events: none;
+}
+
+.switch-on {
+  left: 0;
+}
+
+.switch-off {
+  right: 0;
+}
+
+/* Switch circle */
+.switch-circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: left 0.3s;
+}
+
+/* Checked state (German) */
+.lang-toggle input:checked + label {
+  background: #0a66c2;
+}
+
+.lang-toggle input:checked + label .switch-circle {
+  left: 44px; /* moves circle to right */
+}
+
+.lang-toggle input:checked + label .switch-on {
+  color: #fff;
+}
+
+.lang-toggle input:checked + label .switch-off {
+  color: #fff;
 }

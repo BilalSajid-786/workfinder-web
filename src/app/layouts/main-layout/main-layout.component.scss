@@ -19,8 +19,14 @@
   opacity: 0;
 }
 
+// .nav-right {
+//   position: relative;
+//   display: flex;
+// }
+
 .nav-right {
-  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .notification-wrapper {
@@ -55,6 +61,45 @@
   animation: slideDown 0.2s ease;
 }
 
+.no-padding {
+  padding: 0 !important; /* removes inner padding */
+  min-width: auto !important; /* prevents forced minimum width */
+  line-height: normal !important;
+  display: flex;
+  align-items: center;
+}
+
+.profile-icon {
+  font-size: 30px !important; /* icon size */
+  width: 30px !important;
+  height: 30px !important;
+  color: #0a66c2 !important;
+}
+
+.custom-user-menu {
+  padding: 0; /* remove default padding */
+}
+
+.menu-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  font-weight: bold;
+  gap: 10px;
+  background-color: #fff;
+}
+
+.menu-header mat-icon {
+  color: #0a66c2 !important;
+}
+
+.username {
+  font-size: 16px;
+}
+
+.mat-menu-item mat-icon {
+  margin-right: 10px;
+}
 @keyframes slideDown {
   from {
     opacity: 0;

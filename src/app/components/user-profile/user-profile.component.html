@@ -1,0 +1,448 @@
+<div class="card mt-3">
+  <div class="card-body">
+    <div class="row">
+      <!-- LEFT FORM SECTION -->
+      <div class="col-md-7 pe-md-5">
+        <form
+          [formGroup]="profileForm"
+          (ngSubmit)="onSubmit()"
+          class="profile-wrapper mt-5"
+        >
+          <!-- Name -->
+          <div class="d-flex align-items-center mb-3">
+            <label class="me-2" style="width: 120px">Name</label>
+            <input
+              type="text"
+              class="form-control flex-grow-1 wf-input"
+              id="name"
+              placeholder="Name"
+              formControlName="userName"
+              [ngClass]="{
+                'is-invalid':
+                  userName?.invalid && (userName?.dirty || userName?.touched)
+              }"
+            />
+          </div>
+
+          <!-- Email -->
+          <div class="d-flex align-items-center mb-3">
+            <label class="me-2" style="width: 120px">Email</label>
+            <input
+              type="email"
+              class="form-control flex-grow-1 wf-input"
+              id="email"
+              placeholder="Email"
+              formControlName="email"
+              [ngClass]="{
+                'is-invalid': email?.invalid && (email?.dirty || email?.touched)
+              }"
+            />
+          </div>
+
+          <!-- Phone -->
+          <div class="d-flex align-items-center mb-3">
+            <label class="me-2" style="width: 120px">Phone</label>
+            <div class="input-group wf-field wf-select-wrap">
+              <!-- Country Code Dropdown -->
+              <select
+                class="form-select custom-select"
+                style="max-width: 80px"
+                formControlName="countryCode"
+                [class.is-invalid]="
+                  countryCode?.invalid &&
+                  (countryCode?.touched || countryCode?.dirty)
+                "
+              >
+                <option [ngValue]="null" disabled>+</option>
+                <option value="+92">+92</option>
+                <option value="+1">+1</option>
+                <option value="+44">+44</option>
+                <option value="+971">+971</option>
+                <!-- Add more as needed -->
+              </select>
+
+              <!-- Phone Number -->
+              <input
+                type="text"
+                class="form-control wf-input"
+                id="phone"
+                placeholder="phone"
+                formControlName="phone"
+                [ngClass]="{
+                  'is-invalid':
+                    phone?.invalid && (phone?.dirty || phone?.touched)
+                }"
+              />
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="d-flex align-items-center mb-3">
+            <label class="me-2" style="width: 120px">Password</label>
+            <input
+              type="password"
+              class="form-control flex-grow-1 wf-input"
+              id="password"
+              placeholder="Password"
+              formControlName="password"
+              [ngClass]="{
+                'is-invalid':
+                  password?.invalid && (password?.dirty || password?.touched)
+              }"
+            />
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="d-flex align-items-center mb-3">
+            <label class="me-2" style="width: 120px">Confirm</label>
+            <input
+              type="password"
+              class="form-control flex-grow-1 wf-input"
+              id="confirmPassword"
+              placeholder="Confirm Password"
+              formControlName="confirmPassword"
+              [ngClass]="{
+                'is-invalid':
+                  confirmPassword?.invalid &&
+                  (confirmPassword?.dirty || confirmPassword?.touched)
+              }"
+            />
+          </div>
+
+          <!-- City -->
+          <div class="d-flex align-items-center mb-3">
+            <label class="me-2" style="width: 120px">City</label>
+            <input
+              type="text"
+              class="form-control flex-grow-1 wf-input"
+              id="city"
+              placeholder="City"
+              formControlName="city"
+              [ngClass]="{
+                'is-invalid': city?.invalid && (city?.dirty || city?.touched)
+              }"
+            />
+          </div>
+
+          <!-- Employer-specific fields -->
+          <ng-container *ngIf="userRole == 'Employer'">
+            <!-- Industry -->
+            <div class="d-flex align-items-center mb-3">
+              <label class="me-2" style="width: 105px">Industry</label>
+              <div class="flex-grow-1 position-relative">
+                <select
+                  class="form-select wf-select"
+                  id="industryId"
+                  formControlName="industryId"
+                  [ngClass]="{
+                    'is-invalid':
+                      industryId?.invalid &&
+                      (industryId?.dirty || industryId?.touched)
+                  }"
+                >
+                  <option value="null" selected disabled>
+                    Industry / Nature of Work
+                  </option>
+                  <!-- replace with *ngFor when loading from API -->
+                  <option
+                    *ngFor="let ind of industries"
+                    [ngValue]="ind.industryId"
+                  >
+                    {{ ind.industryName }}
+                  </option>
+                </select>
+                <span class="wf-chev" style="top: 50%" aria-hidden="true"
+                  >▾</span
+                >
+              </div>
+            </div>
+
+            <!-- websiteUrl -->
+            <div class="d-flex align-items-center mb-3">
+              <label class="me-2" style="width: 120px">websiteUrl</label>
+              <input
+                type="text"
+                class="form-control flex-grow-1 wf-input"
+                id="websiteUrl"
+                placeholder="websiteUrl"
+                formControlName="websiteUrl"
+                [ngClass]="{
+                  'is-invalid':
+                    websiteUrl?.invalid &&
+                    (websiteUrl?.dirty || websiteUrl?.touched)
+                }"
+              />
+            </div>
+
+            <!-- Company Size -->
+            <div class="d-flex align-items-center mb-3">
+              <label class="me-2" style="width: 105px">Company Size</label>
+              <div class="flex-grow-1 position-relative">
+                <select
+                  class="form-select wf-select"
+                  id="companySize"
+                  formControlName="companySize"
+                  [ngClass]="{
+                    'is-invalid':
+                      companySize?.invalid &&
+                      (companySize?.dirty || companySize?.touched)
+                  }"
+                >
+                  <option value="" selected disabled>Company Size</option>
+                  <option>1–10</option>
+                  <option>11–50</option>
+                  <option>51–200</option>
+                  <option>201–500</option>
+                  <option>500+</option>
+                </select>
+                <span class="wf-chev" style="top: 50%" aria-hidden="true"
+                  >▾</span
+                >
+              </div>
+            </div>
+
+            <!-- registrationNumber] -->
+            <div class="d-flex align-items-center mb-3">
+              <label class="me-2" style="width: 120px"
+                >registrationNumber</label
+              >
+              <input
+                type="text"
+                class="form-control flex-grow-1 wf-input"
+                id="registrationNumber"
+                placeholder="registrationNumber"
+                formControlName="registrationNumber"
+                [ngClass]="{
+                  'is-invalid':
+                    registrationNumber?.invalid &&
+                    (registrationNumber?.dirty || registrationNumber?.touched)
+                }"
+              />
+            </div>
+          </ng-container>
+
+          <!--Applicant-specific fields-->
+          <ng-container *ngIf="userRole == 'Applicant'">
+            <div class="d-flex align-items-center mb-3">
+              <label class="me-2" style="width: 105px">Gender</label>
+              <div
+                class="mb-1 position-relative flex-grow-1 wf-field wf-select-wrap"
+              >
+                <select
+                  class="wf-select"
+                  formControlName="gender"
+                  aria-label="Gender"
+                  [class.is-invalid]="
+                    gender?.invalid && (gender?.dirty || isSubmitted)
+                  "
+                >
+                  <option [ngValue]="null" disabled>Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+                <span class="wf-chev" style="top: 50%" aria-hidden="true"
+                  >▾</span
+                >
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+              <label class="me-2" style="width: 105px">Skills</label>
+              <div class="position-relative flex-grow-1">
+                <!-- Selected Skills -->
+                <!-- Inline Input -->
+                <input
+                  type="text"
+                  class="form-control wf-input"
+                  placeholder="Add a skill"
+                  (input)="onSkillInput($event)"
+                  (keydown)="onSkillEnter($event, skillInput)"
+                  #skillInput
+                  style="outline: none"
+                  [ngClass]="{
+                    'is-invalid':
+                      skills?.invalid && (skills?.dirty || skills?.touched)
+                  }"
+                />
+
+                <!-- Selected Skills BELOW field -->
+                <div class="d-flex flex-wrap gap-2 mt-2">
+                  <span
+                    *ngFor="let skill of skills?.value; let i = index"
+                    class="badge bg-primary"
+                  >
+                    {{ skill.skillName }}
+                    <button
+                      type="button"
+                      class="btn-close btn-close-white ms-1"
+                      (click)="removeSkill(i)"
+                    ></button>
+                  </span>
+                </div>
+
+                <!-- Dropdown -->
+                <ul
+                  *ngIf="skillsList.length > 0"
+                  class="list-group position-absolute w-100"
+                  style="z-index: 1000"
+                >
+                  <li
+                    *ngFor="let item of skillsList"
+                    class="list-group-item list-group-item-action"
+                    (click)="selectSkill(item, skillInput)"
+                  >
+                    {{ item.skillName }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+              <label class="me-2" style="width: 105px">Qualification</label>
+              <div class="mb-1 position-relative flex-grow-1 wf-select-wrap">
+                <select
+                  class="wf-select"
+                  formControlName="qualification"
+                  aria-label="Qualification"
+                  [class.is-invalid]="
+                    qualification?.invalid &&
+                    (qualification?.touched || isSubmitted)
+                  "
+                >
+                  <option [ngValue]="null" disabled>Qualification</option>
+                  <option
+                    *ngFor="let q of qualificationList"
+                    [value]="q.qualificationId"
+                  >
+                    {{ q.qualificationName }}
+                  </option>
+                </select>
+                <span class="wf-chev" aria-hidden="true">▾</span>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+              <label class="me-2" style="width: 105px">Resume</label>
+              <div class="mb-3 position-relative flex-grow-1 wf-file-field">
+                <div class="file-input-wrapper position-relative">
+                  <input
+                    type="file"
+                    id="resume"
+                    class="custom-file-input wf-input"
+                    aria-label="Upload resume"
+                    (change)="onFileSelected($event, 'Resume')"
+                  />
+
+                  <!-- Fake placeholder -->
+                  <span class="file-placeholder">
+                    {{
+                      selectedResume.length > 0
+                        ? selectedResume[0].name
+                        : backendResumeName || "Resume.pdf"
+                    }}
+                  </span>
+
+                  <!-- Icon -->
+                  <span class="wf-chev" aria-hidden="true">
+                    <i class="bi bi-paperclip"></i>
+                  </span>
+                </div>
+
+                <!-- File tags -->
+                <div
+                  class="d-flex flex-wrap gap-2 mt-2"
+                  *ngIf="selectedResume.length > 0 || backendResumeName"
+                >
+                  <!-- Newly selected resume -->
+                  <span
+                    *ngFor="let file of selectedResume; let i = index"
+                    class="badge bg-primary"
+                  >
+                    {{ file.name }}
+                    <button
+                      type="button"
+                      class="btn-close btn-close-white ms-1"
+                      (click)="removeFile(i, 'Resume')"
+                    ></button>
+                  </span>
+
+                  <!-- Backend resume -->
+                  <span
+                    *ngIf="backendResumeName && selectedResume.length === 0"
+                    class="badge bg-primary"
+                  >
+                    {{ backendResumeName }}
+                    <button
+                      type="button"
+                      class="btn-close btn-close-white ms-1"
+                      (click)="removeBackendResume()"
+                    ></button>
+                  </span>
+                </div>
+              </div>
+
+              <!-- <div class="mb-3 position-relative flex-grow-1 wf-file-field">
+                <div class="file-input-wrapper position-relative">
+                  <input
+                    type="file"
+                    id="resume"
+                    class="custom-file-input wf-input"
+                    aria-label="Upload resume"
+                    (change)="onFileSelected($event, 'Resume')"
+                  />
+
+                  <span class="file-placeholder">Resume.pdf</span>
+
+                  <span class="wf-chev" aria-hidden="true">
+                    <i class="bi bi-paperclip"></i>
+                  </span>
+                </div>
+
+                <div
+                  class="d-flex flex-wrap gap-2 mt-2"
+                  *ngIf="selectedResume.length > 0"
+                >
+                  <span
+                    *ngFor="let file of selectedResume; let i = index"
+                    class="badge bg-primary"
+                  >
+                    {{ file.name }}
+                    <button
+                      type="button"
+                      class="btn-close btn-close-white ms-1"
+                      (click)="removeFile(i, 'Resume')"
+                    ></button>
+                  </span>
+                </div>
+              </div> -->
+            </div>
+          </ng-container>
+
+          <div class="justify-content-center">
+            <button
+              type="submit"
+              class="btn btn-primary btn-lg px-5 rounded-2 fw-semibold"
+              style="background: #0a66c2; border-color: #0a66c2"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- RIGHT PROFILE SECTION -->
+      <div class="col-md-5 d-flex justify-content-center">
+        <div class="d-flex flex-column align-items-center">
+          <img
+            src="https://dummyimage.com/150x150/cccccc/000000&text=User"
+            class="profile-pic mb-3 rounded-circle"
+          />
+          <label class="btn btn-outline-primary btn-sm mt-2">
+            Upload Photo
+            <input type="file" hidden />
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

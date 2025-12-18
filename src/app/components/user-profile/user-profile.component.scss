@@ -1,0 +1,247 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin: 50px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* LEFT FORM SECTION */
+.form-section {
+  width: 60%;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  width: 120px;
+  font-weight: bold;
+}
+
+.form-group input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* RIGHT PROFILE SECTION */
+.profile-section {
+  width: 30%;
+  text-align: center;
+}
+
+.profile-pic {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+  margin-bottom: 15px;
+}
+
+.form-label-fixed {
+  width: 140px;
+  min-width: 140px;
+  margin-right: 12px;
+}
+
+.upload-btn {
+  display: inline-block;
+  padding: 8px 15px;
+  background: #007bff;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.upload-btn input {
+  display: none;
+}
+
+.form-row {
+  width: 100%;
+}
+
+.form-select {
+  min-width: 0; /* critical for flex items to shrink properly */
+}
+
+.form-label {
+  width: 140px;
+  min-width: 140px;
+  margin-right: 12px;
+}
+
+.file-names {
+  display: flex;
+  flex-wrap: wrap; /* allow wrapping if too many */
+  gap: 8px; /* spacing between names */
+}
+
+.file-name {
+  color: var(--bs-primary); /* Bootstrap primary color */
+  font-weight: 500;
+}
+
+.wf-file-field .file-placeholder {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #ced4da;
+  border-radius: 0.45rem;
+  background: #fff;
+  color: #6c757d;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  z-index: 1;
+  padding: 0.75rem 1rem; /* more vertical + horizontal padding */
+  line-height: 1.5; /* improves vertical centering */
+  font-size: 1rem;
+  padding-top: 16px;
+  padding-bottom: 15px;
+}
+
+/* Apply only to file upload fields */
+.wf-file-field {
+  position: relative;
+}
+
+/* Fake input */
+.wf-file-field .file-placeholder {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #ced4da;
+  border-radius: 0.45rem;
+  background: #fff;
+  color: #6c757d;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  z-index: 1;
+  padding: 0.75rem 1rem; /* more vertical + horizontal padding */
+  line-height: 1.5; /* improves vertical centering */
+  font-size: 1rem;
+  padding-top: 16px;
+  padding-bottom: 15px;
+}
+
+/* Invisible real input on top */
+.wf-file-field .custom-file-input {
+  position: absolute;
+  inset: 0;
+  padding: 0 14px;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* Icon on right */
+.wf-file-field .wf-chev {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.file-input-wrapper {
+  position: relative; /* new positioning context */
+}
+
+.file-input-wrapper .wf-chev {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Required star */
+.wf-file-field .required-star {
+  position: absolute;
+  // right: -8px; /* move outside */
+  top: -18px; /* above the field */
+  transform: none;
+  z-index: 3;
+  font-weight: 700;
+}
+
+.file-names {
+  display: flex;
+  flex-wrap: wrap; /* allow wrapping if too many */
+  gap: 8px; /* spacing between names */
+}
+
+.file-name {
+  color: var(--bs-primary); /* Bootstrap primary color */
+  font-weight: 500;
+}
+
+// .password-wrapper {
+//   position: relative;
+//   width: 100%;
+// }
+
+// .password-wrapper input {
+//   height: 48px; /* consistent height */
+//   padding-right: 40px; /* give space for eye icon */
+// }
+
+.has-file {
+  margin-top: -15px;
+}
+
+.password-wrapper .eye-btn {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #0a66c2;
+  font-size: 1.4rem;
+}
+
+// .eye-btn {
+//   position: absolute;
+//   right: 25px;
+//   top: 50%;
+//   transform: translateY(-50%);
+//   padding: 0;
+//   border: none;
+//   color: #0a66c2;
+//   font-size: 1.6rem;
+// }
+
+.eye-btn:hover {
+  color: #0a66c2;
+}
+
+.wf-chev i {
+  display: inline-block;
+  transform: rotate(45deg); /* taller */
+  font-size: 24px;
+  color: #0a66c2;
+}
+
+.has-file {
+  margin-top: -15px;
+}

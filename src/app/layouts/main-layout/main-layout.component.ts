@@ -6,6 +6,9 @@ import { CommonModule } from '@angular/common';
 import { NotificationPannelComponent } from '../../components/notification-pannel/notification-pannel.component';
 import { MatIconModule } from '@angular/material/icon';
 import { NotificationService } from '../../services/notification.service';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -16,6 +19,8 @@ import { NotificationService } from '../../services/notification.service';
     RouterModule,
     NotificationPannelComponent,
     MatIconModule,
+    MatMenuModule,
+    MatButtonModule,
   ],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss',
@@ -27,12 +32,15 @@ export class MainLayoutComponent implements OnInit {
   unreadCount = 2; // Example count
   count: number = 0;
   sidebarOpen: boolean = true;
+  userName: string | undefined = '';
 
   /**
    *
    */
   constructor(
     private userService: UserService,
+    private router: Router,
+    private authService: AuthService,
     private notificationService: NotificationService
   ) {}
 
@@ -47,6 +55,8 @@ export class MainLayoutComponent implements OnInit {
     this.getNotifications();
 
     this.notificationService.count$.subscribe((c) => (this.unreadCount = c));
+
+    this.userName = this.authService.getUserName();
   }
 
   getNotifications() {
@@ -68,9 +78,24 @@ export class MainLayoutComponent implements OnInit {
     this.sidebarOpen = !this.sidebarOpen;
   }
 
+  onLogout() {
+    localStorage.removeItem('token');
+    this.router.navigate(['/']);
+  }
+
+  onEditProfile() {
+    this.router.navigate(['userprofile']);
+  }
+
+  handleNotification(notificationId: number) {
+    // setTimeout(() => {
+    //   this.showNotifications = false;
+    // });
+  }
+
   // Close dropdown if user clicks anywhere outside
-  // @HostListener('document:click')
-  // closeDropdown() {
-  //   this.showNotifications = false;
-  // }
+  @HostListener('document:click')
+  closeDropdown() {
+    this.showNotifications = false;
+  }
 }

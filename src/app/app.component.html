@@ -1,2 +1,5 @@
 <app-loader></app-loader>
 <router-outlet></router-outlet>
+<button *ngIf="showToggle" (click)="lang.toggleLanguage()">
+  {{ lang.currentLang === "en" ? "Deutsch" : "English" }}
+</button>

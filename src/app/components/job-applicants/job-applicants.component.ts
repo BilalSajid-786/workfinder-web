@@ -1,11 +1,21 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { JobService } from '../../services/job.service';
 import { ToastrService } from 'ngx-toastr';
 import { Job } from '../../models/job.model';
 import { PagingService } from '../../services/paging.service';
 
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -16,6 +26,17 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ChatPannelComponent } from '../chat-pannel/chat-pannel.component';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import * as bootstrap from 'bootstrap';
+import { MeetingService } from '../../services/meeting.service';
+import { AuthService } from '../../services/auth.service';
+import { Guid } from '../../models/types.model';
 
 @Component({
   selector: 'app-job-applicants',
@@ -32,6 +53,8 @@ import { ActivatedRoute, Router } from '@angular/router';
     MatTooltipModule,
     MatSlideToggleModule,
     MatButtonToggleModule,
+    ChatPannelComponent,
+    ReactiveFormsModule,
   ],
   templateUrl: './job-applicants.component.html',
   styleUrl: './job-applicants.component.scss',
@@ -44,13 +67,13 @@ export class JobApplicantsComponent implements AfterViewInit {
     'country',
     'phone',
     'resume',
-    'actions'
+    'actions',
   ];
 
   dataTable = {
     filters: {
       applicantStatus: 'applied',
-      jobId: 0
+      jobId: 0,
     },
     searchValue: '',
     sortColumn: 'name',
@@ -59,32 +82,94 @@ export class JobApplicantsComponent implements AfterViewInit {
     pageSize: 5,
     pageNo: 0,
     status: true,
-    pageIndex: 0
+    pageIndex: 0,
   };
 
   jobId: number = 0;
+  selectedUserId: any = null;
+  selectedUserName: string = '';
   jobRow: any;
-  selectedTab: 'applied' | 'shortlisted' | 'hired' | 'reviewed' | 'rejected' = 'applied';
+  selectedTab: 'applied' | 'shortlisted' | 'hired' | 'reviewed' | 'rejected' =
+    'applied';
 
   dataSource = new MatTableDataSource<any>([]);
   jobApplicants: any[] = [];
   totalCount: number = 0;
+  meetingUserId: Guid = '';
   EnterSearchValue: string = '';
+  meetingForm!: FormGroup;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('meetingModal') meetingModal!: ElementRef;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private jobService: JobService,
     private toastr: ToastrService,
-    private pagingService: PagingService
+    private pagingService: PagingService,
+    private fb: FormBuilder,
+    private meetingService: MeetingService,
+    private authService: AuthService
   ) {
     this.jobId = Number(this.route.snapshot.paramMap.get('jobId'));
-    this.jobRow = this.router.getCurrentNavigation()?.extras?.state?.['job'] ?? window.history.state?.job;
-    console.log("JobId", this.jobId);
-    console.log("jobRow", this.jobRow);
+    this.jobRow =
+      this.router.getCurrentNavigation()?.extras?.state?.['job'] ??
+      window.history.state?.job;
+    this.meetingForm = this.fb.group({
+      meetingName: ['', Validators.required],
+      startTime: ['', Validators.required],
+      duration: ['', [Validators.required, Validators.min(1)]],
+    });
+  }
+
+  saveMeetingUser(user: any) {
+    console.log(user);
+    this.meetingUserId = user.applicantId;
+  }
+  submitForm() {
+    if (this.meetingForm.valid) {
+      this.scheduleMeeting(this.meetingForm.value);
+
+      const modalElement = document.getElementById('meetingModal');
+      if (modalElement) {
+        const modalInstance =
+          bootstrap.Modal.getInstance(modalElement) ||
+          new bootstrap.Modal(modalElement);
+
+        modalInstance.hide();
+
+        document.body.classList.remove('modal-open');
+
+        const backdrops = document.getElementsByClassName('modal-backdrop');
+        while (backdrops.length > 0) {
+          backdrops[0].remove();
+        }
+      }
+      console.log(this.meetingForm.value);
+    } else {
+      this.meetingForm.markAllAsTouched();
+    }
+  }
+
+  scheduleMeeting(meetingData: any) {
+    let payload = {
+      Topic: meetingData.meetingName,
+      StartTime: meetingData.startTime,
+      Duration: meetingData.duration,
+      SenderId: this.authService.getUserId(),
+      ReceiverId: this.meetingUserId,
+    };
+    this.meetingService.ScheduleMeeting(payload).subscribe({
+      next: (res: any) => {
+        this.toastr.success('Meeting invite sent successfully');
+        this.meetingForm.reset();
+      },
+      error: (err: any) => {
+        this.toastr.error('Meeting Schedule Failed');
+      },
+    });
   }
 
   ngAfterViewInit(): void {
@@ -95,6 +180,11 @@ export class JobApplicantsComponent implements AfterViewInit {
   OnSearchTextChange() {
     this.dataTable.searchValue = this.EnterSearchValue;
     this.getJobApplicants();
+  }
+
+  openChat(row: any) {
+    this.selectedUserId = row.applicantId;
+    this.selectedUserName = row.userName;
   }
 
   getPagingSizeIntervals(): number[] {
@@ -146,18 +236,18 @@ export class JobApplicantsComponent implements AfterViewInit {
     this.getJobApplicants();
   }
 
-  updateJobApplicantStatus(row: any, status: string){
-    console.log("Row", row);
-    console.log("status", status);
-    const payload: any ={
+  updateJobApplicantStatus(row: any, status: string) {
+    console.log('Row', row);
+    console.log('status', status);
+    const payload: any = {
       applicantId: row.applicantId,
       jobId: this.jobId,
-      applicantStatus: status
+      applicantStatus: status,
     };
-    console.log("payload", payload);
+    console.log('payload', payload);
     this.jobService.updateJobApplicantStatus(payload).subscribe({
       next: (res) => {
-        console.log("res", res);
+        console.log('res', res);
         this.toastr.success('Applicant status updated.');
         this.getJobApplicants();
       },

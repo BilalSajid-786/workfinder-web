@@ -1,7 +1,7 @@
 <div class="container-fluid mt-5">
   <div class="row">
     <div class="col-12">
-      <h4>Post a job</h4>
+      <h4>Post a Job</h4>
     </div>
   </div>
 
@@ -100,12 +100,31 @@
                 </div>
               </div>
               <div class="col-md-6 mb-3">
-                <input
+                <!-- <input
                   type="date"
                   class="form-control wf-input"
                   id="expiryDate"
                   formControlName="expiryDate"
-                />
+                /> -->
+                <div class="custom-date-wrapper">
+                  <input
+                    #expiryDate
+                    type="text"
+                    class="form-control wf-input customdatepicker"
+                    formControlName="expiryDate"
+                  />
+                  <span
+                    class="placeholder-text"
+                    [class.hidden]="expiryDate.value"
+                    (click)="focusInput()"
+                    *ngIf="!dateFocused"
+                  >
+                    Expiry Date
+                  </span>
+                  <span class="calendar-icon" (click)="focusInput()">
+                    <mat-icon>calendar_today</mat-icon>
+                  </span>
+                </div>
               </div>
             </div>
           </div>

@@ -18,7 +18,7 @@ import { SavedJobsComponent } from './components/saved-jobs/saved-jobs.component
 import { JobApplicantsComponent } from './components/job-applicants/job-applicants.component';
 import { ViewApplicantsComponent } from './components/view-applicants/view-applicants.component';
 import { ChatComponent } from './components/SignalRTemp/chat/chat.component';
-
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 export const routes: Routes = [
   {
@@ -97,13 +97,19 @@ export const routes: Routes = [
         path: 'jobapplicants/:jobId',
         component: JobApplicantsComponent,
         canActivate: [authGuard],
-        data: { permissions: ['Job.ActiveJobs'] }
+        data: { permissions: ['Job.ActiveJobs'] },
       },
       {
         path: 'viewapplicants',
         component: ViewApplicantsComponent,
         canActivate: [authGuard],
-        data: { permissions: ['Applicant.Get'] }
+        data: { permissions: ['Applicant.Get'] },
+      },
+      {
+        path: 'userprofile',
+        canActivate: [authGuard],
+        data: { permissions: [] },
+        component: UserProfileComponent,
       },
       {
         path: 'sendmessage',

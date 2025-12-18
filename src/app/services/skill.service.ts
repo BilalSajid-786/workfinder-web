@@ -8,7 +8,7 @@ import { Skill } from '../models/skill.model';
   providedIn: 'root',
 })
 export class SkillService {
-   private apiUrl: string = 'https://localhost:7205/api/skills';
+  private apiUrl: string = 'https://localhost:7205/api/skills';
   // private apiUrl: string =
   //   'http://bilalsajid-001-site1.mtempurl.com/api/skills';
 

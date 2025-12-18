@@ -9,7 +9,7 @@ import { JwtPayload } from '../models/jwt-payload.model';
   providedIn: 'root',
 })
 export class AuthService {
-   private apiUrl: string = 'https://localhost:7205/api/authentication';
+  private apiUrl: string = 'https://localhost:7205/api/authentication';
   // private apiUrl: string =
   //   'http://bilalsajid-001-site1.mtempurl.com/api/authentication';
 
@@ -51,6 +51,22 @@ export class AuthService {
         localStorage.setItem('token', response.result);
       })
     );
+  }
+
+  forgotPassword(forgotPasswordRequest: any): Observable<any> {
+    return this.http
+      .post(`${this.apiUrl}/forgotpassword`, forgotPasswordRequest)
+      .pipe(
+        tap((response: any) => {
+          // Save token in localStorage
+        })
+      );
+  }
+
+  resetPassword(resetPasswordRequest: any): Observable<any> {
+    return this.http
+      .post(`${this.apiUrl}/resetpassword`, resetPasswordRequest)
+      .pipe(tap((response: any) => {}));
   }
 
   // Logout

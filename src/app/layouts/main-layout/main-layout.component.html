@@ -28,7 +28,7 @@
             class="notification-wrapper"
             (click)="toggleNotifications($event)"
           >
-            <mat-icon>notifications</mat-icon>
+            <mat-icon style="color: #0a66c2">notifications</mat-icon>
             <span class="badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
           </div>
 
@@ -39,8 +39,37 @@
           >
             <app-notification-pannel
               [notifications]="notifications"
+              (notificationClicked)="handleNotification($event)"
             ></app-notification-pannel>
           </div>
+
+          <button
+            mat-button
+            class="profile-btn no-padding"
+            [matMenuTriggerFor]="userMenu"
+          >
+            <mat-icon class="profile-icon">account_circle</mat-icon>
+            <mat-icon class="profile-icon">keyboard_arrow_down</mat-icon>
+          </button>
+
+          <mat-menu #userMenu="matMenu" class="custom-user-menu">
+            <!-- Username Display -->
+            <div class="menu-header">
+              <mat-icon>account_circle</mat-icon>
+              <span class="username">{{ userName }}</span>
+            </div>
+
+            <button mat-menu-item (click)="onEditProfile()">
+              <mat-icon>account_circle</mat-icon>
+              <span>Edit Profile</span>
+            </button>
+
+            <!-- Logout Button -->
+            <button mat-menu-item (click)="onLogout()">
+              <mat-icon>logout</mat-icon>
+              <span>Logout</span>
+            </button>
+          </mat-menu>
         </div>
       </nav>
     </div>

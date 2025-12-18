@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ChatPannelComponent } from '../chat-pannel/chat-pannel.component';
 import { NotificationService } from '../../services/notification.service';
 
@@ -12,6 +12,7 @@ import { NotificationService } from '../../services/notification.service';
 })
 export class NotificationPannelComponent implements OnInit {
   @Input() notifications: any[] = [];
+  @Output() notificationClicked = new EventEmitter<number>();
   selectedUserId: any = null;
   selectedUserName: string = '';
 
@@ -26,8 +27,11 @@ export class NotificationPannelComponent implements OnInit {
 
   markAsRead(notification: any) {
     notification.isRead = true;
-    this.openMessagePannel(notification);
+    setTimeout(() => {
+      this.openMessagePannel(notification);
+    }, 0);
     this.updateNotifications(notification.notificationId);
+    this.notificationClicked.emit(1);
   }
 
   updateNotifications(notificationId: number) {
