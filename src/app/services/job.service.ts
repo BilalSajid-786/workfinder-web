@@ -23,6 +23,13 @@ export class JobService {
       .pipe(tap((response: any) => {}));
   }
 
+  EditJob(jobModel: any): Observable<ApiResponse<any>> {
+    console.log("EditJob Service Called");
+    return this.http
+      .post(`${this.apiUrl}/editJob`, jobModel)
+      .pipe(tap((response: any) => {}));
+  }
+
   GetAvailableJobs(filter: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/availableJobs`, filter).pipe(
       tap((response: any) => {
@@ -56,7 +63,7 @@ export class JobService {
   }
 
   deleteJob(jobId: number): Observable<ApiResponse<any>> {
-    console.log("deleteJobService", jobId);
+    console.log('deleteJobService', jobId);
     return this.http
       .post(`${this.apiUrl}/deleteJobAsync/${jobId}`, null)
       .pipe(tap((response: any) => {}));
@@ -75,8 +82,9 @@ export class JobService {
   }
 
   updateJobApplicantStatus(model: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/UpdateJobApplicantStatus`, model)
-    .pipe(tap((response: any) => {}));
+    return this.http
+      .post(`${this.apiUrl}/UpdateJobApplicantStatus`, model)
+      .pipe(tap((response: any) => {}));
   }
 
   UpdateJobStatus(
@@ -92,5 +100,9 @@ export class JobService {
     return this.http
       .post(`${this.apiUrl}/appliedjobs`, pagingModel)
       .pipe(tap((response: any) => {}));
+  }
+
+  getJobById(id: number) {
+    return this.http.get<any>(`${this.apiUrl}/getJobById/${id}`); // secured endpoint
   }
 }

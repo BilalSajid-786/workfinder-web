@@ -19,6 +19,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Skill } from '../../models/skill.model';
 import { CountryService } from '../../services/country.service';
 import { CityService } from '../../services/city.service';
+import { DocumentService } from '../../services/document.service';
+import { ApplicantDetailsComponent } from '../applicant-details/applicant-details.component';
 
 @Component({
   selector: 'app-view-applicants',
@@ -35,7 +37,8 @@ import { CityService } from '../../services/city.service';
     MatTooltipModule,
     MatSlideToggleModule,
     ReactiveFormsModule,
-  ],
+    ApplicantDetailsComponent
+],
   templateUrl: './view-applicants.component.html',
   styleUrl: './view-applicants.component.scss',
 })
@@ -75,8 +78,12 @@ export class ViewApplicantsComponent implements AfterViewInit {
   countries: any[] = [];
   totalCount: number = 0;
 
+  selectedApplicant: any = {};
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(ApplicantDetailsComponent)
+  applicantModal!: ApplicantDetailsComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -86,7 +93,8 @@ export class ViewApplicantsComponent implements AfterViewInit {
     private skillService: SkillService,
     private countryService: CountryService,
     private cityService: CityService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private docService: DocumentService
   ) {
     this.getSkills();
     this.getCountries();
@@ -216,5 +224,15 @@ export class ViewApplicantsComponent implements AfterViewInit {
       this.dataTable.filters.city = null;
     }
     this.getApplicants();
+  }
+
+  downloadResume(row: any): void {
+    this.docService.downloadResume(row.applicantId, row.resume);
+  }
+
+  openApplicantDetails(index: number) {
+    console.log('index', index);
+    this.selectedApplicant = this.applicants[index];
+    this.applicantModal.openModal();
   }
 }

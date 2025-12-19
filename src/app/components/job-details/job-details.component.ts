@@ -30,6 +30,7 @@ export class JobDetailsComponent implements AfterViewInit {
   @Output() onApply = new EventEmitter<any>();
   @Output() onToggleStatus = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<any>();
+  @Output() onCopy = new EventEmitter<any>();
   action: string = '';
 
   /**
@@ -61,6 +62,7 @@ export class JobDetailsComponent implements AfterViewInit {
     if (this.action == 'apply') this.onApply.emit(this.selectedJob);
     if (this.action == 'save') this.onSave.emit(this.selectedJob);
     if (this.action == 'delete') this.onDelete.emit(this.selectedJob);
+    if (this.action == 'linkCopied') this.onCopy.emit(this.selectedJob);
   }
 
   onCancel() {
@@ -92,10 +94,14 @@ export class JobDetailsComponent implements AfterViewInit {
 
   copyLink() {
     this.action = 'linkCopied';
+    this.closeModal();
+    this.onConfirm();
   }
 
   editJob() {
     this.action = 'editJob';
+    this.closeModal();
+    this.router.navigate(['/editjob', this.selectedJob.jobId]);
   }
 
   viewApplicants() {

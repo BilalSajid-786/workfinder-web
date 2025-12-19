@@ -71,16 +71,21 @@
                 <th mat-header-cell *matHeaderCellDef >
                     <span class="cell-strong">Resume</span>
                 </th>
-                <td mat-cell *matCellDef="let row">{{ row.resume }}</td>
-                <i class="bi bi-cloud-arrow-down"></i>
+                <!-- <td mat-cell *matCellDef="let row">{{ row.resume }}</td> -->
+                <td mat-cell *matCellDef="let row">
+                    <button *ngIf="row?.resume ; else noResume" class="btn btn-link p-0" (click)="downloadResume(row)">
+                        Resume <i class="bi bi-cloud-arrow-down ms-1"></i>
+                    </button>
+                    <ng-template #noResume>N/A</ng-template>
+                </td>
             </ng-container>
-
+            
             <!-- Actions -->
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef>
                     <span class="cell-strong">Actions</span>
                 </th>
-                <td mat-cell *matCellDef="let row let i = index" class="actions">
+                <td mat-cell *matCellDef="let row; let i = index" class="actions">
                     <button mat-icon-button matTooltip="View" (click)="openApplicantDetails(i)">
                         <i class="bi bi-eye"></i>
                     </button>

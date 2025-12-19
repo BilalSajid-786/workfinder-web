@@ -23,7 +23,7 @@
   </div>
 </div>
 
-<div *ngIf="componentName == 'JobApplicants'" #exampleModal class="modal fade modal-md" tabindex="-1">
+<div *ngIf="componentName == 'JobApplicants' || componentName == 'ViewApplicants'" #exampleModal class="modal fade modal-md" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header d-flex justify-content-center position-relative">
@@ -40,13 +40,15 @@
                                 <div class="col-6 fw-bold">Applicant Name:</div>
                                 <div class="col-6" style="margin-left: -20px;">{{ selectedApplicant.userName }}</div>
                             </div>
-                            <div class="row mb-2">
-                                <div class="col-6 fw-bold">Applied For:</div>
-                                <div class="col-6" style="margin-left: -20px;">{{ selectedApplicant.jobName }}</div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-6 fw-bold">Status:</div>
-                                <div class="col-6" style="margin-left: -20px;">{{ selectedApplicant.applicantStatus }}</div>
+                            <div *ngIf="componentName == 'JobApplicants'">
+                                <div class="row mb-2">
+                                    <div class="col-6 fw-bold">Applied For:</div>
+                                    <div class="col-6" style="margin-left: -20px;">{{ selectedApplicant.jobName }}</div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-6 fw-bold">Status:</div>
+                                    <div class="col-6" style="margin-left: -20px;">{{ selectedApplicant.applicantStatus }}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -71,12 +73,14 @@
                     <div class="row mb-2">
                         <div class="col-2 fw-bold">Resume:</div>
                         <div class="col-10">
-                            <button type="button" class="btn btn-primary px-3" style="font-weight: normal; margin: 0">
+                            <button *ngIf="selectedApplicant?.resume; else noResume" type="button" class="btn btn-primary px-3" style="font-weight: normal; margin: 0"
+                            (click)="downloadResume(selectedApplicant)">
                                 Download
                             </button>
+                            <ng-template #noResume>N/A</ng-template>
                         </div>
                     </div>
-                    <div class="row mb-2">
+                    <div class="row mb-2" *ngIf="componentName == 'JobApplicants'">
                         <div class="row mt-3">
                             <div class="col d-flex justify-content-end flex-wrap gap-2">
                                 <button *ngIf="['Applied','Reviewed'].includes(selectedApplicant.applicantStatus)" type="button" class="btn btn-primary px-3"

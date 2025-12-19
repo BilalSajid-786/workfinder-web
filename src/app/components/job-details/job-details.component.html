@@ -23,7 +23,7 @@
   </div>
 </div>
 
-<div  *ngIf="componentName == 'AvailableJobs' || componentName == 'SavedJobs'" #exampleModal class="modal fade modal-lg" tabindex="-1">
+<div  *ngIf="componentName == 'AvailableJobs' || componentName == 'SavedJobs' || componentName == 'JobShellApplicant'" #exampleModal class="modal fade modal-lg" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header d-flex justify-content-center position-relative">
@@ -58,8 +58,11 @@
           </div>
           <div class="row mb-2">
             <div class="col-3 fw-bold">Skills Required:</div>
-            <div class="col-9">
+            <div *ngIf="componentName == 'AvailableJobs' || componentName == 'SavedJobs'" class="col-9">
               <span *ngFor="let skill of selectedJob.skills">{{ skill }},</span>
+            </div>
+            <div *ngIf="componentName == 'JobShellApplicant'" class="col-9">
+              <span *ngFor="let skill of selectedJob.skills">{{ skill.skillName }},</span>
             </div>
           </div>
           <div class="row mb-2">
@@ -72,12 +75,13 @@
             <div class="row mt-3">
               <div class="col d-flex justify-content-end">
                 <button type="submit" class="wf-btn me-3" style="font-weight: normal; margin: 0" (click)="saveJob()"
-                  *ngIf="componentName == 'AvailableJobs'">
+                  *ngIf="componentName == 'AvailableJobs' || componentName == 'JobShellApplicant'">
                   Save
                 </button>
                 <button type="submit" class="wf-btn" style="font-weight: normal; margin: 0" (click)="applyJob()" *ngIf="
                     componentName == 'AvailableJobs' ||
-                    componentName == 'SavedJobs'
+                    componentName == 'SavedJobs' ||
+                    componentName == 'JobShellApplicant'
                   ">
                   Apply Now
                 </button>
@@ -90,7 +94,7 @@
   </div>
 </div>
 
-<div *ngIf="componentName == 'ActiveJobs' || componentName == 'InactiveJobs'" #exampleModal class="modal fade modal-lg" tabindex="-1">
+<div *ngIf="componentName == 'ActiveJobs' || componentName == 'InactiveJobs' || componentName == 'JobShellEmployer'" #exampleModal class="modal fade modal-lg" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header d-flex justify-content-center position-relative">
@@ -121,12 +125,12 @@
           </div>
           <div class="row mb-2">
             <div class="col-3 fw-bold">Expiry Date:</div>
-            <div class="col-9">{{ selectedJob.expiryDate }}</div>
+            <div class="col-9">{{ selectedJob.expiryDate | date:'mediumDate'}}</div>
           </div>
           <div class="row mb-2">
             <div class="col-3 fw-bold">Skills Required:</div>
             <div class="col-9">
-              <span *ngFor="let skill of selectedJob.skills">{{ skill.skillName }},</span>
+              <span *ngFor="let skill of selectedJob.skills; let last = last">{{ skill.skillName }}<ng-container *ngIf="!last">, </ng-container></span>
             </div>
           </div>
            <div class="row mb-2">
@@ -152,7 +156,7 @@
                 <button type="button" class="btn btn-primary px-3" style="font-weight: normal; margin: 0" (click)="editJob()">
                   Edit
                 </button>
-                <button type="button" class="btn btn-primary px-3" style="font-weight: normal; margin: 0" (click)="copyLink()">
+                <button *ngIf="componentName != 'InactiveJobs'" type="button" class="btn btn-primary px-3" style="font-weight: normal; margin: 0" (click)="copyLink()">
                   Copy Link
                 </button>
                 <button type="button" class="btn btn-primary px-3" style="font-weight: normal; margin: 0" (click)="viewApplicants()">

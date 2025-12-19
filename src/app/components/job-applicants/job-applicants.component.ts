@@ -18,6 +18,8 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicantDetailsComponent } from '../applicant-details/applicant-details.component';
 import { Modal } from 'bootstrap';
+import { HttpClient } from '@angular/common/http';
+import { DocumentService } from '../../services/document.service';
 
 @Component({
   selector: 'app-job-applicants',
@@ -34,7 +36,7 @@ import { Modal } from 'bootstrap';
     MatTooltipModule,
     MatSlideToggleModule,
     MatButtonToggleModule,
-    ApplicantDetailsComponent
+    ApplicantDetailsComponent,
   ],
   templateUrl: './job-applicants.component.html',
   styleUrl: './job-applicants.component.scss',
@@ -47,13 +49,13 @@ export class JobApplicantsComponent implements AfterViewInit {
     'country',
     'phone',
     'resume',
-    'actions'
+    'actions',
   ];
 
   dataTable = {
     filters: {
       applicantStatus: 'Applied',
-      jobId: 0
+      jobId: 0,
     },
     searchValue: '',
     sortColumn: 'name',
@@ -62,12 +64,13 @@ export class JobApplicantsComponent implements AfterViewInit {
     pageSize: 5,
     pageNo: 0,
     status: true,
-    pageIndex: 0
+    pageIndex: 0,
   };
 
   jobId: number = 0;
   jobRow: any;
-  selectedTab: 'Applied' | 'Shortlisted' | 'Hired' | 'Reviewed' | 'Rejected' = 'Applied';
+  selectedTab: 'Applied' | 'Shortlisted' | 'Hired' | 'Reviewed' | 'Rejected' =
+    'Applied';
 
   dataSource = new MatTableDataSource<any>([]);
   jobApplicants: any[] = [];
@@ -75,22 +78,28 @@ export class JobApplicantsComponent implements AfterViewInit {
   EnterSearchValue: string = '';
   selectedApplicant: any = {};
   modalInstance!: Modal;
+  private apiBase = 'https://localhost:7205';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(ApplicantDetailsComponent) applicantModal!: ApplicantDetailsComponent
+  @ViewChild(ApplicantDetailsComponent)
+  applicantModal!: ApplicantDetailsComponent;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private jobService: JobService,
     private toastr: ToastrService,
-    private pagingService: PagingService
+    private pagingService: PagingService,
+    private docService: DocumentService,
+    private http: HttpClient
   ) {
     this.jobId = Number(this.route.snapshot.paramMap.get('jobId'));
-    this.jobRow = this.router.getCurrentNavigation()?.extras?.state?.['job'] ?? window.history.state?.job;
-    console.log("JobId", this.jobId);
-    console.log("jobRow", this.jobRow);
+    this.jobRow =
+      this.router.getCurrentNavigation()?.extras?.state?.['job'] ??
+      window.history.state?.job;
+    console.log('JobId', this.jobId);
+    console.log('jobRow', this.jobRow);
   }
 
   ngAfterViewInit(): void {
@@ -130,7 +139,7 @@ export class JobApplicantsComponent implements AfterViewInit {
 
   getJobApplicants(): void {
     this.dataTable.pageNo = this.dataTable.pageIndex + 1;
-    console.log("DataTable", this.dataTable);
+    console.log('DataTable', this.dataTable);
 
     this.jobService.getJobApplicants(this.dataTable).subscribe({
       next: (res) => {
@@ -153,19 +162,19 @@ export class JobApplicantsComponent implements AfterViewInit {
     this.getJobApplicants();
   }
 
-  updateJobApplicantStatus(row: any, status: string){
+  updateJobApplicantStatus(row: any, status: string) {
     debugger;
-    console.log("Row", row);
-    console.log("status", status);
-    const payload: any ={
+    console.log('Row', row);
+    console.log('status', status);
+    const payload: any = {
       applicantId: row.applicantId,
       jobId: this.jobId,
-      applicantStatus: status
+      applicantStatus: status,
     };
-    console.log("payload", payload);
+    console.log('payload', payload);
     this.jobService.updateJobApplicantStatus(payload).subscribe({
       next: (res) => {
-        console.log("res", res);
+        console.log('res', res);
         this.toastr.success('Applicant status updated.');
         this.getJobApplicants();
       },
@@ -183,24 +192,29 @@ export class JobApplicantsComponent implements AfterViewInit {
   }
 
   openApplicantDetails(index: number) {
-    console.log("index", index);
+    console.log('index', index);
     this.selectedApplicant = this.jobApplicants[index];
     this.selectedApplicant.jobName = this.jobRow.title;
-    this.selectedApplicant.applicantStatus = this.dataTable.filters.applicantStatus;
-    console.log(" this.selectedApplicant",  this.selectedApplicant);
+    this.selectedApplicant.applicantStatus =
+      this.dataTable.filters.applicantStatus;
+    console.log(' this.selectedApplicant', this.selectedApplicant);
     this.applicantModal.openModal();
   }
 
   handleApplicantStatus(applicant: any) {
-    console.log("handleApplicant", applicant);
-    this.updateJobApplicantStatus(applicant,applicant.applicantStatus);
+    console.log('handleApplicant', applicant);
+    this.updateJobApplicantStatus(applicant, applicant.applicantStatus);
   }
 
-  handleCommunication(applicant: any){
-    console.log("handleApplicant", applicant);
+  handleCommunication(applicant: any) {
+    console.log('handleApplicant', applicant);
   }
   // updateStatus(job: any){
   //   console.log("Jobevent", job);
   //   this.onToggleStatus(job, job.isActive);
   // }
+
+  downloadResume(row: any): void {
+    this.docService.downloadResume(row.applicantId, row.resume);
+  }
 }
