@@ -23,6 +23,13 @@ export class JobService {
       .pipe(tap((response: any) => {}));
   }
 
+  EditJob(jobModel: any): Observable<ApiResponse<any>> {
+    console.log("EditJob Service Called");
+    return this.http
+      .post(`${this.apiUrl}/editJob`, jobModel)
+      .pipe(tap((response: any) => {}));
+  }
+
   GetAvailableJobs(filter: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/availableJobs`, filter).pipe(
       tap((response: any) => {
@@ -100,5 +107,9 @@ export class JobService {
     return this.http
       .post(`${this.apiUrl}/appliedjobs`, pagingModel)
       .pipe(tap((response: any) => {}));
+  }
+
+  getJobById(id: number) {
+    return this.http.get<any>(`${this.apiUrl}/getJobById/${id}`); // secured endpoint
   }
 }

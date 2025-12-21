@@ -5,6 +5,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SkillService } from '../../services/skill.service';
 import { Skill } from '../../models/skill.model';
 import { CommonModule } from '@angular/common';
@@ -33,6 +34,9 @@ export class PostJobComponent {
   countries: any[] = [];
   dateFocused: boolean = false;
 
+  isEdit = false;
+  jobId?: number;
+
   constructor(
     private fb: FormBuilder,
     private skillService: SkillService,
@@ -40,7 +44,9 @@ export class PostJobComponent {
     private authService: AuthService,
     private industryService: IndustryService,
     private toastr: ToastrService,
-    private countryService: CountryService
+    private countryService: CountryService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.GetJobTypes();
     this.getIndustries();
@@ -70,6 +76,16 @@ export class PostJobComponent {
     this.expiryDateInput.nativeElement.showPicker?.(); // optional for Chrome 108+
     this.expiryDateInput.nativeElement.focus(); // fallback
     this.dateFocused = true;
+  }
+
+  ngOnInit(): void {
+    // if :id exists => edit mode
+    const idFromRoute = this.route.snapshot.paramMap.get('id');
+    if (idFromRoute) {
+      this.isEdit = true;
+      this.jobId = +idFromRoute;
+      this.loadJob(this.jobId);
+    }
   }
 
   get jobTitle() {
@@ -110,18 +126,34 @@ export class PostJobComponent {
         industryId: values.industryId,
         employerId: this.authService.getEmployerId(),
         country: values.country,
+        jobId: this.jobId
       };
 
-      this.jobService.PostJob(payload).subscribe({
-        next: (res: any) => {
-          console.log('Response', res);
-          this.toastr.success(res.message);
-          this.jobSubmissionForm.reset();
-        },
-        error: (err: any) => {
-          this.toastr.error('Post Job Failed');
-        },
-      });
+      if (this.isEdit) {
+        console.log("EditJob", payload);
+        this.jobService.EditJob(payload).subscribe({
+          next: (res: any) => {
+            console.log('Response', res);
+            this.toastr.success(res.message);
+            this.router.navigate(['/activejobs']);
+          },
+          error: (err: any) => {
+            this.toastr.error('Edit Job Failed');
+          },
+        });
+      } else {
+        this.jobService.PostJob(payload).subscribe({
+          next: (res: any) => {
+            console.log('Response', res);
+            this.toastr.success(res.message);
+            this.jobSubmissionForm.reset();
+          },
+          error: (err: any) => {
+            this.toastr.error('Post Job Failed');
+          },
+        });
+      }
+      
     } else {
       this.jobSubmissionForm.markAllAsTouched();
     }
@@ -241,5 +273,29 @@ export class PostJobComponent {
     const current: Skill[] = control?.value || [];
     current.splice(index, 1);
     control?.setValue([...current]); // update form control
+  }
+
+  loadJob(id: number): void {
+    this.jobService.getJobById(id).subscribe({
+      next: (res) => {
+        const job = res.result; 
+        console.log("Job", job);
+        this.jobSubmissionForm.patchValue({
+          jobTitle: job.title,
+          company: job.companyName ?? this.companyName,
+          industryId: job.industryId,
+          city: job.city,
+          country: job.country,       // if you store country as name; adjust if object
+          jobType: job.jobType,
+          expiryDate: job.expiryDate ? job.expiryDate.toString().substring(0,10) : '',
+          description: job.description,
+        });
+        this.jobSubmissionForm.get('skills')?.setValue(job.skills as Skill[]);
+        // skills array -> form control (ids)
+        // const skillIds = (job.skills ?? []).map((s: any) => s.skillId);
+        // this.jobSubmissionForm.get('skills')?.setValue(skillIds);
+      },
+      error: () => this.toastr.error('Failed to load job')
+    });
   }
 }

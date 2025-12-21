@@ -16,6 +16,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CommonModule } from '@angular/common';
 import { JobDetailsComponent } from '../job-details/job-details.component';
 import { Modal } from 'bootstrap';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-inactive-jobs',
@@ -31,8 +32,9 @@ import { Modal } from 'bootstrap';
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
-    MatSlideToggleModule
-  ],
+    MatSlideToggleModule,
+    RouterLink
+],
   templateUrl: './inactive-jobs.component.html',
   styleUrl: './inactive-jobs.component.scss'
 })
@@ -72,7 +74,9 @@ export class InactiveJobsComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(JobDetailsComponent) jobModal!: JobDetailsComponent;
 
-  constructor(private jobService: JobService, private toastr: ToastrService, private pagingService: PagingService) {}
+  constructor(private jobService: JobService, private toastr: ToastrService, private pagingService: PagingService,
+    private router: Router
+  ) {}
 
   ngAfterViewInit(): void {
     console.log("GetInativeJobs");
@@ -180,6 +184,11 @@ export class InactiveJobsComponent implements AfterViewInit {
   handleDelete(job: any){
     console.log("Delete", job);
     this.deleteJob(job.jobId);
+  }
+
+  editJob(jobId: number): void {
+    console.log('EditJobCalled', jobId);
+    this.router.navigate(['/editjob', jobId]);
   }
 
 }

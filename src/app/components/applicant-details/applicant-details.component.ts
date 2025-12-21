@@ -11,6 +11,7 @@ import {
 import { Modal } from 'bootstrap';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
+import { DocumentService } from '../../services/document.service';
 
 @Component({
   selector: 'app-applicant-details',
@@ -29,6 +30,14 @@ export class ApplicantDetailsComponent implements AfterViewInit {
   @Output() onChangeStatus = new EventEmitter<any>();
   @Output() onCommunicate = new EventEmitter<any>();
   action: string = '';
+
+  /**
+   *
+   */
+  constructor(private docService: DocumentService) {
+    
+    
+  }
 
   ngAfterViewInit(): void {
     this.modalInstance = new Modal(this.modalElement.nativeElement);
@@ -83,5 +92,9 @@ export class ApplicantDetailsComponent implements AfterViewInit {
     this.selectedApplicant.communicationMode = this.action;
     this.onCommunicate.emit(this.selectedApplicant);
 
+  }
+
+  downloadResume(user: any){
+    this.docService.downloadResume(user.applicantId, user.resume);
   }
 }

@@ -38,10 +38,30 @@ export class AuthService {
     return this.getDecodeToken()?.UserId;
   }
 
-  hasPermission(permission: string): boolean {
+  // hasPermission(permission: string): boolean {
+  //   const decoded = this.getDecodeToken();
+  //   if (!decoded || !decoded['Permissions']) return false;
+  //   return decoded['Permissions'].includes(permission[0]);
+  // }
+  hasPermission(required: string | string[]): boolean {
     const decoded = this.getDecodeToken();
-    if (!decoded || !decoded['Permissions']) return false;
-    return decoded['Permissions'].includes(permission[0]);
+    if (!decoded) return false;
+
+    // token should contain permissions either as array or comma string
+    const fromToken = (decoded as any)['Permissions'];
+    const userPerms: string[] = Array.isArray(fromToken)
+      ? fromToken
+      : typeof fromToken === 'string'
+      ? fromToken.split(',').map((s) => s.trim())
+      : [];
+
+    if (!userPerms.length) return false;
+
+    if (Array.isArray(required)) {
+      return required.every((p) => userPerms.includes(p));
+    } else {
+      return userPerms.includes(required);
+    }
   }
 
   login(loginRequest: LoginRequest): Observable<any> {
@@ -92,5 +112,16 @@ export class AuthService {
   getBaseUserId() {
     const decoded = this.getDecodeToken();
     return decoded ? decoded['BaseUserId'] : '';
+  }
+
+  getTokenExpiration(): number | null {
+    const decoded = this.getDecodeToken();
+    return decoded?.exp ? decoded.exp * 1000 : null; // exp is in seconds
+  }
+
+  isTokenExpired(leewaySec = 30): boolean {
+    const expMs = this.getTokenExpiration();
+    if (!expMs) return true;
+    return Date.now() >= expMs - leewaySec * 1000;
   }
 }

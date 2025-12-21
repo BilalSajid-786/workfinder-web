@@ -18,6 +18,9 @@ import { SavedJobsComponent } from './components/saved-jobs/saved-jobs.component
 import { JobApplicantsComponent } from './components/job-applicants/job-applicants.component';
 import { ViewApplicantsComponent } from './components/view-applicants/view-applicants.component';
 import { ChatComponent } from './components/SignalRTemp/chat/chat.component';
+import { JobResolver } from './resolver/job.resolver';
+import { JobShellComponent } from './components/job-shell/job-shell.component';
+
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 export const routes: Routes = [
@@ -59,6 +62,12 @@ export const routes: Routes = [
       },
       {
         path: 'postjob',
+        component: PostJobComponent,
+        canActivate: [authGuard],
+        data: { permissions: ['Job.PostJob'] },
+      },
+      {
+        path: 'editjob/:id',
         component: PostJobComponent,
         canActivate: [authGuard],
         data: { permissions: ['Job.PostJob'] },
@@ -114,6 +123,14 @@ export const routes: Routes = [
       {
         path: 'sendmessage',
         component: ChatComponent,
+      },
+      {
+        path: 'job/:id',
+        component: JobShellComponent,
+        canActivate: [authGuard],
+        resolve: { job: JobResolver },
+        // allow if the user has EITHER of these
+        data: { anyPermissions: ['Job.ActiveJobs', 'Job.AvailableJobs'] },
       },
     ],
   },

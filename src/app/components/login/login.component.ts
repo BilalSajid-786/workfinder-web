@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -31,6 +31,7 @@ export class LoginComponent {
     private authService: AuthService,
     private router: Router,
     private toastr: ToastrService,
+    private route: ActivatedRoute,
     public lang: LanguageService
   ) {
     this.loginForm = this.fb.group({
@@ -57,6 +58,13 @@ export class LoginComponent {
       this.authService.login(loginData).subscribe({
         next: (res) => {
           this.toastr.success('Login Successfull');
+          // --- returnUrl handling (added) ---
+          const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+          if (returnUrl) {
+            this.router.navigateByUrl(returnUrl);
+            return; // stop here; don't run role fallbacks
+          }
+          // -----------------------------------
           if (this.authService.getRole() == 'Admin') {
             this.router.navigate(['dashboard']);
           } else if (this.authService.getRole() == 'Employer') {

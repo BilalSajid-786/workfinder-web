@@ -42,6 +42,8 @@ import { Guid } from '../../models/types.model';
 
 import { ApplicantDetailsComponent } from '../applicant-details/applicant-details.component';
 import { Modal } from 'bootstrap';
+import { HttpClient } from '@angular/common/http';
+import { DocumentService } from '../../services/document.service';
 
 @Component({
   selector: 'app-job-applicants',
@@ -103,15 +105,14 @@ export class JobApplicantsComponent implements AfterViewInit, OnInit {
   totalCount: number = 0;
   meetingUserId: Guid = '';
   EnterSearchValue: string = '';
-
-  meetingForm!: FormGroup;
+  selectedApplicant: any = {};
+  modalInstance!: Modal;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild('meetingModal') meetingModal!: ElementRef;
 
-  selectedApplicant: any = {};
-  modalInstance!: Modal;
+  meetingForm!: FormGroup;
+  @ViewChild('meetingModal') meetingModal!: ElementRef;
 
   @ViewChild(ApplicantDetailsComponent)
   applicantModal!: ApplicantDetailsComponent;
@@ -122,6 +123,7 @@ export class JobApplicantsComponent implements AfterViewInit, OnInit {
     private jobService: JobService,
     private toastr: ToastrService,
     private pagingService: PagingService,
+    private docService: DocumentService,
     private fb: FormBuilder,
     private meetingService: MeetingService,
     private authService: AuthService
@@ -130,6 +132,8 @@ export class JobApplicantsComponent implements AfterViewInit, OnInit {
     this.jobRow =
       this.router.getCurrentNavigation()?.extras?.state?.['job'] ??
       window.history.state?.job;
+    console.log('JobId', this.jobId);
+    console.log('jobRow', this.jobRow);
     this.meetingForm = this.fb.group({
       meetingName: ['', Validators.required],
       startTime: ['', Validators.required],
@@ -315,4 +319,8 @@ export class JobApplicantsComponent implements AfterViewInit, OnInit {
   //   console.log("Jobevent", job);
   //   this.onToggleStatus(job, job.isActive);
   // }
+
+  downloadResume(row: any): void {
+    this.docService.downloadResume(row.applicantId, row.resume);
+  }
 }

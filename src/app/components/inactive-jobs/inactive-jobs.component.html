@@ -44,7 +44,7 @@
                     <span class="cell-strong">Expiry date</span>
                 </th>
                 <td mat-cell *matCellDef="let row">
-                    {{ row.expiryDate }}
+                    {{ row.expiryDate | date:'mediumDate' }}
                 </td>
             </ng-container>
 
@@ -79,13 +79,13 @@
                     <button mat-icon-button matTooltip="View" (click)="openJobDetails(i)">
                         <mat-icon>visibility</mat-icon>
                     </button>
-                    <button mat-icon-button matTooltip="Edit">
+                    <button mat-icon-button matTooltip="Edit" (click)="editJob(row.jobId)">
                         <mat-icon>edit</mat-icon>
                     </button>
-                    <button mat-icon-button matTooltip="Duplicate">
+                    <!-- <button mat-icon-button matTooltip="Duplicate">
                         <mat-icon>content_copy</mat-icon>
-                    </button>
-                    <button mat-icon-button matTooltip="Applicants">
+                    </button> -->
+                    <button mat-icon-button matTooltip="Applicants" [routerLink]="['/jobapplicants', row.jobId]" [state]="{ job: row }">
                         <mat-icon>group</mat-icon>
                     </button>
                 </td>
