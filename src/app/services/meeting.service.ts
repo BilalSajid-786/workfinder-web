@@ -8,6 +8,8 @@ import { ApiResponse } from '../models/api-response.model';
 })
 export class MeetingService {
   private apiUrl: string = 'https://localhost:7205/api/meetings';
+  // private apiUrl: string =
+  //   'http://bilalsajid-001-site1.mtempurl.com/api/meetings';
   constructor(private http: HttpClient) {}
 
   ScheduleMeeting(meetingModel: any): Observable<ApiResponse<any>> {

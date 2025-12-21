@@ -37,6 +37,8 @@ export class UserProfileComponent implements OnInit {
   userRole: any;
   selectedResume: File[] = [];
   backendResumeName: string | null = null;
+  extension: string = '';
+  profilePicName: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -96,10 +98,10 @@ export class UserProfileComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       countryCode: [null, Validators.required],
       phone: ['', Validators.required],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
+      password: [''],
+      confirmPassword: [''],
       city: ['', Validators.required],
-      country: ['', Validators.required],
+      country: [''],
     };
 
     // Role-based controls
@@ -138,37 +140,69 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
+  onProfileSelected(event: any) {
+    const input = event.target as HTMLInputElement;
+
+    if (!input.files || input.files.length === 0) return;
+
+    const file: File = input.files[0]; // get first file
+    this.UploadProfile(file); // send to backend
+  }
+
+  UploadProfile(file: File) {
+    const formData = new FormData();
+    formData.append('formFile', file, file.name);
+    this.fileService.UploadProfile(formData).subscribe({
+      next: (res: any) => {
+        if (this.userRole == 'Employer') {
+          this.getEmployerById();
+        }
+
+        if (this.userRole == 'Applicant') {
+          this.getApplicantById();
+        }
+
+        this.buildForm();
+      },
+      error: (err: any) => {},
+    });
+  }
+
   onSubmit() {
-    let obj = { ...this.profileForm.value };
-    obj.userId = this.authService.getBaseUserId();
-    if (this.authService.getRole() == 'Employer') {
-      obj.employerId = this.authService.getUserId();
-      this.employerService
-        .editEmployer(this.authService.getUserId(), obj)
-        .subscribe({
+    if (this.profileForm.valid) {
+      let obj = { ...this.profileForm.value };
+      obj.userId = this.authService.getBaseUserId();
+      if (this.authService.getRole() == 'Employer') {
+        obj.employerId = this.authService.getUserId();
+        this.employerService
+          .editEmployer(this.authService.getUserId(), obj)
+          .subscribe({
+            next: (res) => {
+              this.toastr.success('Profile Update Successfully');
+              // this.getEmployerById();
+            },
+            error: (err) => {},
+          });
+      }
+      if (this.authService.getRole() == 'Applicant') {
+        obj.applicantId = this.authService.getUserId();
+        obj.qualificationId = this.profileForm.get('qualification')?.value;
+        obj.resume =
+          this.selectedResume.length > 0
+            ? this.selectedResume[0].name
+            : this.backendResumeName;
+
+        console.log('obj to send is', obj);
+        this.applicantService.updateApplicant(obj).subscribe({
           next: (res) => {
             this.toastr.success('Profile Update Successfully');
-            // this.getEmployerById();
+            this.uploadResume(obj.applicantId);
           },
           error: (err) => {},
         });
-    }
-    if (this.authService.getRole() == 'Applicant') {
-      obj.applicantId = this.authService.getUserId();
-      obj.qualificationId = this.profileForm.get('qualification')?.value;
-      obj.resume =
-        this.selectedResume.length > 0
-          ? this.selectedResume[0].name
-          : this.backendResumeName;
-
-      console.log('obj to send is', obj);
-      this.applicantService.updateApplicant(obj).subscribe({
-        next: (res) => {
-          this.toastr.success('Profile Update Successfully');
-          this.uploadResume(obj.applicantId);
-        },
-        error: (err) => {},
-      });
+      }
+    } else {
+      this.toastr.error('Please fill complete form');
     }
   }
 
@@ -337,7 +371,6 @@ export class UserProfileComponent implements OnInit {
       });
     }
     if (this.userRole == 'Applicant') {
-      debugger;
       this.profileForm.patchValue({
         userName: this.user.userName,
         email: this.user.email,
@@ -359,6 +392,14 @@ export class UserProfileComponent implements OnInit {
     let id = this.authService.getUserId();
     this.employerService.getEmployerById(id).subscribe((res) => {
       this.user = res;
+      this.extension = this.user.profilePic.includes('.')
+        ? this.user.profilePic.substring(
+            this.user.profilePic.lastIndexOf('.') + 1
+          )
+        : '';
+      this.profilePicName = `https://localhost:7205/profiles/${this.authService.getBaseUserId()}.${
+        this.extension
+      }`;
       this.patchFormValue();
     });
   }
@@ -368,6 +409,14 @@ export class UserProfileComponent implements OnInit {
     this.applicantService.getApplicantById().subscribe((res) => {
       this.user = res.result;
       this.backendResumeName = this.user.resume;
+      this.extension = this.user.profilePic.includes('.')
+        ? this.user.profilePic.substring(
+            this.user.profilePic.lastIndexOf('.') + 1
+          )
+        : '';
+      this.profilePicName = `https://localhost:7205/profiles/${this.authService.getBaseUserId()}.${
+        this.extension
+      }`;
       this.patchFormValue();
     });
   }

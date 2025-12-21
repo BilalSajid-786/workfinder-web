@@ -21,4 +21,10 @@ export class FileService {
       .post(`${this.apiUrl}/${fileType}/${applicantId}`, file)
       .pipe(tap((response: any) => {}));
   }
+
+  UploadProfile(file: FormData): Observable<any> {
+    return this.http
+      .post(`${this.apiUrl}/uploadProfile`, file)
+      .pipe(tap((response: any) => {}));
+  }
 }

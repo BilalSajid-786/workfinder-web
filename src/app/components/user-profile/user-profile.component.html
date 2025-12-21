@@ -434,12 +434,18 @@
       <div class="col-md-5 d-flex justify-content-center">
         <div class="d-flex flex-column align-items-center">
           <img
+            *ngIf="user.profilePic == 'NoImage.png'"
             src="https://dummyimage.com/150x150/cccccc/000000&text=User"
+            class="profile-pic mb-3 rounded-circle"
+          />
+          <img
+            *ngIf="user.profilePic != 'NoImage.png'"
+            [src]="profilePicName"
             class="profile-pic mb-3 rounded-circle"
           />
           <label class="btn btn-outline-primary btn-sm mt-2">
             Upload Photo
-            <input type="file" hidden />
+            <input type="file" hidden (change)="onProfileSelected($event)" />
           </label>
         </div>
       </div>
