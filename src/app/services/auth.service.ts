@@ -64,20 +64,6 @@ export class AuthService {
     }
   }
 
-  hasAnyPermission(required: string[]): boolean {
-    const decoded = this.getDecodeToken();
-    if (!decoded) return false;
-
-    const fromToken = (decoded as any)['Permissions'];
-    const userPerms: string[] = Array.isArray(fromToken)
-      ? fromToken
-      : typeof fromToken === 'string'
-      ? fromToken.split(',').map((s) => s.trim())
-      : [];
-
-    return required.some((p) => userPerms.includes(p));
-  }
-
   login(loginRequest: LoginRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, loginRequest).pipe(
       tap((response: any) => {
