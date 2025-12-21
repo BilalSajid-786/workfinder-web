@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -15,11 +15,13 @@ import { IndustryService } from '../../services/industry.service';
 import { Industry } from '../../models/industry.model';
 import { ToastrService } from 'ngx-toastr';
 import { CountryService } from '../../services/country.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-post-job',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MatIcon],
   templateUrl: './post-job.component.html',
   styleUrl: './post-job.component.scss',
 })
@@ -30,6 +32,7 @@ export class PostJobComponent {
   companyName: string | undefined = 'Company Name';
   industries: Industry[] = [];
   countries: any[] = [];
+  dateFocused: boolean = false;
 
   isEdit = false;
   jobId?: number;
@@ -64,6 +67,15 @@ export class PostJobComponent {
       skills: [[], [Validators.required]],
       description: ['', [Validators.required]],
     });
+  }
+
+  @ViewChild('expiryDate') expiryDateInput!: ElementRef;
+
+  focusInput() {
+    this.expiryDateInput.nativeElement.type = 'date';
+    this.expiryDateInput.nativeElement.showPicker?.(); // optional for Chrome 108+
+    this.expiryDateInput.nativeElement.focus(); // fallback
+    this.dateFocused = true;
   }
 
   ngOnInit(): void {

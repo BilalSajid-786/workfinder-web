@@ -36,6 +36,42 @@ body {
   overflow-y: auto;
 }
 
+/* Hide Google Translate toolbar/header completely */
+body .goog-te-banner-frame.skiptranslate,
+.goog-te-banner-frame {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+body .goog-te-gadget,
+body .goog-te-gadget-simple,
+body .goog-te-spinner-pos,
+body .goog-te-balloon-frame,
+body .goog-tooltip {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+.skiptranslate body,
+.skiptranslate html {
+  top: 0 !important;
+  position: static !important;
+}
+
+body.translate-loading app-root {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+body app-root {
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
+}
+
 /* main hero background and bottom padding so button/checkbox
    never overlap the decorative corner image */
 .auth-bg {

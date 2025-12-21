@@ -25,6 +25,7 @@
     <table
       mat-table
       [dataSource]="dataSource"
+      (matSortChange)="tableSortChange($event)"
       matSort
       class="jobs-table"
       matSortDisableClear
@@ -48,7 +49,7 @@
       <ng-container matColumnDef="postedDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Posted Date</th>
         <td mat-cell *matCellDef="let row">
-          {{ row.postedDate }}
+          {{ row.postedDate | date : "MM/dd/yyyy" }}
         </td>
       </ng-container>
 
@@ -62,7 +63,7 @@
 
       <!-- Status -->
       <ng-container matColumnDef="jobType">
-        <th mat-header-cell *matHeaderCellDef>Job Type</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Job Type</th>
         <td mat-cell *matCellDef="let row">
           <span>
             {{ row.jobType }}

@@ -64,6 +64,8 @@ export class AppliedJobsComponent {
     'status',
     'actions',
   ];
+  sortOrder: string = 'ASC';
+  sortColumn: string = 'Title';
   selectedUserId: any = null;
   selectedUserName: string = '';
   chatMessages: { sender: string; text: string }[] = [];
@@ -80,13 +82,17 @@ export class AppliedJobsComponent {
   }
 
   GetAppliedJobs(pageNo: number, pageSize: number): void {
-    this.jobService.GetAppliedJobs({ pageNo, pageSize }).subscribe((list) => {
-      this.appliedJobs = list.result.items ?? [];
-      this.dataSource.data = this.appliedJobs;
-      this.totalJobs = list.result.totalCount;
-      this.pageNo = list.result.pageNumber;
-      this.pageSize = list.result.pageSize;
-    });
+    var sortColumn = this.sortColumn;
+    var sortOrder = this.sortOrder;
+    this.jobService
+      .GetAppliedJobs({ pageNo, pageSize, sortColumn, sortOrder })
+      .subscribe((list) => {
+        this.appliedJobs = list.result.items ?? [];
+        this.dataSource.data = this.appliedJobs;
+        this.totalJobs = list.result.totalCount;
+        this.pageNo = list.result.pageNumber;
+        this.pageSize = list.result.pageSize;
+      });
   }
 
   openChat(user: any) {
@@ -110,6 +116,13 @@ export class AppliedJobsComponent {
   onPageChange(event: PageEvent) {
     this.pageNo = event.pageIndex + 1; // MatPaginator is 0-indexed
     this.pageSize = event.pageSize;
+    this.GetAppliedJobs(this.pageNo, this.pageSize);
+  }
+
+  tableSortChange(event: any) {
+    console.log('Sort Event', event);
+    this.sortColumn = event.active;
+    this.sortOrder = event.direction;
     this.GetAppliedJobs(this.pageNo, this.pageSize);
   }
 

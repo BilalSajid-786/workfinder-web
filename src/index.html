@@ -10,10 +10,32 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
     />
-      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+  </head>
   <body class="mat-typography">
     <app-root></app-root>
+    <!-- Hidden Google Translate container -->
+    <div id="google_translate_element" style="display: none"></div>
+
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {
+            pageLanguage: "en",
+            autoDisplay: false,
+          },
+          "google_translate_element"
+        );
+      }
+    </script>
+
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   </body>
 </html>

@@ -3,3 +3,36 @@
   box-shadow: none !important;
   outline: none !important;
 }
+
+.custom-date-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100% !important;
+}
+
+.calendar-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #0a66c2 !important;
+}
+.placeholder-text {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  pointer-events: auto; /* allows clicks to reach input */
+}
+
+.placeholder-text.hidden {
+  display: none; /* hide when user selects a date */
+}
+
+.customdatepicker::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  display: none; /* hides default calendar icon */
+  cursor: pointer;
+}

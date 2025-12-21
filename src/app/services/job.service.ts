@@ -8,7 +8,7 @@ import { Observable, tap } from 'rxjs';
 })
 export class JobService {
   private apiUrl: string = 'https://localhost:7205/api/jobs';
-  //private apiUrl: string = 'http://bilalsajid-001-site1.mtempurl.com/api/jobs';
+  // private apiUrl: string = 'http://bilalsajid-001-site1.mtempurl.com/api/jobs';
   constructor(private http: HttpClient) {}
 
   GetJobTypes(): Observable<ApiResponse<string[]>> {
@@ -62,6 +62,13 @@ export class JobService {
     );
   }
 
+  UnSaveJob(filter: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/unsaveJob`, filter).pipe(
+      tap((response: any) => {
+        // optional: handle response here if needed
+      })
+    );
+  }
   deleteJob(jobId: number): Observable<ApiResponse<any>> {
     console.log('deleteJobService', jobId);
     return this.http

@@ -32,6 +32,10 @@ export const authGuard: CanActivateFn = (route, state): boolean | UrlTree => {
     return toLogin();
   }
 
+  if (auth.getToken?.()) {
+    return true;
+  }
+
   const anyPerms = route.data?.['anyPermissions'] as string[] | undefined;
   if (anyPerms) {
     const okAny = anyPerms.some(p => auth.hasPermission(p));

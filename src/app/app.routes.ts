@@ -21,6 +21,7 @@ import { ChatComponent } from './components/SignalRTemp/chat/chat.component';
 import { JobResolver } from './resolver/job.resolver';
 import { JobShellComponent } from './components/job-shell/job-shell.component';
 
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 export const routes: Routes = [
   {
@@ -112,6 +113,12 @@ export const routes: Routes = [
         component: ViewApplicantsComponent,
         canActivate: [authGuard],
         data: { permissions: ['Applicant.Get'] },
+      },
+      {
+        path: 'userprofile',
+        canActivate: [authGuard],
+        data: { permissions: [] },
+        component: UserProfileComponent,
       },
       {
         path: 'sendmessage',

@@ -73,6 +73,22 @@ export class AuthService {
     );
   }
 
+  forgotPassword(forgotPasswordRequest: any): Observable<any> {
+    return this.http
+      .post(`${this.apiUrl}/forgotpassword`, forgotPasswordRequest)
+      .pipe(
+        tap((response: any) => {
+          // Save token in localStorage
+        })
+      );
+  }
+
+  resetPassword(resetPasswordRequest: any): Observable<any> {
+    return this.http
+      .post(`${this.apiUrl}/resetpassword`, resetPasswordRequest)
+      .pipe(tap((response: any) => {}));
+  }
+
   // Logout
   logout(): void {
     localStorage.removeItem('token');

@@ -10,6 +10,7 @@ import { AuthService } from '../../services/auth.service';
 import { LoginRequest } from '../../models/login-request.model';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-login',
@@ -31,6 +32,7 @@ export class LoginComponent {
     private router: Router,
     private toastr: ToastrService,
     private route: ActivatedRoute,
+    public lang: LanguageService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],

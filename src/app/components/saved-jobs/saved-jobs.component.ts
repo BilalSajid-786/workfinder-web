@@ -60,6 +60,8 @@ export class SavedJobsComponent implements AfterViewInit {
     'jobType',
     'actions',
   ];
+  sortOrder: string = 'ASC';
+  sortColumn: string = 'Title';
 
   ngAfterViewInit() {
     // this.modalInstance = new Modal(this.modalElement.nativeElement);
@@ -74,6 +76,13 @@ export class SavedJobsComponent implements AfterViewInit {
   onPageChange(event: PageEvent) {
     this.pageNo = event.pageIndex + 1; // MatPaginator is 0-indexed
     this.pageSize = event.pageSize;
+    this.GetSavedJobs(this.pageNo, this.pageSize);
+  }
+
+  tableSortChange(event: any) {
+    console.log('Sort Event', event);
+    this.sortColumn = event.active;
+    this.sortOrder = event.direction;
     this.GetSavedJobs(this.pageNo, this.pageSize);
   }
 
@@ -137,12 +146,16 @@ export class SavedJobsComponent implements AfterViewInit {
   }
 
   GetSavedJobs(pageNo: number, pageSize: number): void {
-    this.jobService.GetSavedJobs({ pageNo, pageSize }).subscribe((list) => {
-      this.savedJobs = list.result.items ?? [];
-      this.dataSource.data = this.savedJobs;
-      this.totalJobs = list.result.totalCount;
-      this.pageNo = list.result.pageNumber;
-      this.pageSize = list.result.pageSize;
-    });
+    var sortColumn = this.sortColumn;
+    var sortOrder = this.sortOrder;
+    this.jobService
+      .GetSavedJobs({ pageNo, pageSize, sortColumn, sortOrder })
+      .subscribe((list) => {
+        this.savedJobs = list.result.items ?? [];
+        this.dataSource.data = this.savedJobs;
+        this.totalJobs = list.result.totalCount;
+        this.pageNo = list.result.pageNumber;
+        this.pageSize = list.result.pageSize;
+      });
   }
 }
