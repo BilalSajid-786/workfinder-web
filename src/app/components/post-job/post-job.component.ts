@@ -146,6 +146,7 @@ export class PostJobComponent {
           next: (res: any) => {
             console.log('Response', res);
             this.toastr.success(res.message);
+            this.jobSubmissionForm.reset();
           },
           error: (err: any) => {
             this.toastr.error('Post Job Failed');
