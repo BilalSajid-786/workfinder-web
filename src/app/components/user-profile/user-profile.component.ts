@@ -39,6 +39,7 @@ export class UserProfileComponent implements OnInit {
   backendResumeName: string | null = null;
   extension: string = '';
   profilePicName: string = '';
+  companyName: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -172,6 +173,7 @@ export class UserProfileComponent implements OnInit {
     if (this.profileForm.valid) {
       let obj = { ...this.profileForm.value };
       obj.userId = this.authService.getBaseUserId();
+      obj.companyName = this.user.companyName;
       if (this.authService.getRole() == 'Employer') {
         obj.employerId = this.authService.getUserId();
         this.employerService

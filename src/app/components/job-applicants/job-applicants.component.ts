@@ -141,10 +141,11 @@ export class JobApplicantsComponent implements AfterViewInit, OnInit {
     });
   }
   ngOnInit(): void {
-    this.modalInstance = new Modal(this.meetingModal.nativeElement);
+    // this.modalInstance = new Modal(this.meetingModal.nativeElement);
   }
 
   saveMeetingUser(user: any) {
+    debugger;
     console.log(user);
     this.meetingUserId = user.applicantId;
 
