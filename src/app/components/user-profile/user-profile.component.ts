@@ -182,6 +182,9 @@ export class UserProfileComponent implements OnInit {
             next: (res) => {
               this.toastr.success('Profile Update Successfully');
               // this.getEmployerById();
+              console.log(res);
+              localStorage.removeItem('token');
+              localStorage.setItem('token', res.result);
             },
             error: (err) => {},
           });
@@ -199,6 +202,8 @@ export class UserProfileComponent implements OnInit {
           next: (res) => {
             this.toastr.success('Profile Update Successfully');
             this.uploadResume(obj.applicantId);
+            localStorage.removeItem('token');
+            localStorage.setItem('token', res.result);
           },
           error: (err) => {},
         });
