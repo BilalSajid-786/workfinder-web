@@ -24,7 +24,12 @@
         </div>
 
         <div class="message">
-          <div class="message-text">{{ msg.text }}</div>
+          <!-- <div class="message-text">{{ msg.text }}</div> -->
+          <!-- message.component.html -->
+          <div
+            class="message-text"
+            [innerHTML]="makeLinksClickable(msg.text)"
+          ></div>
           <div class="message-time">{{ msg.sentAt | date : "shortTime" }}</div>
         </div>
 

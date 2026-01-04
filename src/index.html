@@ -23,12 +23,22 @@
     <app-root></app-root>
     <!-- Hidden Google Translate container -->
     <div id="google_translate_element" style="display: none"></div>
+    <script>
+      (function () {
+        const lang = sessionStorage.getItem("lang") || "en";
+
+        document.cookie = "googtrans=/en/" + lang + ";path=/;";
+        document.cookie =
+          "googtrans=/en/" + lang + ";path=/;domain=" + location.hostname;
+      })();
+    </script>
 
     <script type="text/javascript">
       function googleTranslateElementInit() {
         new google.translate.TranslateElement(
           {
             pageLanguage: "en",
+            includedLanguages: "en,de",
             autoDisplay: false,
           },
           "google_translate_element"

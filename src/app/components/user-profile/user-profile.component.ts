@@ -19,6 +19,7 @@ import { QualificationService } from '../../services/qualification.service';
 import { ApplicantService } from '../../services/applicant.service';
 import { Guid } from '../../models/types.model';
 import { FileService } from '../../services/file.service';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -50,6 +51,7 @@ export class UserProfileComponent implements OnInit {
     private qualificationService: QualificationService,
     private applicantService: ApplicantService,
     private fileService: FileService,
+    private sharedService: SharedService,
     private toastr: ToastrService
   ) {
     this.getIndustries();
@@ -156,20 +158,19 @@ export class UserProfileComponent implements OnInit {
     this.fileService.UploadProfile(formData).subscribe({
       next: (res: any) => {
         if (this.userRole == 'Employer') {
-          this.getEmployerById();
+          this.getEmployerById(0);
         }
-
         if (this.userRole == 'Applicant') {
-          this.getApplicantById();
+          this.getApplicantById(0);
         }
-
-        this.buildForm();
+        // this.buildForm();
       },
       error: (err: any) => {},
     });
   }
 
   onSubmit() {
+    debugger;
     if (this.profileForm.valid) {
       let obj = { ...this.profileForm.value };
       obj.userId = this.authService.getBaseUserId();
@@ -185,6 +186,10 @@ export class UserProfileComponent implements OnInit {
               console.log(res);
               localStorage.removeItem('token');
               localStorage.setItem('token', res.result);
+              debugger;
+              this.sharedService.setUserName(
+                this.profileForm.get('userName')?.value
+              );
             },
             error: (err) => {},
           });
@@ -204,6 +209,9 @@ export class UserProfileComponent implements OnInit {
             this.uploadResume(obj.applicantId);
             localStorage.removeItem('token');
             localStorage.setItem('token', res.result);
+            this.sharedService.setUserName(
+              this.profileForm.get('userName')?.value
+            );
           },
           error: (err) => {},
         });
@@ -395,7 +403,8 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  getEmployerById() {
+  getEmployerById(upload: number = 1) {
+    debugger;
     let id = this.authService.getUserId();
     this.employerService.getEmployerById(id).subscribe((res) => {
       this.user = res;
@@ -406,12 +415,12 @@ export class UserProfileComponent implements OnInit {
         : '';
       this.profilePicName = `https://localhost:7205/profiles/${this.authService.getBaseUserId()}.${
         this.extension
-      }`;
-      this.patchFormValue();
+      }?t=${Date.now()}`;
+      if (upload) this.patchFormValue();
     });
   }
 
-  getApplicantById() {
+  getApplicantById(upload: number = 1) {
     let id = this.authService.getUserId();
     this.applicantService.getApplicantById().subscribe((res) => {
       this.user = res.result;
@@ -423,8 +432,8 @@ export class UserProfileComponent implements OnInit {
         : '';
       this.profilePicName = `https://localhost:7205/profiles/${this.authService.getBaseUserId()}.${
         this.extension
-      }`;
-      this.patchFormValue();
+      }?t=${Date.now()}`;
+      if (upload) this.patchFormValue();
     });
   }
 

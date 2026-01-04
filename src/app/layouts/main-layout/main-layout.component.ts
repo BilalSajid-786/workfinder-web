@@ -9,6 +9,7 @@ import { NotificationService } from '../../services/notification.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../services/auth.service';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -41,10 +42,15 @@ export class MainLayoutComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private authService: AuthService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private sharedService: SharedService
   ) {}
 
   ngOnInit(): void {
+    this.sharedService.userName$.subscribe((name) => {
+      debugger;
+      this.userName = name;
+    });
     this.userService.getModules().subscribe({
       next: (data) => {
         this.modules = data;

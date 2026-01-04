@@ -3,13 +3,16 @@ import {
   HttpRequest,
   HttpHandlerFn,
   HttpEvent,
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Observable, finalize } from 'rxjs';
+import { Observable, catchError, finalize, throwError } from 'rxjs';
 import { LoaderService } from '../services/loader.service';
+import { Router } from '@angular/router';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const loaderService = inject(LoaderService);
+  const router = inject(Router);
   loaderService.show();
 
   const token = localStorage.getItem('token');
@@ -21,7 +24,17 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return next(authReq).pipe(finalize(() => loaderService.hide()));
+    return next(authReq).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          // Token expired or invalid
+          localStorage.clear();
+          router.navigate(['/login']);
+        }
+        return throwError(() => error);
+      }),
+      finalize(() => loaderService.hide())
+    );
   }
 
   // If no token or it's a login request

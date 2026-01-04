@@ -1,10 +1,20 @@
-<div #confirmationModal class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel"
-  aria-hidden="true">
+<div
+  #confirmationModal
+  class="modal fade"
+  id="confirmationModal"
+  tabindex="-1"
+  aria-labelledby="confirmationModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header bg-primary text-white">
         <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
       </div>
 
       <div class="modal-body text-center">
@@ -12,7 +22,12 @@
       </div>
 
       <div class="modal-footer justify-content-center">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="onCancel()">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          (click)="onCancel()"
+        >
           No
         </button>
         <button type="button" class="btn btn-success" (click)="onConfirm()">
@@ -23,95 +38,260 @@
   </div>
 </div>
 
-<div *ngIf="componentName == 'JobApplicants' || componentName == 'ViewApplicants'" #exampleModal class="modal fade modal-md" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header d-flex justify-content-center position-relative">
-                <h5 class="modal-title">{{selectedApplicant.userName}}</h5>
-                <button type="button" class="btn-close position-absolute end-0 me-3" (click)="closeModal()"></button>
-            </div>
-            <div class="modal-body">
-                <div class="container">
-                    <div class="d-flex gap-3 align-items-start mb-3">
-                        <img [src]="'assets/user-placeholder.svg'"
-                            class="rounded-circle object-fit-cover" alt="applicant avatar" width="110" height="110" />
-                        <div class="flex-grow-1">
-                            <div class="row mb-2">
-                                <div class="col-6 fw-bold">Applicant Name:</div>
-                                <div class="col-6" style="margin-left: -20px;">{{ selectedApplicant.userName }}</div>
-                            </div>
-                            <div *ngIf="componentName == 'JobApplicants'">
-                                <div class="row mb-2">
-                                    <div class="col-6 fw-bold">Applied For:</div>
-                                    <div class="col-6" style="margin-left: -20px;">{{ selectedApplicant.jobName }}</div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-6 fw-bold">Status:</div>
-                                    <div class="col-6" style="margin-left: -20px;">{{ selectedApplicant.applicantStatus }}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-2 fw-bold">Email:</div>
-                        <div class="col-10">{{ selectedApplicant.email }}</div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-2 fw-bold">Phone:</div>
-                        <div class="col-10">{{ selectedApplicant.phone }}</div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-2 fw-bold">Skills:</div>
-                        <div class="col-10">
-                            <span *ngFor="let skill of selectedApplicant.skills">{{ skill.skillName }},</span>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-2 fw-bold">Eduation:</div>
-                        <div class="col-10">{{ selectedApplicant.qualification }}</div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-2 fw-bold">Resume:</div>
-                        <div class="col-10">
-                            <button *ngIf="selectedApplicant?.resume; else noResume" type="button" class="btn btn-primary px-3" style="font-weight: normal; margin: 0"
-                            (click)="downloadResume(selectedApplicant)">
-                                Download
-                            </button>
-                            <ng-template #noResume>N/A</ng-template>
-                        </div>
-                    </div>
-                    <div class="row mb-2" *ngIf="componentName == 'JobApplicants'">
-                        <div class="row mt-3">
-                            <div class="col d-flex justify-content-end flex-wrap gap-2">
-                                <button *ngIf="['Applied','Reviewed'].includes(selectedApplicant.applicantStatus)" type="button" class="btn btn-primary px-3"
-                                    style="font-weight: normal; margin: 0" (click)="updateApplicantStatus('Shortlisted')">
-                                    Shortlist
-                                </button>
-                                <button *ngIf="['Applied'].includes(selectedApplicant.applicantStatus)" type="button" class="btn btn-primary px-3"
-                                    style="font-weight: normal; margin: 0" (click)="updateApplicantStatus('Reviewed')">
-                                    Mark as Reviewed
-                                </button>
-                                <button *ngIf="['Shortlisted','Hired'].includes(selectedApplicant.applicantStatus)" type="button" class="btn btn-primary px-3"
-                                    style="font-weight: normal; margin: 0" (click)="communicationMode('meeting')">
-                                    Schedule Meeting
-                                </button>
-                                <button *ngIf="['Shortlisted','Hired'].includes(selectedApplicant.applicantStatus)" type="button" class="btn btn-primary px-3"
-                                    style="font-weight: normal; margin: 0" (click)="communicationMode('chat')">
-                                    Chat
-                                </button>
-                                <button *ngIf="['Shortlisted'].includes(selectedApplicant.applicantStatus)" type="button" class="btn btn-primary px-3"
-                                    style="font-weight: normal; margin: 0" (click)="updateApplicantStatus('Hired')">
-                                    Hire
-                                </button>
-                                <button *ngIf="['Applied','Shortlisted','Hired','Reviewed'].includes(selectedApplicant.applicantStatus)" type="button" class="btn btn-danger px-3"
-                                    style="font-weight: normal; margin: 0" (click)="updateApplicantStatus('Rejected')">
-                                    Reject
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+<div
+  *ngIf="componentName == 'JobApplicants' || componentName == 'ViewApplicants'"
+  #exampleModal
+  class="modal fade modal-md"
+  tabindex="-1"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header d-flex justify-content-center position-relative">
+        <h5 class="modal-title">{{ selectedApplicant.userName }}</h5>
+        <button
+          type="button"
+          class="btn-close position-absolute end-0 me-3"
+          (click)="closeModal()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="d-flex gap-3 align-items-start mb-3">
+            <img
+              [src]="'assets/user-placeholder.svg'"
+              class="rounded-circle object-fit-cover"
+              alt="applicant avatar"
+              width="110"
+              height="110"
+            />
+            <div class="flex-grow-1">
+              <div class="row mb-2">
+                <div class="col-6 fw-bold">Applicant Name:</div>
+                <div class="col-6" style="margin-left: -20px">
+                  {{ selectedApplicant.userName }}
                 </div>
+              </div>
+              <div *ngIf="componentName == 'JobApplicants'">
+                <div class="row mb-2">
+                  <div class="col-6 fw-bold">Applied For:</div>
+                  <div class="col-6" style="margin-left: -20px">
+                    {{ selectedApplicant.jobName }}
+                  </div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col-6 fw-bold">Status:</div>
+                  <div class="col-6" style="margin-left: -20px">
+                    {{ selectedApplicant.applicantStatus }}
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-2 fw-bold">Email:</div>
+            <div class="col-10">{{ selectedApplicant.email }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-2 fw-bold">Phone:</div>
+            <div class="col-10">{{ selectedApplicant.phone }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-2 fw-bold">Skills:</div>
+            <div class="col-10">
+              <span *ngFor="let skill of selectedApplicant.skills"
+                >{{ skill.skillName }},</span
+              >
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-2 fw-bold">Eduation:</div>
+            <div class="col-10">{{ selectedApplicant.qualification }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-2 fw-bold">Resume:</div>
+            <div class="col-10">
+              <button
+                *ngIf="selectedApplicant?.resume; else noResume"
+                type="button"
+                class="btn btn-primary px-3"
+                style="font-weight: normal; margin: 0"
+                (click)="downloadResume(selectedApplicant)"
+              >
+                Download
+              </button>
+              <ng-template #noResume>N/A</ng-template>
+            </div>
+          </div>
+          <div class="row mb-2" *ngIf="componentName == 'JobApplicants'">
+            <div class="row mt-3">
+              <div class="col d-flex justify-content-end flex-wrap gap-2">
+                <button
+                  *ngIf="
+                    ['Applied', 'Reviewed'].includes(
+                      selectedApplicant.applicantStatus
+                    )
+                  "
+                  type="button"
+                  class="btn btn-primary px-3"
+                  style="font-weight: normal; margin: 0"
+                  (click)="updateApplicantStatus('Shortlisted')"
+                >
+                  Shortlist
+                </button>
+                <button
+                  *ngIf="
+                    ['Applied'].includes(selectedApplicant.applicantStatus)
+                  "
+                  type="button"
+                  class="btn btn-primary px-3"
+                  style="font-weight: normal; margin: 0"
+                  (click)="updateApplicantStatus('Reviewed')"
+                >
+                  Mark as Reviewed
+                </button>
+                <button
+                  *ngIf="
+                    ['Shortlisted', 'Hired'].includes(
+                      selectedApplicant.applicantStatus
+                    )
+                  "
+                  type="button"
+                  class="btn btn-primary px-3"
+                  style="font-weight: normal; margin: 0"
+                  (click)="communicationMode('meeting')"
+                >
+                  Schedule Meeting
+                </button>
+                <button
+                  *ngIf="
+                    ['Shortlisted', 'Hired'].includes(
+                      selectedApplicant.applicantStatus
+                    )
+                  "
+                  type="button"
+                  class="btn btn-primary px-3"
+                  style="font-weight: normal; margin: 0"
+                  (click)="communicationMode('chat')"
+                >
+                  Chat
+                </button>
+                <button
+                  *ngIf="
+                    ['Shortlisted'].includes(selectedApplicant.applicantStatus)
+                  "
+                  type="button"
+                  class="btn btn-primary px-3"
+                  style="font-weight: normal; margin: 0"
+                  (click)="updateApplicantStatus('Hired')"
+                >
+                  Hire
+                </button>
+                <button
+                  *ngIf="
+                    ['Applied', 'Shortlisted', 'Hired', 'Reviewed'].includes(
+                      selectedApplicant.applicantStatus
+                    )
+                  "
+                  type="button"
+                  class="btn btn-danger px-3"
+                  style="font-weight: normal; margin: 0"
+                  (click)="updateApplicantStatus('Rejected')"
+                >
+                  Reject
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
+</div>
+
+<!--Chat pannel-->
+<app-chat-pannel
+  *ngIf="selectedUserId"
+  [userId]="selectedUserId"
+  [userName]="selectedUserName"
+  (onClose)="selectedUserId = null"
+></app-chat-pannel>
+
+<!--Video Meeting Popup-->
+<div class="modal fade" id="meetingModal" #meetingModal tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Create Meeting</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+
+      <form [formGroup]="meetingForm" (ngSubmit)="submitForm()">
+        <div class="modal-body">
+          <!-- Meeting Name -->
+          <div class="mb-3">
+            <label class="form-label">Meeting Name</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="meetingName"
+            />
+            <small
+              class="text-danger"
+              *ngIf="
+                meetingForm.get('meetingName')?.touched &&
+                meetingForm.get('meetingName')?.invalid
+              "
+            >
+              Meeting name is required
+            </small>
+          </div>
+
+          <!-- Start Time -->
+          <div class="mb-3">
+            <label class="form-label">Start Time</label>
+            <input
+              type="datetime-local"
+              class="form-control"
+              formControlName="startTime"
+            />
+          </div>
+
+          <!-- Duration -->
+          <div class="mb-3">
+            <label class="form-label">Duration (minutes)</label>
+            <input
+              type="number"
+              class="form-control"
+              formControlName="duration"
+              min="1"
+            />
+            <small
+              class="text-danger"
+              *ngIf="
+                meetingForm.get('duration')?.touched &&
+                meetingForm.get('duration')?.invalid
+              "
+            >
+              Duration must be at least 1 minute
+            </small>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-success">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
