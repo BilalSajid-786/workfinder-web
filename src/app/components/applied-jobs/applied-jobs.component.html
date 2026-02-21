@@ -49,7 +49,7 @@
       <ng-container matColumnDef="postedDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Posted Date</th>
         <td mat-cell *matCellDef="let row">
-          {{ row.postedDate | date : "MM/dd/yyyy" }}
+          {{ row.postedDate | date : "mediumDate" }}
         </td>
       </ng-container>
 

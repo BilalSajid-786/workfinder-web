@@ -34,6 +34,7 @@ export class MainLayoutComponent implements OnInit {
   count: number = 0;
   sidebarOpen: boolean = true;
   userName: string | undefined = '';
+  profilePictureUrl: string | null = null;
 
   /**
    *
@@ -48,8 +49,14 @@ export class MainLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.sharedService.userName$.subscribe((name) => {
-      debugger;
       this.userName = name;
+    });
+
+    this.sharedService.userProfile$.subscribe((profile) => {
+      // Update profile picture when userProfile changes
+      if (profile) {
+        this.profilePictureUrl =  `https://localhost:44389/profiles/${profile}?t=${Date.now()}`;
+      }
     });
     this.userService.getModules().subscribe({
       next: (data) => {
@@ -63,6 +70,7 @@ export class MainLayoutComponent implements OnInit {
     this.notificationService.count$.subscribe((c) => (this.unreadCount = c));
 
     this.userName = this.authService.getUserName();
+    this.updateProfilePicture();
   }
 
   getNotifications() {
@@ -92,6 +100,24 @@ export class MainLayoutComponent implements OnInit {
   onEditProfile() {
     this.router.navigate(['userprofile']);
   }
+
+  updateProfilePicture() {
+    debugger;
+    const profilePic = this.authService.getUserProfilePic();
+    if (!profilePic || profilePic === 'NoImage.png') {
+      this.profilePictureUrl = 'https://dummyimage.com/150x150/cccccc/000000&text=User';
+      return;
+    }
+    this.profilePictureUrl = `https://localhost:44389/profiles/${this.authService.getUserProfilePic()}?t=${Date.now()}`;
+  }
+
+  // getProfilePictureUrl(profile: string): string | null {
+  //   const profilePic = this.authService.getUserProfilePic();
+  //   if (!profilePic || profilePic === 'NoImage.png') {
+  //     return 'https://dummyimage.com/150x150/cccccc/000000&text=User';
+  //   }
+  //   return `https://localhost:44389/profiles/${this.authService.getUserProfilePic()}?t=${Date.now()}`;
+  // }
 
   handleNotification(notificationId: number) {
     // setTimeout(() => {

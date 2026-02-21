@@ -48,20 +48,33 @@
             class="profile-btn no-padding"
             [matMenuTriggerFor]="userMenu"
           >
-            <mat-icon class="profile-icon">account_circle</mat-icon>
-            <mat-icon class="profile-icon">keyboard_arrow_down</mat-icon>
+            <img
+              [src]="profilePictureUrl"
+              alt="Profile"
+              class="profile-pic-navbar rounded-circle"
+            />
+            <mat-icon *ngIf="!profilePictureUrl" class="profile-icon">account_circle</mat-icon>
+            <mat-icon class="profile-icon dropdown-arrow">keyboard_arrow_down</mat-icon>
           </button>
 
           <mat-menu #userMenu="matMenu" class="custom-user-menu">
             <!-- Username Display -->
             <div class="menu-header">
-              <mat-icon>account_circle</mat-icon>
+              <img
+                [src]="profilePictureUrl"
+                alt="Profile"
+                class="profile-menu-pic rounded-circle"
+              />
               <span class="username">{{ userName }}</span>
             </div>
 
             <button mat-menu-item (click)="onEditProfile()">
-              <mat-icon>account_circle</mat-icon>
-              <span>Edit Profile</span>
+              <img
+                [src]="profilePictureUrl"
+                alt="Profile"
+                class="profile-menu-pic rounded-circle"
+              />
+              <span class="edit-profile-text">Edit Profile</span>
             </button>
 
             <!-- Logout Button -->

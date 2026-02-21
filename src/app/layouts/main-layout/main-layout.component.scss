@@ -76,6 +76,14 @@
   color: #0a66c2 !important;
 }
 
+.profile-pic-navbar {
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
 .custom-user-menu {
   padding: 0; /* remove default padding */
 }
@@ -83,7 +91,7 @@
 .menu-header {
   display: flex;
   align-items: center;
-  padding: 10px 20px;
+  padding: 10px 10px;
   font-weight: bold;
   gap: 10px;
   background-color: #fff;
@@ -100,6 +108,19 @@
 .mat-menu-item mat-icon {
   margin-right: 10px;
 }
+
+.profile-menu-pic {
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.edit-profile-text {
+  margin-left: 10px;
+}
+
 @keyframes slideDown {
   from {
     opacity: 0;
