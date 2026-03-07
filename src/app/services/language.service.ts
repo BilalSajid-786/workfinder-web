@@ -16,30 +16,57 @@ export class LanguageService {
     this.applyLanguage(lang);
   }
 
+  // applyLanguage(lang: 'en' | 'de') {
+  //   this.currentLang = lang;
+  //   sessionStorage.setItem('lang', lang);
+  //   this.lang$.next(lang);
+
+  //   const applySelect = () => {
+  //     const select = document.querySelector(
+  //       '#google_translate_element select'
+  //     ) as HTMLSelectElement;
+  //     if (!select) {
+  //       setTimeout(applySelect, 50);
+  //       return;
+  //     }
+
+  //     // force the language even if Google changes it
+  //     if (select.value !== lang) {
+  //       select.value = lang;
+  //       select.dispatchEvent(new Event('change'));
+  //     }
+  //   };
+
+  //   // Give Google Translate some time to initialize
+  //   setTimeout(applySelect, 100);
+  //   setTimeout(applySelect, 300);
+  //   setTimeout(applySelect, 600);
+  // }
+
   applyLanguage(lang: 'en' | 'de') {
-    this.currentLang = lang;
-    sessionStorage.setItem('lang', lang);
-    this.lang$.next(lang);
+  this.currentLang = lang;
 
-    const applySelect = () => {
-      const select = document.querySelector(
-        '#google_translate_element select'
-      ) as HTMLSelectElement;
-      if (!select) {
-        setTimeout(applySelect, 50);
-        return;
-      }
+  sessionStorage.setItem('lang', lang);
 
-      // force the language even if Google changes it
-      if (select.value !== lang) {
-        select.value = lang;
-        select.dispatchEvent(new Event('change'));
-      }
-    };
+  // overwrite cookie
+  document.cookie = `googtrans=/en/${lang};path=/`;
 
-    // Give Google Translate some time to initialize
-    setTimeout(applySelect, 100);
-    setTimeout(applySelect, 300);
-    setTimeout(applySelect, 600);
-  }
+  this.lang$.next(lang);
+
+  const applySelect = () => {
+    const select = document.querySelector(
+      '#google_translate_element select'
+    ) as HTMLSelectElement;
+
+    if (!select) {
+      setTimeout(applySelect, 100);
+      return;
+    }
+
+    select.value = lang;
+    select.dispatchEvent(new Event('change'));
+  };
+
+  applySelect();
+}
 }
