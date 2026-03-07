@@ -57,20 +57,25 @@ export class LoginComponent {
       const loginData: LoginRequest = this.loginForm.value;
       this.authService.login(loginData).subscribe({
         next: (res) => {
-          this.toastr.success('Login Successfull');
-          // --- returnUrl handling (added) ---
-          const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
-          if (returnUrl) {
-            this.router.navigateByUrl(returnUrl);
-            return; // stop here; don't run role fallbacks
+          if (res.message == "Payment required") {
+            window.location.href = res.result;
           }
-          // -----------------------------------
-          if (this.authService.getRole() == 'Admin') {
-            this.router.navigate(['dashboard']);
-          } else if (this.authService.getRole() == 'Employer') {
-            this.router.navigate(['activejobs']);
-          } else if (this.authService.getRole() == 'Applicant') {
-            this.router.navigate(['availablejobs']);
+          else {
+            this.toastr.success('Login Successfull');
+            // --- returnUrl handling (added) ---
+            const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+            if (returnUrl) {
+              this.router.navigateByUrl(returnUrl);
+              return; // stop here; don't run role fallbacks
+            }
+            // -----------------------------------
+            if (this.authService.getRole() == 'Admin') {
+              this.router.navigate(['dashboard']);
+            } else if (this.authService.getRole() == 'Employer') {
+              this.router.navigate(['activejobs']);
+            } else if (this.authService.getRole() == 'Applicant') {
+              this.router.navigate(['availablejobs']);
+            }
           }
         },
         error: (err) => {

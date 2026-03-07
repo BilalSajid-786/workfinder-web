@@ -1,0 +1,448 @@
+.subscription-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.subscription-header {
+  text-align: center;
+  color: white;
+  margin-bottom: 60px;
+  animation: fadeInDown 0.6s ease;
+}
+
+.subscription-title {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.subscription-subtitle {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+.user-info {
+  margin-top: 20px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-email {
+  font-size: 15px;
+  color: white;
+  margin: 0;
+  font-weight: 500;
+
+  strong {
+    font-weight: 700;
+    display: block;
+    margin-top: 8px;
+    font-size: 16px;
+  }
+}
+
+.subscription-content {
+  background: white;
+  border-radius: 20px;
+  padding: 50px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 0.6s ease 0.2s both;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 24px;
+  margin-top: 0;
+}
+
+/* Trial Section Styles */
+.trial-section {
+  margin-bottom: 40px;
+}
+
+.trial-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.trial-btn {
+  padding: 24px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+
+  &:hover {
+    border-color: #667eea;
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.1);
+  }
+
+  &.active {
+    border-color: #667eea;
+    background: linear-gradient(135deg, #667eea15, #764ba215);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+  }
+}
+
+.trial-duration {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  display: block;
+}
+
+.trial-free {
+  font-size: 12px;
+  color: #667eea;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+}
+
+/* Promo Code Section Styles */
+.promo-section {
+  margin-bottom: 40px;
+  padding: 20px;
+  background: #f8f9ff;
+  border-radius: 12px;
+  border: 1px solid #e0e5ff;
+}
+
+.promo-input-wrapper {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.promo-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+
+  &::placeholder {
+    color: #999;
+  }
+}
+
+.apply-btn {
+  padding: 12px 24px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #764ba2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.promo-info {
+  font-size: 13px;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: white;
+
+  &.success {
+    color: #27ae60;
+    background: #eafaf1;
+    border: 1px solid #a9dfbf;
+  }
+
+  &.error {
+    color: #e74c3c;
+    background: #fadbd8;
+    border: 1px solid #f5b7b1;
+  }
+}
+
+/* Pricing Details Section */
+.pricing-details {
+  margin-bottom: 40px;
+  padding: 24px;
+  background: #fafbff;
+  border-radius: 12px;
+  border: 1px solid #e0e5ff;
+}
+
+.pricing-table {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  border: 1px solid #e0e0e0;
+}
+
+.pricing-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f0f0f0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &.highlight {
+    background: linear-gradient(135deg, #667eea15, #764ba215);
+    font-weight: 600;
+  }
+}
+
+.pricing-label {
+  font-size: 14px;
+  color: #555;
+  font-weight: 500;
+}
+
+.pricing-value {
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+}
+
+.pricing-value.highlight-value {
+  color: #667eea;
+  font-size: 18px;
+}
+
+.pricing-info {
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.pricing-info p {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  color: #333;
+  font-weight: 600;
+}
+
+.pricing-info ul {
+  margin: 0;
+  padding-left: 20px;
+
+  li {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 8px;
+    line-height: 1.6;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+/* Payment Section Styles */
+.payment-section {
+  margin-bottom: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.card-wrapper {
+  margin-bottom: 24px;
+}
+
+.card-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-element {
+  padding: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+.card-element:focus {
+  border-color: #667eea;
+}
+
+/* Checkbox Styles */
+.charge-checkbox {
+  margin-bottom: 24px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 12px;
+  user-select: none;
+}
+
+.checkbox-input {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #667eea;
+}
+
+.checkbox-label {
+  font-size: 15px;
+  color: #333;
+  font-weight: 500;
+  margin: 0;
+}
+
+.checkbox-info {
+  font-size: 13px;
+  color: #666;
+  margin: 12px 0 0 30px;
+  font-style: italic;
+}
+
+/* Subscribe Section */
+.subscribe-section {
+  text-align: center;
+}
+
+.subscribe-btn {
+  width: 100%;
+  padding: 16px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 16px;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(102, 126, 234, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.btn-text {
+  flex: 1;
+}
+
+.btn-icon {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+.subscribe-btn:hover .btn-icon {
+  transform: translateX(4px);
+}
+
+.subscribe-info {
+  font-size: 13px;
+  color: #999;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .subscription-container {
+    padding: 40px 15px;
+  }
+
+  .subscription-title {
+    font-size: 32px;
+  }
+
+  .subscription-subtitle {
+    font-size: 16px;
+  }
+
+  .subscription-content {
+    padding: 30px 20px;
+  }
+
+  .trial-buttons {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .subscribe-btn {
+    padding: 14px 24px;
+    font-size: 15px;
+  }
+}

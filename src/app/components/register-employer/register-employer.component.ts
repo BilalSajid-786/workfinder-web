@@ -130,7 +130,7 @@ export class RegisterEmployerComponent implements OnInit {
           if (res.isSuccess) {
             this.toastr.success(res.message);
             this.employerForm.markAllAsTouched();
-            this.router.navigate(['']);
+            this.router.navigate(['/subscription'], { state: { employerData: res.result } });
           }
         },
         error: (err) => {

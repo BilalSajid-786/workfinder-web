@@ -1,0 +1,107 @@
+<div class="container-fluid">
+  <div class="billing-page">
+
+    <!-- Header -->
+    <div class="billing-hero">
+      <div>
+        <h1>Billing</h1>
+        <p class="subtitle">
+          Manage your subscription, payment methods, and invoices.
+        </p>
+      </div>
+    </div>
+
+    <!-- Loading / Error -->
+    <div *ngIf="loading" class="state">
+      Loading billing details...
+    </div>
+    <div *ngIf="error" class="state error">
+      Unable to load billing information.
+    </div>
+
+    <!-- Billing Content -->
+    <div *ngIf="!loading && billing" class="billing-grid row">
+
+      <!-- Subscription Card -->
+      <div class="card subscription-card col-6">
+        <div class="plan-header">
+          <div>
+            <div class="plan-name">{{ billing.planName }}</div>
+            <div class="plan-price">
+              {{ billing.price | currency: billing.currency }}
+              <span>/month</span>
+            </div>
+          </div>
+
+          <!-- Subscription badge -->
+          <div class="subscription-status-badge" [ngClass]="getStatusClass(billing.status)">
+            {{ billing.status }}
+          </div>
+        </div>
+
+        <div class="plan-meta">
+          <div class="meta-block">
+            <div class="meta-label">Renewal Date</div>
+            <div class="meta-value">
+              {{ billing.currentPeriodEnd | date:'longDate' }}
+            </div>
+          </div>
+
+          <div class="meta-block" *ngIf="billing.cancelAtPeriodEnd">
+            <div class="meta-label">Status</div>
+            <div class="meta-value cancel">
+              Cancels at period end
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Invoice History Card -->
+      <div class="card invoice-card col-6">
+        <h3>Invoice History</h3>
+
+        <div class="invoice-list">
+          <div class="invoice-item" *ngFor="let invoice of billing.invoices">
+
+            <!-- Top-right invoice badge -->
+            <div class="invoice-status-badge" [ngClass]="getStatusClass(invoice.status)">
+              {{ invoice.status }}
+            </div>
+
+            <div class="invoice-left">
+              <div class="invoice-date">
+                {{ invoice.date | date:'mediumDate' }}
+              </div>
+              <div class="invoice-amount">
+                {{ invoice.amountPaid | currency: billing.currency }}
+              </div>
+            </div>
+
+            <div class="invoice-actions">
+              <a [href]="invoice.pdf" target="_blank" class="invoice-link">
+                View Invoice
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Cancel Section -->
+      <div class="subscription-actions" *ngIf="billing.status === 'active' || billing.status === 'trialing'">
+
+        <!-- If already scheduled for cancellation -->
+        <button *ngIf="billing.cancelAtPeriodEnd" class="btn-outline" (click)="resumeSubscription()">
+          Resume Subscription
+        </button>
+
+        <!-- Normal cancel button -->
+        <button *ngIf="!billing.cancelAtPeriodEnd" class="btn-danger" (click)="cancelSubscription()">
+          Cancel Subscription
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+</div>

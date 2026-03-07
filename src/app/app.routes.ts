@@ -20,8 +20,9 @@ import { ViewApplicantsComponent } from './components/view-applicants/view-appli
 import { ChatComponent } from './components/SignalRTemp/chat/chat.component';
 import { JobResolver } from './resolver/job.resolver';
 import { JobShellComponent } from './components/job-shell/job-shell.component';
-
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { SubscriptionComponent } from './components/subscription/subscription.component';
+import { BillingDetailsComponent } from './components/billing-details/billing-details.component';
 
 export const routes: Routes = [
   {
@@ -47,6 +48,14 @@ export const routes: Routes = [
       {
         path: 'forgot-password',
         component: ForgotPasswordComponent,
+      },
+      {
+        path: 'subscription',
+        component: SubscriptionComponent,
+      },
+            {
+        path: 'billing-details',
+        component: BillingDetailsComponent,
       },
     ],
   },

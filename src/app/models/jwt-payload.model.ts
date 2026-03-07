@@ -3,6 +3,7 @@ export interface JwtPayload {
   RoleId: string;
   UserName?: string;
   BaseUserId: string;
+  ProfilePic?:string;
   Permissions: string[];
   UserRole: string;
   CompanyName?: string;

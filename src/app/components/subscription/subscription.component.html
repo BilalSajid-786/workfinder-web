@@ -1,0 +1,79 @@
+<div class="subscription-container">
+  <div class="subscription-header">
+    <h1 class="subscription-title">Choose Your Subscription Plan</h1>
+    <p class="subscription-subtitle">Start your free trial and upgrade anytime</p>
+    <div class="user-info" *ngIf="employerData">
+      <p class="user-name">👤 Name: <strong>{{ employerData.name || employerData.fullName || employerData.companyName }}</strong></p>
+      <p class="user-email">📧 Email: <strong>{{ employerData.email }}</strong></p>
+    </div>
+  </div>
+
+  <div class="subscription-content">
+    <!-- Promo Code Section -->
+    <div class="promo-section">
+      <h3 class="section-title">Promo Code (Optional)</h3>
+      <div class="promo-input-wrapper">
+        <input 
+          type="text" 
+          [(ngModel)]="promoCode" 
+          placeholder="Enter promo code"
+          class="promo-input"
+        />
+      </div>
+    </div>
+
+    <!-- Pricing Details Section -->
+    <div class="pricing-details">
+      <h3 class="section-title">Pricing & Details</h3>
+      <div class="pricing-table">
+        <div class="pricing-row">
+          <span class="pricing-label">Monthly Charge:</span>
+          <span class="pricing-value">$7.99 / month</span>
+        </div>
+        <div class="pricing-row">
+          <span class="pricing-label">Billing Frequency:</span>
+          <span class="pricing-value">Monthly Basis</span>
+        </div>
+        <div class="pricing-row highlight">
+          <span class="pricing-label">Total Monthly Cost:</span>
+          <span class="pricing-value highlight-value">{{ monthlyPrice | currency }}</span>
+        </div>
+      </div>
+      <div class="pricing-info">
+        <p><strong>📌 Payment Terms:</strong></p>
+        <ul>
+          <li>Enter your credit card details below</li>
+          <li>You will be charged $7.99 per month on a monthly basis</li>
+          <li>Charges will continue automatically after your trial period ends</li>
+          <li>You can cancel anytime from your account settings</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Payment Section -->
+    <div class="payment-section">
+      <h3 class="section-title">Payment Information</h3>
+      <div class="card-wrapper">
+        <label class="card-label">Card Details</label>
+        <div id="card-element" class="card-element"></div>
+      </div>
+    </div>
+
+    <!-- Subscribe Button -->
+    <div class="subscribe-section">
+      <button (click)="onSubscribe()" class="subscribe-btn">
+        <span class="btn-text">Start Subscription</span>
+        <span class="btn-icon">→</span>
+      </button>
+      <p class="subscribe-info">Cancel anytime. No credit card required for trial.</p>
+    </div>
+
+    <div class="subscribe-section">
+      <button (click)="onCheckout()" class="subscribe-btn">
+        <span class="btn-text">Start Checkout Subscription</span>
+        <span class="btn-icon">→</span>
+      </button>
+      <p class="subscribe-info">Cancel anytime. No credit card required for trial.</p>
+    </div>
+  </div>
+</div>
