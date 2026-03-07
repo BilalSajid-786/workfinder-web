@@ -23,17 +23,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const hideGoogleHeader = () => {
-      document
-        .querySelectorAll('iframe.goog-te-banner-frame')
-        .forEach((el) => el.remove());
-      document.documentElement.classList.remove('skiptranslate');
-      document.body.classList.remove('skiptranslate');
-    };
-    hideGoogleHeader();
-    const observer = new MutationObserver(hideGoogleHeader);
-    observer.observe(document.body, { childList: true, subtree: true });
-    setInterval(hideGoogleHeader, 300);
+   
   }
 
   toggleLanguage() {
