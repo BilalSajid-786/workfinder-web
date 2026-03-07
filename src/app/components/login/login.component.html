@@ -1,18 +1,34 @@
 <div class="container-fluid auth-bg p-0 overflow-hidden">
   <!-- Language toggle moved here, top-right -->
-  <div class="lang-toggle">
-    <input
-      type="checkbox"
-      id="langSwitch"
-      (change)="lang.toggleLanguage()"
-      [checked]="lang.currentLang === 'de'"
-    />
-    <label for="langSwitch">
-      <span class="switch-text switch-on">DE</span>
-      <span class="switch-text switch-off">EN</span>
-      <span class="switch-circle"></span>
-    </label>
-  </div>
+ <div class="lang-toggle">
+  <button
+    (click)="lang.applyLanguage('en')"
+    [class.active]="lang.currentLang === 'en'"
+  >
+    EN
+  </button>
+
+  <button
+    (click)="lang.applyLanguage('de')"
+    [class.active]="lang.currentLang === 'de'"
+  >
+    DE
+  </button>
+
+  <button
+    (click)="lang.applyLanguage('fr')"
+    [class.active]="lang.currentLang === 'fr'"
+  >
+    FR
+  </button>
+
+    <button
+    (click)="lang.applyLanguage('tr')"
+    [class.active]="lang.currentLang === 'tr'"
+  >
+    TR
+  </button>
+</div>
 
   <div class="row min-vh-100 g-0 m-0">
     <!-- Left column: Form -->

@@ -1,72 +1,70 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
+export type AppLanguage = 'en' | 'de' | 'fr' | 'tr';
+
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
-  currentLang: 'en' | 'de' = 'en';
-  lang$ = new BehaviorSubject<'en' | 'de'>(this.currentLang);
+
+  currentLang: AppLanguage = 'en';
+
+  lang$ = new BehaviorSubject<AppLanguage>(this.currentLang);
+
+  private languages: AppLanguage[] = ['en', 'de', 'fr', 'tr'];
 
   constructor() {
-    const saved = sessionStorage.getItem('lang') as 'en' | 'de' | null;
-    if (saved) this.applyLanguage(saved);
+
+    const saved = sessionStorage.getItem('lang') as AppLanguage | null;
+
+    if (saved && this.languages.includes(saved)) {
+      this.applyLanguage(saved);
+    }
+
   }
 
   toggleLanguage() {
-    const lang = this.currentLang === 'en' ? 'de' : 'en';
-    this.applyLanguage(lang);
+
+    const currentIndex = this.languages.indexOf(this.currentLang);
+
+    const nextLang = this.languages[(currentIndex + 1) % this.languages.length];
+
+    this.applyLanguage(nextLang);
+
   }
 
-  // applyLanguage(lang: 'en' | 'de') {
-  //   this.currentLang = lang;
-  //   sessionStorage.setItem('lang', lang);
-  //   this.lang$.next(lang);
+  applyLanguage(lang: AppLanguage) {
 
-  //   const applySelect = () => {
-  //     const select = document.querySelector(
-  //       '#google_translate_element select'
-  //     ) as HTMLSelectElement;
-  //     if (!select) {
-  //       setTimeout(applySelect, 50);
-  //       return;
-  //     }
+    this.currentLang = lang;
 
-  //     // force the language even if Google changes it
-  //     if (select.value !== lang) {
-  //       select.value = lang;
-  //       select.dispatchEvent(new Event('change'));
-  //     }
-  //   };
+    sessionStorage.setItem('lang', lang);
 
-  //   // Give Google Translate some time to initialize
-  //   setTimeout(applySelect, 100);
-  //   setTimeout(applySelect, 300);
-  //   setTimeout(applySelect, 600);
-  // }
+    this.lang$.next(lang);
 
-  applyLanguage(lang: 'en' | 'de') {
-  this.currentLang = lang;
+    this.triggerGoogleTranslate(lang);
 
-  sessionStorage.setItem('lang', lang);
+  }
 
-  // overwrite cookie
-  document.cookie = `googtrans=/en/${lang};path=/`;
+  private triggerGoogleTranslate(lang: AppLanguage) {
 
-  this.lang$.next(lang);
+    const changeLang = () => {
 
-  const applySelect = () => {
-    const select = document.querySelector(
-      '#google_translate_element select'
-    ) as HTMLSelectElement;
+      const select = document.querySelector(
+        '#google_translate_element select'
+      ) as HTMLSelectElement;
 
-    if (!select) {
-      setTimeout(applySelect, 100);
-      return;
-    }
+      if (!select) {
+        setTimeout(changeLang, 200);
+        return;
+      }
 
-    select.value = lang;
-    select.dispatchEvent(new Event('change'));
-  };
+      if (select.value !== lang) {
+        select.value = lang;
+        select.dispatchEvent(new Event('change'));
+      }
 
-  applySelect();
-}
+    };
+
+    changeLang();
+  }
+
 }
