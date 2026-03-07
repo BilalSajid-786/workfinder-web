@@ -44,27 +44,98 @@ export class LanguageService {
 
   }
 
-  private triggerGoogleTranslate(lang: AppLanguage) {
 
-    const changeLang = () => {
+//   private triggerGoogleTranslate(lang: AppLanguage) {
 
-      const select = document.querySelector(
-        '#google_translate_element select'
-      ) as HTMLSelectElement;
+//   let retries = 0;
+//   const maxRetries = 20;
 
-      if (!select) {
-        setTimeout(changeLang, 200);
-        return;
+//   const changeLang = () => {
+
+//     const select = document.querySelector(
+//       '#google_translate_element select'
+//     ) as HTMLSelectElement | null;
+
+//     // wait until widget fully loads
+//     if (!select || select.options.length === 0) {
+
+//       if (retries < maxRetries) {
+//         retries++;
+//         setTimeout(changeLang, 300);
+//       }
+
+//       return;
+//     }
+
+//     // force google translate cookie
+//     document.cookie = `googtrans=/en/${lang};path=/`;
+
+//     if (select.value !== lang) {
+
+//       select.value = lang;
+
+//       select.dispatchEvent(new Event('change'));
+
+//       // second trigger fixes random ignore
+//       setTimeout(() => {
+//         select.dispatchEvent(new Event('change'));
+//       }, 150);
+//     }
+
+//   };
+
+//   changeLang();
+// }
+
+private triggerGoogleTranslate(lang: AppLanguage) {
+
+  let retries = 0;
+  const maxRetries = 20;
+
+  const changeLang = () => {
+
+    const select = document.querySelector(
+      '#google_translate_element select'
+    ) as HTMLSelectElement | null;
+
+    if (!select || select.options.length === 0) {
+
+      if (retries < maxRetries) {
+        retries++;
+        setTimeout(changeLang, 300);
       }
 
-      if (select.value !== lang) {
-        select.value = lang;
+      return;
+    }
+
+    if (lang === 'en') {
+
+      document.cookie = "googtrans=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      document.cookie = "googtransopt=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+
+      select.value = 'en';
+      select.dispatchEvent(new Event('change'));
+
+      return;
+
+    }
+
+    document.cookie = `googtrans=/en/${lang};path=/`;
+
+    if (select.value !== lang) {
+
+      select.value = lang;
+
+      select.dispatchEvent(new Event('change'));
+
+      setTimeout(() => {
         select.dispatchEvent(new Event('change'));
-      }
+      }, 150);
+    }
 
-    };
+  };
 
-    changeLang();
-  }
+  changeLang();
+}
 
 }
