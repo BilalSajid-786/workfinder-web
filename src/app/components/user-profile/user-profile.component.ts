@@ -422,7 +422,7 @@ export class UserProfileComponent implements OnInit {
             this.user.profilePic.lastIndexOf('.') + 1
           )
         : '';
-      this.profilePicName = `https://localhost:44389/profiles/${this.authService.getBaseUserId()}.${
+      this.profilePicName = `https://hostingaccount-001-site1.qtempurl.com/profiles/${this.authService.getBaseUserId()}.${
         this.extension
       }?t=${Date.now()}`;
       if (upload) this.patchFormValue();
@@ -439,7 +439,7 @@ export class UserProfileComponent implements OnInit {
             this.user.profilePic.lastIndexOf('.') + 1
           )
         : '';
-      this.profilePicName = `https://localhost:44389/profiles/${this.authService.getBaseUserId()}.${
+      this.profilePicName = `https://hostingaccount-001-site1.qtempurl.com/profiles/${this.authService.getBaseUserId()}.${
         this.extension
       }?t=${Date.now()}`;
       if (upload) this.patchFormValue();

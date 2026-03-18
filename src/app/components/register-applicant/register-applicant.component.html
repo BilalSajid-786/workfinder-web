@@ -5,9 +5,9 @@
       style="padding-left: 80px"
       class="col-md-9 d-flex flex-column mt-5 pt-3"
     >
-      <h1 class="mb-4 fw-bold text-center clr-txt" style="font-size: 55px">
-        Work Finder
-      </h1>
+<div class="d-flex justify-content-center">
+    <img src="/background/initti.jpg" style="height:130px" class="col-4 mb-5">
+</div>
 
       <form
         [formGroup]="registrationForm"
@@ -39,7 +39,7 @@
               class="wf-select"
               formControlName="country"
               aria-label="Country"
-              [class.is-invalid]="
+              [class.invalid]="
                 country?.invalid && (country?.dirty || isSubmitted)
               "
             >
@@ -164,7 +164,7 @@
               class="wf-select"
               formControlName="qualification"
               aria-label="Qualification"
-              [class.is-invalid]="
+              [class.invalid]="
                 qualification?.invalid &&
                 (qualification?.touched || isSubmitted)
               "
@@ -356,7 +356,7 @@
               class="wf-select"
               formControlName="gender"
               aria-label="Gender"
-              [class.is-invalid]="
+              [class.invalid]="
                 gender?.invalid && (gender?.dirty || isSubmitted)
               "
             >
@@ -365,6 +365,30 @@
               <option value="Female">Female</option>
             </select>
             <span class="wf-chev" style="top: 50%" aria-hidden="true">▾</span>
+            <span class="text-danger position-absolute required-star">*</span>
+          </div>
+
+             <div
+            class="mb-3 position-relative col-md-6 col-12 wf-field wf-select-wrap"
+          >
+            <select
+              class="wf-select"
+              formControlName="schoolDegree"
+              aria-label="SchoolDegree"
+              [class.invalid]="
+                schoolDegree?.invalid &&
+                (schoolDegree?.touched || isSubmitted)
+              "
+            >
+              <option [ngValue]="null" disabled>SchoolDegree</option>
+              <option
+                *ngFor="let q of schoolDegreesList"
+                [value]="q.schoolDegreeId"
+              >
+                {{ q.schoolDegreeName }}
+              </option>
+            </select>
+            <span class="wf-chev" aria-hidden="true">▾</span>
             <span class="text-danger position-absolute required-star">*</span>
           </div>
         </div>

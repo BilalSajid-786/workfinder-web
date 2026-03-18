@@ -41,7 +41,7 @@ export class BillingDetailsComponent {
     return;
   }
 
-  this.http.post('https://localhost:44389/api/payment/cancel', {subscriptionId:this.subscriptionId})
+  this.http.post('https://hostingaccount-001-site1.qtempurl.com/api/payment/cancel', {subscriptionId:this.subscriptionId})
     .subscribe({
       next: () => {
         this.loadBilling(); // reload billing info

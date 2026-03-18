@@ -17,6 +17,7 @@ import { FileService } from '../../services/file.service';
 import { Guid } from '../../models/types.model';
 import { QualificationService } from '../../services/qualification.service';
 import { Qualification } from '../../models/qualification.model';
+import { SchooldegreeService } from '../../services/schooldegree.service';
 
 @Component({
   selector: 'app-register-applicant',
@@ -29,6 +30,7 @@ export class RegisterApplicantComponent implements OnInit {
   registrationForm: FormGroup;
   skillsList: Skill[] = []; // not string[]
   qualificationList: Qualification[] = [];
+  schoolDegreesList:any = [];
   selectedSkills: Skill[] = [];
   isSubmitted = false;
   selectedCertificates: File[] = [];
@@ -44,6 +46,7 @@ export class RegisterApplicantComponent implements OnInit {
     private toastr: ToastrService,
     private skillService: SkillService,
     private applicantService: ApplicantService,
+    private schoolDegreeService:SchooldegreeService,
     private fileService: FileService,
     private qualificationService: QualificationService
   ) {
@@ -57,6 +60,7 @@ export class RegisterApplicantComponent implements OnInit {
       city: ['', [Validators.required]],
       skills: [[], [Validators.required]],
       qualification: [null, [Validators.required]],
+      schoolDegree: [null, [Validators.required]],
       gender: [
         null,
         [Validators.required, Validators.pattern(/^(male|female)$/i)],
@@ -67,6 +71,10 @@ export class RegisterApplicantComponent implements OnInit {
 
   get fullName() {
     return this.registrationForm.get('fullName');
+  }
+
+  get schoolDegree() {
+    return this.registrationForm.get('schoolDegree');
   }
 
   get phone() {
@@ -110,6 +118,7 @@ export class RegisterApplicantComponent implements OnInit {
 
   ngOnInit(): void {
     this.getQualifications();
+    this.getSchoolDegrees();
   }
 
   getQualifications() {
@@ -125,6 +134,24 @@ export class RegisterApplicantComponent implements OnInit {
       error: (err) => {
         console.error('Error fetching skills:', err);
         this.qualificationList = [];
+      },
+    });
+  }
+
+  getSchoolDegrees()
+  {
+     this.schoolDegreeService.getQualifications().subscribe({
+      next: (res) => {
+        if (res.isSuccess) {
+          // res.result should be Skill[]
+          this.schoolDegreesList = res.result;
+        } else {
+          this.schoolDegreesList = [];
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching schoolDegrees:', err);
+        this.schoolDegreesList = [];
       },
     });
   }
@@ -265,6 +292,7 @@ export class RegisterApplicantComponent implements OnInit {
         phone: values.countryCode?.trim() + values.phone?.trim(),
         gender: values.gender?.trim(),
         qualificationId: values.qualification?.trim(),
+        schoolDegreeId: values.schoolDegree?.trim(),
         skills: values.skills,
       } as unknown as Applicant;
 

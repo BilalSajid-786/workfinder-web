@@ -1,6 +1,6 @@
 .subscription-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: url("/background/login-bg.png") center / cover no-repeat;
   padding: 60px 20px;
   display: flex;
   flex-direction: column;
@@ -20,11 +20,12 @@
   font-weight: 700;
   margin-bottom: 12px;
   letter-spacing: -0.5px;
+  color:#333;
 }
 
 .subscription-subtitle {
   font-size: 18px;
-  color: rgba(255, 255, 255, 0.9);
+  color: #333;
   margin: 0;
 }
 
@@ -35,11 +36,12 @@
   border-radius: 12px;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  color:#333;
 }
 
 .user-email {
   font-size: 15px;
-  color: white;
+  color: #333;
   margin: 0;
   font-weight: 500;
 

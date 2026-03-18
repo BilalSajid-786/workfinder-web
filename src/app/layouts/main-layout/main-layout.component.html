@@ -2,57 +2,31 @@
   <!-- Navbar -->
   <div class="row">
     <div class="col-12">
-      <nav
-        class="navbar navbar-light bg-light justify-content-between"
-        style="height: 60px; padding-left: 20px"
-      >
+      <nav class="navbar navbar-light bg-light justify-content-between" style="height: 60px; padding-left: 20px">
         <div>
-          <button
-            style="
+          <button style="
               border: hidden;
               background-color: white;
               vertical-align: middle;
-            "
-          >
+            ">
             <mat-icon (click)="toggleSidebar()">menu</mat-icon>
           </button>
-          <a
-            class="navbar-brand"
-            style="padding-left: 5px; vertical-align: middle"
-            >WorkFinder</a
-          >
+          <a class="navbar-brand" style="padding-left: 5px; vertical-align: middle">Initti</a>
         </div>
 
         <div class="nav-right">
-          <div
-            class="notification-wrapper"
-            (click)="toggleNotifications($event)"
-          >
+          <div class="notification-wrapper" (click)="toggleNotifications($event)">
             <mat-icon style="color: #0a66c2">notifications</mat-icon>
             <span class="badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
           </div>
 
-          <div
-            class="notification-dropdown"
-            *ngIf="showNotifications"
-            (click)="$event.stopPropagation()"
-          >
-            <app-notification-pannel
-              [notifications]="notifications"
-              (notificationClicked)="handleNotification($event)"
-            ></app-notification-pannel>
+          <div class="notification-dropdown" *ngIf="showNotifications" (click)="$event.stopPropagation()">
+            <app-notification-pannel [notifications]="notifications"
+              (notificationClicked)="handleNotification($event)"></app-notification-pannel>
           </div>
 
-          <button
-            mat-button
-            class="profile-btn no-padding"
-            [matMenuTriggerFor]="userMenu"
-          >
-            <img
-              [src]="profilePictureUrl"
-              alt="Profile"
-              class="profile-pic-navbar rounded-circle"
-            />
+          <button mat-button class="profile-btn no-padding" [matMenuTriggerFor]="userMenu">
+            <img [src]="profilePictureUrl" alt="Profile" class="profile-pic-navbar rounded-circle" />
             <mat-icon *ngIf="!profilePictureUrl" class="profile-icon">account_circle</mat-icon>
             <mat-icon class="profile-icon dropdown-arrow">keyboard_arrow_down</mat-icon>
           </button>
@@ -60,21 +34,18 @@
           <mat-menu #userMenu="matMenu" class="custom-user-menu">
             <!-- Username Display -->
             <div class="menu-header">
-              <img
-                [src]="profilePictureUrl"
-                alt="Profile"
-                class="profile-menu-pic rounded-circle"
-              />
+              <img [src]="profilePictureUrl" alt="Profile" class="profile-menu-pic rounded-circle" />
               <span class="username">{{ userName }}</span>
             </div>
 
             <button mat-menu-item (click)="onEditProfile()">
-              <img
-                [src]="profilePictureUrl"
-                alt="Profile"
-                class="profile-menu-pic rounded-circle"
-              />
+              <img [src]="profilePictureUrl" alt="Profile" class="profile-menu-pic rounded-circle" />
               <span class="edit-profile-text">Edit Profile</span>
+            </button>
+
+            <button mat-menu-item (click)="onOpenBillingDetails()">
+              <img [src]="profilePictureUrl" alt="Profile" class="profile-menu-pic rounded-circle" />
+              <span class="edit-profile-text">Billing Details</span>
             </button>
 
             <!-- Logout Button -->
@@ -95,29 +66,16 @@
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item" *ngFor="let module of modules; let i = index">
-            <a
-              class="nav-link text-white"
-              data-bs-toggle="collapse"
-              [attr.href]="'#menu' + i"
-              role="button"
-              aria-expanded="true"
-              [attr.aria-controls]="'menu' + i"
-            >
+            <a class="nav-link text-white" data-bs-toggle="collapse" [attr.href]="'#menu' + i" role="button"
+              aria-expanded="true" [attr.aria-controls]="'menu' + i">
               {{ module.parentModuleName }}
             </a>
 
             <div class="collapse show" [attr.id]="'menu' + i">
               <ul class="nav flex-column ms-3">
-                <li
-                  class="nav-item"
-                  *ngFor="let submodule of module.subModules"
-                >
-                  <a
-                    class="nav-link text-white"
-                    [routerLink]="submodule.route"
-                    routerLinkActive="active-submodule"
-                    [routerLinkActiveOptions]="{ exact: true }"
-                  >
+                <li class="nav-item" *ngFor="let submodule of module.subModules">
+                  <a class="nav-link text-white" [routerLink]="submodule.route" routerLinkActive="active-submodule"
+                    [routerLinkActiveOptions]="{ exact: true }">
                     {{ submodule.moduleName }}
                   </a>
                 </li>

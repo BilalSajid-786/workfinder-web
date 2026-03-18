@@ -25,6 +25,10 @@
   padding-bottom: 15px;
 }
 
+.invalid{
+  border: 2px solid #dc3545;
+}
+
 /* Invisible real input on top */
 .wf-file-field .custom-file-input {
   position: absolute;
