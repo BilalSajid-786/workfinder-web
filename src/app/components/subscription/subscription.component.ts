@@ -67,7 +67,7 @@ export class SubscriptionComponent implements AfterViewInit, OnInit {
     }
 
     // 2️⃣ Call backend API
-    const response: any = await this.http.post('https://hostingaccount-001-site1.qtempurl.com/api/payment/create', {
+    const response: any = await this.http.post('https://localhost:7205/api/payment/create', {
       userId: this.employerData.userId,               // signedup user id
       email: this.employerData.email,       // signedup user email
       paymentMethodId: paymentMethod.id,
@@ -99,7 +99,7 @@ export class SubscriptionComponent implements AfterViewInit, OnInit {
 
   // 1️⃣ Call backend to create Checkout Session
   const response: any = await this.http.post(
-    'https://hostingaccount-001-site1.qtempurl.com/api/payment/checkout',
+    'https://localhost:7205/api/payment/checkout',
     {
       userId: this.employerData.userId,
       email: this.employerData.email,

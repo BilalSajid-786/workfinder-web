@@ -55,7 +55,7 @@ export class MainLayoutComponent implements OnInit {
     this.sharedService.userProfile$.subscribe((profile) => {
       // Update profile picture when userProfile changes
       if (profile) {
-        this.profilePictureUrl =  `https://hostingaccount-001-site1.qtempurl.com/profiles/${profile}?t=${Date.now()}`;
+        this.profilePictureUrl =  `https://localhost:7205/profiles/${profile}?t=${Date.now()}`;
       }
     });
     this.userService.getModules().subscribe({
@@ -112,7 +112,7 @@ export class MainLayoutComponent implements OnInit {
       this.profilePictureUrl = 'https://dummyimage.com/150x150/cccccc/000000&text=User';
       return;
     }
-    this.profilePictureUrl = `https://hostingaccount-001-site1.qtempurl.com/profiles/${this.authService.getUserProfilePic()}?t=${Date.now()}`;
+    this.profilePictureUrl = `https://localhost:7205/profiles/${this.authService.getUserProfilePic()}?t=${Date.now()}`;
   }
 
   // getProfilePictureUrl(profile: string): string | null {
@@ -120,7 +120,7 @@ export class MainLayoutComponent implements OnInit {
   //   if (!profilePic || profilePic === 'NoImage.png') {
   //     return 'https://dummyimage.com/150x150/cccccc/000000&text=User';
   //   }
-  //   return `https://hostingaccount-001-site1.qtempurl.com/profiles/${this.authService.getUserProfilePic()}?t=${Date.now()}`;
+  //   return `https://localhost:7205/profiles/${this.authService.getUserProfilePic()}?t=${Date.now()}`;
   // }
 
   handleNotification(notificationId: number) {

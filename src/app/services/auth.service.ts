@@ -34,6 +34,10 @@ export class AuthService {
     return this.getDecodeToken()?.UserName;
   }
 
+    getUserProfilePic() {
+    return this.getDecodeToken()?.ProfilePic;
+  }
+
   getUserId() {
     return this.getDecodeToken()?.UserId;
   }
@@ -67,8 +71,11 @@ export class AuthService {
   login(loginRequest: LoginRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, loginRequest).pipe(
       tap((response: any) => {
+        if(response.message != "Payment required")
+        {
         // Save token in localStorage
         localStorage.setItem('token', response.result);
+        }
       })
     );
   }

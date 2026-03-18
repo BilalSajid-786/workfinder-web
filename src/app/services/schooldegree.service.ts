@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class SchooldegreeService {
 
-  private apiUrl: string = 'https://hostingaccount-001-site1.qtempurl.com/api/schooldegrees';
+  private apiUrl: string = 'https://localhost:7205/api/schooldegrees';
     // private apiUrl: string =
     //   'http://bilalsajid-001-site1.mtempurl.com/api/qualifications';
   
