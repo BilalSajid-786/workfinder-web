@@ -54,18 +54,11 @@ export class MainLayoutComponent implements OnInit {
     });
 
     this.sharedService.userProfile$.subscribe((profile) => {
-      // Update profile picture when userProfile changes
-
-      this.userService.getUserDetails().subscribe({
-        next: (data) => {
-          this.profilePictureUrl = `https://localhost:44389/profiles/${data.result.profilePic}?t=${Date.now()}`;
-        },
-        error: (err) => console.error('Error fetching modules:', err),
-      });
-
-      // if (profile) {
-      //   this.profilePictureUrl = `https://localhost:44389/profiles/${profile}?t=${Date.now()}`;
-      // }
+      if (profile) {
+        this.profilePictureUrl = `https://localhost:44389/profiles/${profile}?t=${Date.now()}`;
+      } else {
+        this.updateProfilePicture();
+      }
     });
     this.userService.getModules().subscribe({
       next: (data) => {

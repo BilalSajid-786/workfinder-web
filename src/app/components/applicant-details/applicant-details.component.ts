@@ -73,6 +73,29 @@ export class ApplicantDetailsComponent implements AfterViewInit, OnInit {
     });
   }
 
+  getCurrentTimestamp(): number {
+    return Date.now();
+  }
+
+  getProfilePicExtension(): string {
+    if (!this.selectedApplicant?.profilePic || this.selectedApplicant.profilePic === 'NoImage.png') {
+      return '';
+    }
+    const extension = this.selectedApplicant.profilePic.includes('.')
+      ? this.selectedApplicant.profilePic.substring(
+          this.selectedApplicant.profilePic.lastIndexOf('.') + 1
+        )
+      : '';
+    return extension;
+  }
+
+  getApplicantIdWithExtension(): { applicantId: any; extension: string } {
+    return {
+      applicantId: this.selectedApplicant?.userId || this.selectedApplicant?.applicantId,
+      extension: this.getProfilePicExtension(),
+    };
+  }
+
   ngAfterViewInit(): void {
     this.modalInstance = new Modal(this.modalElement.nativeElement);
     this.confirmationModalInstance = new Modal(

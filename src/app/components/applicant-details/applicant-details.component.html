@@ -58,12 +58,29 @@
         <div class="container">
           <div class="d-flex gap-3 align-items-start mb-3">
             <img
-              [src]="'assets/user-placeholder.svg'"
+              *ngIf="selectedApplicant?.profilePic == 'NoImage.png'"
+              src="https://dummyimage.com/110x110/cccccc/000000&text=User"
               class="rounded-circle object-fit-cover"
               alt="applicant avatar"
               width="110"
               height="110"
             />
+            <img
+              *ngIf="selectedApplicant?.profilePic != 'NoImage.png'"
+              [src]="'https://localhost:44389/profiles/' + (selectedApplicant.userId || selectedApplicant.applicantId) + '.' + getProfilePicExtension() + '?t=' + getCurrentTimestamp()"
+              class="rounded-circle object-fit-cover"
+              alt="applicant avatar"
+              width="110"
+              height="110"
+            />
+            <!-- <img
+              *ngIf="!selectedApplicant?.profilePic"
+              src="https://dummyimage.com/110x110/cccccc/000000&text=User"
+              class="rounded-circle object-fit-cover"
+              alt="applicant avatar"
+              width="110"
+              height="110"
+            /> -->
             <div class="flex-grow-1">
               <div class="row mb-2">
                 <div class="col-6 fw-bold">Applicant Name:</div>

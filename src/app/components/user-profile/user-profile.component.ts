@@ -11,12 +11,14 @@ import { IndustryService } from '../../services/industry.service';
 import { Industry } from '../../models/industry.model';
 import { AuthService } from '../../services/auth.service';
 import { EmployerService } from '../../services/employer.service';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Skill } from '../../models/skill.model';
 import { SkillService } from '../../services/skill.service';
 import { Qualification } from '../../models/qualification.model';
 import { QualificationService } from '../../services/qualification.service';
 import { ApplicantService } from '../../services/applicant.service';
+import { CountrycodeService } from '../../services/countrycode.service';
 import { Guid } from '../../models/types.model';
 import { FileService } from '../../services/file.service';
 import { SharedService } from '../../services/shared.service';
@@ -33,6 +35,7 @@ export class UserProfileComponent implements OnInit {
   industries: Industry[] = [];
   skillsList: Skill[] = [];
   qualificationList: Qualification[] = [];
+  countryCodes: any[] = [];
   user: any;
   isSubmitted = false;
   userRole: any;
@@ -52,9 +55,11 @@ export class UserProfileComponent implements OnInit {
     private employerService: EmployerService,
     private qualificationService: QualificationService,
     private applicantService: ApplicantService,
+    private countryCodeService: CountrycodeService,
     private fileService: FileService,
     private sharedService: SharedService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {
     this.getIndustries();
     this.getQualifications();
@@ -63,6 +68,8 @@ export class UserProfileComponent implements OnInit {
     this.userRole = this.authService.getRole();
 
     debugger;
+
+    this.getCountryCodes();
 
     if (this.userRole == 'Employer') {
       this.getEmployerById();
@@ -106,7 +113,7 @@ export class UserProfileComponent implements OnInit {
       countryCode: [null, Validators.required],
       phone: ['', Validators.required],
       password: [''],
-      confirmPassword: [''],
+      confirmPassword: ['', this.passwordMatchValidator.bind(this)],
       city: ['', Validators.required],
       country: [''],
     };
@@ -116,6 +123,7 @@ export class UserProfileComponent implements OnInit {
       controls['industryId'] = [''];
       controls['websiteUrl'] = [''];
       controls['companySize'] = [''];
+      controls['contactPerson'] = [''];
       controls['registrationNumber'] = [''];
     } else if (this.userRole === 'Applicant') {
       controls['gender'] = [
@@ -154,6 +162,8 @@ export class UserProfileComponent implements OnInit {
 
     this.file = input.files[0]; // get first file
     this.isProfilePicUpdated = true;
+    this.user.profilePic = URL.createObjectURL(this.file);
+    this.profilePicName = URL.createObjectURL(this.file);
   }
 
   UploadProfile(file: File) {
@@ -183,8 +193,10 @@ export class UserProfileComponent implements OnInit {
       let obj = { ...this.profileForm.value };
       obj.userId = this.authService.getBaseUserId();
       obj.companyName = this.user.companyName;
+      obj.phone = obj.countryCode + obj.phone;
       if (this.authService.getRole() == 'Employer') {
         obj.employerId = this.authService.getUserId();
+        obj.contactPerson = this.profileForm.get('contactPerson')?.value;
         this.employerService
           .editEmployer(this.authService.getUserId(), obj)
           .subscribe({
@@ -270,6 +282,9 @@ export class UserProfileComponent implements OnInit {
   get companySize() {
     return this.profileForm.get('companySize');
   }
+  get contactPerson() {
+    return this.profileForm.get('contactPerson');
+  }
   get registrationNumber() {
     return this.profileForm.get('registrationNumber');
   }
@@ -305,6 +320,14 @@ export class UserProfileComponent implements OnInit {
       this.selectedResume.forEach((resume) => {
         this.UploadFile(applicantId, 'Resume', resume);
       });
+    }
+  }
+
+  cancel(): void {
+    if (this.authService.getRole() === 'Employer') {
+      this.router.navigate(['/postjob']);
+    } else {
+      this.router.navigate(['/availablejobs']);
     }
   }
 
@@ -389,17 +412,21 @@ export class UserProfileComponent implements OnInit {
   }
 
   patchFormValue() {
+    debugger;
+    setTimeout(() => {
+   
+    const { code, number } = this.extractCodeAndNumber(this.user.phone);
     if (this.userRole == 'Employer') {
       this.profileForm.patchValue({
         userName: this.user.userName,
         email: this.user.email,
-        // Assuming countryCode is included in phone or you have a separate field
-        countryCode: '+92', // replace with actual logic if available
-        phone: this.user.phone,
+        countryCode: code,
+        phone: number,
         city: this.user.city,
         industryId: this.user.industryId,
         websiteUrl: this.user.websiteUrl,
         companySize: this.user.companySize,
+        contactPerson: this.user.contactPerson,
         registrationNumber: this.user.registrationNumber,
       });
     }
@@ -407,9 +434,8 @@ export class UserProfileComponent implements OnInit {
       this.profileForm.patchValue({
         userName: this.user.userName,
         email: this.user.email,
-        // Assuming countryCode is included in phone or you have a separate field
-        countryCode: '+92', // replace with actual logic if available
-        phone: this.user.phone,
+        countryCode: code,
+        phone: number,
         city: this.user.city,
         gender: this.user.gender,
       });
@@ -418,6 +444,7 @@ export class UserProfileComponent implements OnInit {
         .get('qualification')
         ?.setValue(this.user.qualificationId);
     }
+     });
   }
 
   getEmployerById(upload: number = 1) {
@@ -452,6 +479,45 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
+  getCountryCodes(): void {
+    this.countryCodeService.getCountryCodes().subscribe((list) => {
+      this.countryCodes = list.result ?? [];
+    });
+  }
+
+  private getCountryCodeFromPhone(phone?: string): string | null {
+    if (!phone) {
+      return null;
+    }
+
+    const cleaned = phone.trim().replace(/^00/, '+');
+    const phoneCodes = this.countryCodes
+      .map((item) => item.countryCodeId?.toString())
+      .filter((code) => !!code)
+      .map((code) => (code.startsWith('+') ? code : `+${code}`));
+
+    const sortedCodes = [...new Set(phoneCodes)].sort(
+      (a, b) => b.length - a.length
+    );
+
+    for (const code of sortedCodes) {
+      if (cleaned.startsWith(code)) {
+        return code;
+      }
+    }
+
+    return null;
+  }
+
+  private extractCodeAndNumber(phone?: string): { code: string | null; number: string } {
+    const code = this.getCountryCodeFromPhone(phone);
+    if (code && phone) {
+      const number = phone.replace(code, '').replace(/^00/, '').trim();
+      return { code, number };
+    }
+    return { code: null, number: phone || '' };
+  }
+
   removeBackendResume() {
     this.backendResumeName = null;
   }
@@ -460,5 +526,14 @@ export class UserProfileComponent implements OnInit {
     this.industryService.getIndustries().subscribe((list) => {
       this.industries = list ?? [];
     });
+  }
+
+  passwordMatchValidator(control: any): { [key: string]: any } | null {
+    const password = this.profileForm?.get('password')?.value;
+    const confirmPassword = control.value;
+    if (password !== confirmPassword) {
+      return { passwordMismatch: true };
+    }
+    return null;
   }
 }

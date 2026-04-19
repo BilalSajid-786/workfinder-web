@@ -54,11 +54,9 @@
                 "
               >
                 <option [ngValue]="null" disabled>+</option>
-                <option value="+92">+92</option>
-                <option value="+1">+1</option>
-                <option value="+44">+44</option>
-                <option value="+971">+971</option>
-                <!-- Add more as needed -->
+                <option *ngFor="let item of countryCodes" [value]="item.countryCodeId">
+                  {{ item.countryCodeId }}
+                </option>
               </select>
 
               <!-- Phone Number -->
@@ -159,7 +157,7 @@
 
             <!-- websiteUrl -->
             <div class="d-flex align-items-center mb-3">
-              <label class="me-2" style="width: 120px">websiteUrl</label>
+              <label class="me-2" style="width: 120px">Website Url</label>
               <input
                 type="text"
                 class="form-control flex-grow-1 wf-input"
@@ -201,10 +199,27 @@
               </div>
             </div>
 
+            <!-- Contact Person -->
+            <div class="d-flex align-items-center mb-3">
+              <label class="me-3" style="width: 105px">Contact Person</label>
+              <input
+                type="text"
+                class="form-control flex-grow-1 wf-input"
+                id="contactPerson"
+                placeholder="Contact Person"
+                formControlName="contactPerson"
+                [ngClass]="{
+                  'is-invalid':
+                    contactPerson?.invalid &&
+                    (contactPerson?.dirty || contactPerson?.touched)
+                }"
+              />
+            </div>
+
             <!-- registrationNumber] -->
             <div class="d-flex align-items-center mb-3">
-              <label class="me-2" style="width: 120px"
-                >registrationNumber</label
+              <label class="me-1" style="width: 100px"
+                >Registration Number</label
               >
               <input
                 type="text"
@@ -418,7 +433,14 @@
             </div>
           </ng-container>
 
-          <div class="justify-content-center">
+          <div class="justify-content-center d-flex flex-wrap gap-2">
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-lg px-5 rounded-2 fw-semibold"
+              (click)="cancel()"
+            >
+              Cancel
+            </button>
             <button
               type="submit"
               class="btn btn-primary btn-lg px-5 rounded-2 fw-semibold"
