@@ -33,6 +33,7 @@ export class PostJobComponent {
   industries: Industry[] = [];
   countries: any[] = [];
   dateFocused: boolean = false;
+  submitted = false;
 
   isEdit = false;
   jobId?: number;
@@ -94,6 +95,9 @@ export class PostJobComponent {
   get company() {
     return this.jobSubmissionForm.get('company');
   }
+  get country() {
+    return this.jobSubmissionForm.get('country');
+  }
   get industryId() {
     return this.jobSubmissionForm.get('industryId');
   }
@@ -114,6 +118,7 @@ export class PostJobComponent {
   }
 
   onSubmit() {
+    this.submitted = true;
     if (this.jobSubmissionForm.valid) {
       const values = this.jobSubmissionForm.getRawValue();
       const payload: any = {
@@ -147,16 +152,19 @@ export class PostJobComponent {
             console.log('Response', res);
             this.toastr.success(res.message);
             this.jobSubmissionForm.reset();
+            this.jobSubmissionForm.get('company')?.setValue(this.companyName);
+            this.submitted = false;
           },
           error: (err: any) => {
             this.toastr.error('Post Job Failed');
           },
         });
       }
-      
+
     } else {
       this.jobSubmissionForm.markAllAsTouched();
     }
+    console.log(this.jobSubmissionForm);
   }
 
   getCountries() {
@@ -278,7 +286,7 @@ export class PostJobComponent {
   loadJob(id: number): void {
     this.jobService.getJobById(id).subscribe({
       next: (res) => {
-        const job = res.result; 
+        const job = res.result;
         console.log("Job", job);
         this.jobSubmissionForm.patchValue({
           jobTitle: job.title,
@@ -287,7 +295,7 @@ export class PostJobComponent {
           city: job.city,
           country: job.country,       // if you store country as name; adjust if object
           jobType: job.jobType,
-          expiryDate: job.expiryDate ? job.expiryDate.toString().substring(0,10) : '',
+          expiryDate: job.expiryDate ? job.expiryDate.toString().substring(0, 10) : '',
           description: job.description,
         });
         this.jobSubmissionForm.get('skills')?.setValue(job.skills as Skill[]);

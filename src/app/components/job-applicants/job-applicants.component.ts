@@ -158,6 +158,7 @@ export class JobApplicantsComponent implements AfterViewInit, OnInit {
   submitForm() {
     if (this.meetingForm.valid) {
       this.scheduleMeeting(this.meetingForm.value);
+      this.modalInstance.hide();
 
       const modalElement = document.getElementById('meetingModal');
       if (modalElement) {

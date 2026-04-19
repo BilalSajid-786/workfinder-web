@@ -41,6 +41,8 @@ export class UserProfileComponent implements OnInit {
   extension: string = '';
   profilePicName: string = '';
   companyName: string = '';
+  isProfilePicUpdated: boolean = false;
+  file!: File;
 
   constructor(
     private fb: FormBuilder,
@@ -59,6 +61,8 @@ export class UserProfileComponent implements OnInit {
   }
   ngOnInit(): void {
     this.userRole = this.authService.getRole();
+
+    debugger;
 
     if (this.userRole == 'Employer') {
       this.getEmployerById();
@@ -148,8 +152,8 @@ export class UserProfileComponent implements OnInit {
 
     if (!input.files || input.files.length === 0) return;
 
-    const file: File = input.files[0]; // get first file
-    this.UploadProfile(file); // send to backend
+    this.file = input.files[0]; // get first file
+    this.isProfilePicUpdated = true;
   }
 
   UploadProfile(file: File) {
@@ -158,7 +162,9 @@ export class UserProfileComponent implements OnInit {
     this.fileService.UploadProfile(formData).subscribe({
       next: (res: any) => {
         debugger;
-                // Send profile pic to shared service
+
+        // this.onSubmit();
+        // Send profile pic to shared service
         this.sharedService.setUserProfile(res.result);
         if (this.userRole == 'Employer') {
           this.getEmployerById(0);
@@ -167,7 +173,7 @@ export class UserProfileComponent implements OnInit {
           this.getApplicantById(0);
         }
       },
-      error: (err: any) => {},
+      error: (err: any) => { },
     });
   }
 
@@ -194,7 +200,7 @@ export class UserProfileComponent implements OnInit {
                 this.profileForm.get('userName')?.value
               );
             },
-            error: (err) => {},
+            error: (err) => { },
           });
       }
       if (this.authService.getRole() == 'Applicant') {
@@ -204,7 +210,7 @@ export class UserProfileComponent implements OnInit {
           this.selectedResume.length > 0
             ? this.selectedResume[0].name
             : this.backendResumeName;
-        
+
         // Ensure skills are sent with skillId and skillName
         const skillsControl = this.profileForm.get('skills')?.value || [];
         obj.skills = skillsControl.map((skill: any) => ({
@@ -223,9 +229,11 @@ export class UserProfileComponent implements OnInit {
               this.profileForm.get('userName')?.value
             );
           },
-          error: (err) => {},
+          error: (err) => { },
         });
       }
+      if (this.isProfilePicUpdated)
+        this.UploadProfile(this.file); // send to backend
     } else {
       this.toastr.error('Please fill complete form');
     }
@@ -308,7 +316,7 @@ export class UserProfileComponent implements OnInit {
       next: (res: any) => {
         console.log('Response', res);
       },
-      error: (err: any) => {},
+      error: (err: any) => { },
     });
   }
 
@@ -419,29 +427,27 @@ export class UserProfileComponent implements OnInit {
       this.user = res;
       this.extension = this.user.profilePic.includes('.')
         ? this.user.profilePic.substring(
-            this.user.profilePic.lastIndexOf('.') + 1
-          )
+          this.user.profilePic.lastIndexOf('.') + 1
+        )
         : '';
-      this.profilePicName = `https://localhost:7205/profiles/${this.authService.getBaseUserId()}.${
-        this.extension
-      }?t=${Date.now()}`;
+      this.profilePicName = `https://localhost:44389/profiles/${this.authService.getBaseUserId()}.${this.extension
+        }?t=${Date.now()}`;
       if (upload) this.patchFormValue();
     });
   }
 
   getApplicantById(upload: number = 1) {
-    let id = this.authService.getUserId();
     this.applicantService.getApplicantById().subscribe((res) => {
+      debugger
       this.user = res.result;
       this.backendResumeName = this.user.resume;
       this.extension = this.user.profilePic.includes('.')
         ? this.user.profilePic.substring(
-            this.user.profilePic.lastIndexOf('.') + 1
-          )
+          this.user.profilePic.lastIndexOf('.') + 1
+        )
         : '';
-      this.profilePicName = `https://localhost:7205/profiles/${this.authService.getBaseUserId()}.${
-        this.extension
-      }?t=${Date.now()}`;
+      this.profilePicName = `https://localhost:44389/profiles/${this.authService.getBaseUserId()}.${this.extension
+        }?t=${Date.now()}`;
       if (upload) this.patchFormValue();
     });
   }

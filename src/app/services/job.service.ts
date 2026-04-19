@@ -7,7 +7,7 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class JobService {
-  private apiUrl: string = 'https://localhost:7205/api/jobs';
+  private apiUrl: string = 'https://localhost:44389/api/jobs';
   // private apiUrl: string = 'http://bilalsajid-001-site1.mtempurl.com/api/jobs';
   constructor(private http: HttpClient) {}
 

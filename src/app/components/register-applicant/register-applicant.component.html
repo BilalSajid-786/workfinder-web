@@ -1,51 +1,30 @@
 <div class="container-fluid auth-bg p-0 overflow-hidden">
   <div class="row min-vh-100 g-0 m-0">
     <!-- Left column: Form -->
-    <div
-      style="padding-left: 80px"
-      class="col-md-9 d-flex flex-column mt-5 pt-3"
-    >
-<div class="d-flex justify-content-center">
-    <img src="/background/initti.jpg" style="height:130px" class="col-4 mb-5">
-</div>
+    <div style="padding-left: 80px" class="col-md-9 d-flex flex-column mt-5 pt-3">
+      <div class="d-flex justify-content-center">
+        <img src="/background/initti.jpg" style="height:130px" class="col-4 mb-5">
+      </div>
 
-      <form
-        [formGroup]="registrationForm"
-        (ngSubmit)="onSubmit()"
-        class="col-sm-11 col-12 mt-2"
-      >
+      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="col-sm-11 col-12 mt-2">
         <div class="row">
           <!-- FullName -->
           <div class="mb-4 position-relative col-md-6 col-12">
-            <input
-              type="text"
-              class="form-control wf-input"
-              id="fullName"
-              placeholder="FullName"
-              formControlName="fullName"
-              [ngClass]="{
+            <input type="text" class="form-control wf-input" id="fullName" placeholder="FullName"
+              formControlName="fullName" [ngClass]="{
                 'is-invalid':
                   fullName?.invalid && (fullName?.dirty || fullName?.touched)
-              }"
-            />
+              }" />
             <span class="text-danger position-absolute required-star">*</span>
           </div>
 
           <!-- Country -->
-          <div
-            class="mb-3 position-relative col-md-6 col-12 wf-field wf-select-wrap"
-          >
-            <select
-              class="wf-select"
-              formControlName="country"
-              aria-label="Country"
-              [class.invalid]="
+          <div class="mb-3 position-relative col-md-6 col-12 wf-field wf-select-wrap">
+            <select class="wf-select" formControlName="country" aria-label="Country" [class.invalid]="
                 country?.invalid && (country?.dirty || isSubmitted)
-              "
-            >
+              ">
               <option [ngValue]="null" disabled>Country</option>
-              <option value="Male">Pakistan</option>
-              <option value="Female">America</option>
+              <option *ngFor="let co of countries" [ngValue]="co.countryName">{{ co.countryName }}</option>
             </select>
             <span class="wf-chev" aria-hidden="true">▾</span>
             <span class="text-danger position-absolute required-star">*</span>
@@ -57,34 +36,23 @@
           <div class="mb-4 col-md-6 col-12">
             <div class="input-group wf-field wf-select-wrap">
               <!-- Country Code Dropdown -->
-              <select
-                class="form-select custom-select"
-                style="max-width: 80px"
-                formControlName="countryCode"
+              <select class="form-select custom-select" style="max-width: 80px" formControlName="countryCode"
                 [class.is-invalid]="
                   countryCode?.invalid && (countryCode?.touched || isSubmitted)
-                "
-              >
+                ">
                 <option [ngValue]="null" disabled>+</option>
-                <option value="+92">+92</option>
-                <option value="+1">+1</option>
-                <option value="+44">+44</option>
-                <option value="+971">+971</option>
+                 <option *ngFor="let item of countryCodes" [value]="item.countryCodeId">
+                                        {{ item.countryCodeId }}
+                                    </option>
                 <!-- Add more as needed -->
               </select>
 
               <!-- Phone Number -->
-              <input
-                type="text"
-                class="form-control wf-input"
-                id="phone"
-                placeholder="Phone"
-                formControlName="phone"
+              <input type="text" class="form-control wf-input" id="phone" placeholder="Phone Number" formControlName="phone"
                 [ngClass]="{
                   'is-invalid':
                     phone?.invalid && (phone?.dirty || phone?.touched)
-                }"
-              />
+                }" />
             </div>
 
             <span class="text-danger position-absolute required-star">*</span>
@@ -93,47 +61,25 @@
           <div class="mb-4 position-relative col-md-6 col-12">
             <!-- Selected Skills -->
             <!-- Inline Input -->
-            <input
-              type="text"
-              class="form-control wf-input"
-              placeholder="Add a skill"
-              (input)="onSkillInput($event)"
-              (keydown)="onSkillEnter($event, skillInput)"
-              #skillInput
-              style="outline: none"
-              [ngClass]="{
+            <input type="text" class="form-control wf-input" placeholder="Add a skill" (input)="onSkillInput($event)"
+              (keydown)="onSkillEnter($event, skillInput)" #skillInput style="outline: none" [ngClass]="{
                 'is-invalid':
                   skills?.invalid && (skills?.dirty || skills?.touched)
-              }"
-            />
+              }" />
             <span class="text-danger position-absolute required-star">*</span>
 
             <!-- Selected Skills BELOW field -->
             <div class="d-flex flex-wrap gap-2 mt-2">
-              <span
-                *ngFor="let skill of skills?.value; let i = index"
-                class="badge bg-primary"
-              >
+              <span *ngFor="let skill of skills?.value; let i = index" class="badge bg-primary">
                 {{ skill.skillName }}
-                <button
-                  type="button"
-                  class="btn-close btn-close-white ms-1"
-                  (click)="removeSkill(i)"
-                ></button>
+                <button type="button" class="btn-close btn-close-white ms-1" (click)="removeSkill(i)"></button>
               </span>
             </div>
 
             <!-- Dropdown -->
-            <ul
-              *ngIf="skillsList.length > 0"
-              class="list-group position-absolute w-100"
-              style="z-index: 1000"
-            >
-              <li
-                *ngFor="let item of skillsList"
-                class="list-group-item list-group-item-action"
-                (click)="selectSkill(item, skillInput)"
-              >
+            <ul *ngIf="skillsList.length > 0" class="list-group position-absolute w-100" style="z-index: 1000">
+              <li *ngFor="let item of skillsList" class="list-group-item list-group-item-action"
+                (click)="selectSkill(item, skillInput)">
                 {{ item.skillName }}
               </li>
             </ul>
@@ -143,37 +89,21 @@
         <div class="row">
           <!-- Email -->
           <div class="mb-4 position-relative col-md-6 col-12">
-            <input
-              type="email"
-              class="form-control wf-input"
-              id="email"
-              placeholder="Email"
-              formControlName="email"
+            <input type="email" class="form-control wf-input" id="email" placeholder="Email" formControlName="email"
               [ngClass]="{
                 'is-invalid': email?.invalid && (email?.dirty || email?.touched)
-              }"
-            />
+              }" />
             <span class="text-danger position-absolute required-star">*</span>
           </div>
 
           <!-- Qualification -->
-          <div
-            class="mb-3 position-relative col-md-6 col-12 wf-field wf-select-wrap"
-          >
-            <select
-              class="wf-select"
-              formControlName="qualification"
-              aria-label="Qualification"
-              [class.invalid]="
+          <div class="mb-3 position-relative col-md-6 col-12 wf-field wf-select-wrap">
+            <select class="wf-select" formControlName="qualification" aria-label="Qualification" [class.invalid]="
                 qualification?.invalid &&
                 (qualification?.touched || isSubmitted)
-              "
-            >
+              ">
               <option [ngValue]="null" disabled>Qualification</option>
-              <option
-                *ngFor="let q of qualificationList"
-                [value]="q.qualificationId"
-              >
+              <option *ngFor="let q of qualificationList" [value]="q.qualificationId">
                 {{ q.qualificationName }}
               </option>
             </select>
@@ -185,44 +115,24 @@
         <div class="row">
           <!-- Password -->
           <div class="mb-3 position-relative col-md-6 col-12 password-wrapper">
-            <input
-              [type]="showPassword ? 'password' : 'text'"
-              placeholder="Password"
-              class="form-control wf-input pe-5"
-              id="password"
-              formControlName="password"
-              [ngClass]="{
+            <input [type]="showPassword ? 'password' : 'text'" placeholder="Password" class="form-control wf-input pe-5"
+              id="password" formControlName="password" [ngClass]="{
                 'is-invalid':
                   password?.invalid && (password?.dirty || password?.touched)
-              }"
-            />
+              }" />
 
             <!-- Eye Button -->
-            <button
-              type="button"
-              class="btn btn-link eye-btn"
-              (click)="togglePassword()"
-              [ngClass]="{ 'has-file': selectedResume.length > 0 }"
-            >
-              <i
-                class="bi"
-                [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"
-              ></i>
+            <button type="button" class="btn btn-link eye-btn" (click)="togglePassword()"
+              [ngClass]="{ 'has-file': selectedResume.length > 0 }">
+              <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
             </button>
 
             <span class="text-danger position-absolute required-star">*</span>
           </div>
-          <div
-            class="mb-3 position-relative col-md-6 col-12 wf-field wf-file-field"
-          >
+          <div class="mb-3 position-relative col-md-6 col-12 wf-field wf-file-field">
             <div class="file-input-wrapper position-relative">
-              <input
-                type="file"
-                id="resume"
-                class="custom-file-input wf-input"
-                aria-label="Upload resume"
-                (change)="onFileSelected($event, 'Resume')"
-              />
+              <input type="file" id="resume" class="custom-file-input wf-input" aria-label="Upload resume"
+                (change)="onFileSelected($event, 'Resume')" />
 
               <!-- Fake placeholder -->
               <span class="file-placeholder">Resume.pdf</span>
@@ -234,20 +144,10 @@
             </div>
 
             <!-- File tags -->
-            <div
-              class="d-flex flex-wrap gap-2 mt-2"
-              *ngIf="selectedResume.length > 0"
-            >
-              <span
-                *ngFor="let file of selectedResume; let i = index"
-                class="badge bg-primary"
-              >
+            <div class="d-flex flex-wrap gap-2 mt-2" *ngIf="selectedResume.length > 0">
+              <span *ngFor="let file of selectedResume; let i = index" class="badge bg-primary">
                 {{ file.name }}
-                <button
-                  type="button"
-                  class="btn-close btn-close-white ms-1"
-                  (click)="removeFile(i, 'Resume')"
-                ></button>
+                <button type="button" class="btn-close btn-close-white ms-1" (click)="removeFile(i, 'Resume')"></button>
               </span>
             </div>
           </div>
@@ -256,60 +156,32 @@
         <div class="row">
           <!-- Town/City -->
           <div class="mb-4 position-relative col-md-6 col-12">
-            <input
-              type="text"
-              placeholder="Town/City"
-              class="form-control wf-input"
-              id="city"
-              formControlName="city"
+            <input type="text" placeholder="Town/City" class="form-control wf-input" id="city" formControlName="city"
               [ngClass]="{
                 'is-invalid': city?.invalid && (city?.dirty || city?.touched)
-              }"
-            />
+              }" />
             <span class="text-danger position-absolute required-star">*</span>
           </div>
 
           <!--Certificate-->
-          <div
-            class="mb-3 position-relative col-md-6 col-12 wf-field wf-file-field"
-          >
-            <div class="file-input-wrapper position-relative">
-              <input
-                type="file"
-                id="certificate"
-                class="custom-file-input"
-                aria-label="Upload certificate"
-                multiple
-                (change)="onFileSelected($event, 'Certificates')"
-              />
+      
 
               <!-- Fake placeholder -->
-              <span class="file-placeholder">Certificate</span>
+              <!--<span class="file-placeholder">Certificate</span>
 
-              <!-- Icon -->
               <span class="wf-chev" aria-hidden="true">
                 <i class="bi bi-paperclip clr-txt"></i>
               </span>
             </div>
 
-            <!-- File tags -->
-            <div
-              class="d-flex flex-wrap gap-2 mt-2"
-              *ngIf="selectedCertificates.length > 0"
-            >
-              <span
-                *ngFor="let file of selectedCertificates; let i = index"
-                class="badge bg-primary"
-              >
+            <div class="d-flex flex-wrap gap-2 mt-2" *ngIf="selectedCertificates.length > 0">
+              <span *ngFor="let file of selectedCertificates; let i = index" class="badge bg-primary">
                 {{ file.name }}
-                <button
-                  type="button"
-                  class="btn-close btn-close-white ms-1"
-                  (click)="removeFile(i, 'Certificates')"
-                ></button>
+                <button type="button" class="btn-close btn-close-white ms-1"
+                  (click)="removeFile(i, 'Certificates')"></button>
               </span>
             </div>
-          </div>
+          </div> -->
 
           <!-- <div
             class="mb-3 position-relative col-md-6 col-12 wf-field wf-file-field"
@@ -349,17 +221,10 @@
 
         <div class="row">
           <!-- Gender -->
-          <div
-            class="mb-3 position-relative col-md-6 col-12 wf-field wf-select-wrap"
-          >
-            <select
-              class="wf-select"
-              formControlName="gender"
-              aria-label="Gender"
-              [class.invalid]="
+          <div class="mb-3 position-relative col-md-6 col-12 wf-field wf-select-wrap">
+            <select class="wf-select" formControlName="gender" aria-label="Gender" [class.invalid]="
                 gender?.invalid && (gender?.dirty || isSubmitted)
-              "
-            >
+              ">
               <option [ngValue]="null" disabled>Gender</option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
@@ -368,23 +233,13 @@
             <span class="text-danger position-absolute required-star">*</span>
           </div>
 
-             <div
-            class="mb-3 position-relative col-md-6 col-12 wf-field wf-select-wrap"
-          >
-            <select
-              class="wf-select"
-              formControlName="schoolDegree"
-              aria-label="SchoolDegree"
-              [class.invalid]="
+          <div class="mb-3 position-relative col-md-6 col-12 wf-field wf-select-wrap">
+            <select class="wf-select" formControlName="schoolDegree" aria-label="SchoolDegree" [class.invalid]="
                 schoolDegree?.invalid &&
                 (schoolDegree?.touched || isSubmitted)
-              "
-            >
+              ">
               <option [ngValue]="null" disabled>SchoolDegree</option>
-              <option
-                *ngFor="let q of schoolDegreesList"
-                [value]="q.schoolDegreeId"
-              >
+              <option *ngFor="let q of schoolDegreesList" [value]="q.schoolDegreeId">
                 {{ q.schoolDegreeName }}
               </option>
             </select>
@@ -396,17 +251,10 @@
         <!-- Terms -->
         <div class="wf-row-full">
           <label class="wf-cbx">
-            <input
-              type="checkbox"
-              formControlName="terms"
-              required
-              [class.is-invalid]="
+            <input type="checkbox" formControlName="terms" required [class.is-invalid]="
                 terms?.invalid && (terms?.touched || isSubmitted)
-              "
-            />
-            <span style="padding: 5px"
-              >I agree to the <a href="#">Terms &amp; Privacy Policy</a></span
-            >
+              " />
+            <span style="padding: 5px">I agree to the <a href="#">Terms &amp; Privacy Policy</a></span>
           </label>
         </div>
 
@@ -414,11 +262,7 @@
       </form>
     </div>
     <div class="col-md-3 col-12 d-flex align-items-end p-0 mt-3 mt-md-0">
-      <img
-        src="/background/side-img.png"
-        alt="Side Image"
-        class="img-fluid w-100"
-      />
+      <img src="/background/side-img.png" alt="Side Image" class="img-fluid w-100" />
     </div>
   </div>
 </div>

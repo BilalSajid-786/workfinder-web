@@ -18,6 +18,8 @@ import { Guid } from '../../models/types.model';
 import { QualificationService } from '../../services/qualification.service';
 import { Qualification } from '../../models/qualification.model';
 import { SchooldegreeService } from '../../services/schooldegree.service';
+import { CountryService } from '../../services/country.service';
+import { CountrycodeService } from '../../services/countrycode.service';
 
 @Component({
   selector: 'app-register-applicant',
@@ -30,12 +32,14 @@ export class RegisterApplicantComponent implements OnInit {
   registrationForm: FormGroup;
   skillsList: Skill[] = []; // not string[]
   qualificationList: Qualification[] = [];
-  schoolDegreesList:any = [];
+  schoolDegreesList: any = [];
   selectedSkills: Skill[] = [];
   isSubmitted = false;
   selectedCertificates: File[] = [];
   selectedResume: File[] = [];
   showPassword: boolean = true;
+  countries: any[] = [];
+  countryCodes: any[] = [];
 
   /**
    *
@@ -46,9 +50,11 @@ export class RegisterApplicantComponent implements OnInit {
     private toastr: ToastrService,
     private skillService: SkillService,
     private applicantService: ApplicantService,
-    private schoolDegreeService:SchooldegreeService,
+    private schoolDegreeService: SchooldegreeService,
     private fileService: FileService,
-    private qualificationService: QualificationService
+    private qualificationService: QualificationService,
+    private countryService: CountryService,
+    private countryCodeService: CountrycodeService
   ) {
     this.registrationForm = this.fb.group({
       fullName: ['', [Validators.required]],
@@ -119,6 +125,31 @@ export class RegisterApplicantComponent implements OnInit {
   ngOnInit(): void {
     this.getQualifications();
     this.getSchoolDegrees();
+    this.getCountries();
+    this.getCountryCodes();
+  }
+
+
+  getCountries(): void {
+    this.countryService.getCountries().subscribe({
+      next: (res) => {
+        if (res.isSuccess) {
+          // res.result should be Skill[]
+          this.countries = res.result;
+        } else {
+          this.countries = [];
+        }
+      },
+      error: (err) => {
+        this.countries = [];
+      },
+    });
+  }
+
+  getCountryCodes(): void {
+    this.countryCodeService.getCountryCodes().subscribe((list) => {
+      this.countryCodes = list.result ?? [];
+    });
   }
 
   getQualifications() {
@@ -138,9 +169,8 @@ export class RegisterApplicantComponent implements OnInit {
     });
   }
 
-  getSchoolDegrees()
-  {
-     this.schoolDegreeService.getQualifications().subscribe({
+  getSchoolDegrees() {
+    this.schoolDegreeService.getQualifications().subscribe({
       next: (res) => {
         if (res.isSuccess) {
           // res.result should be Skill[]
@@ -288,7 +318,7 @@ export class RegisterApplicantComponent implements OnInit {
         email: values.email?.trim(),
         password: values.password, // backend should hash
         city: values.city?.trim(),
-        country: values.country?.trim(),
+        country: values.country,
         phone: values.countryCode?.trim() + values.phone?.trim(),
         gender: values.gender?.trim(),
         qualificationId: values.qualification?.trim(),
@@ -298,14 +328,24 @@ export class RegisterApplicantComponent implements OnInit {
 
       this.applicantService.registerApplicantData(payload).subscribe({
         next: (res: any) => {
-          console.log('Response', res);
-          this.toastr.success(res.message);
-          const applicantId: Guid = res.result.applicantId;
-          debugger;
-          this.uploadResume(applicantId);
-          this.uploadCertificates(applicantId);
-          this.registrationForm.markAllAsTouched();
-          this.router.navigate(['']);
+          if (res.isSuccess) {
+            this.toastr.success(res.message);
+            const applicantId: Guid = res.result.applicantId;
+            this.uploadResume(applicantId);
+            this.uploadCertificates(applicantId);
+            this.registrationForm.markAllAsTouched();
+            /*if (payload.country != "Germany") {
+              this.router.navigate(['/subscription'], { state: { employerData: res.result } });
+            }
+            else {
+              this.router.navigate(['']);
+            }*/
+              this.router.navigate(['']);
+          }
+          else {
+            this.toastr.error(res.message);
+          }
+
         },
         error: (err: any) => {
           this.toastr.error('Applicant registration Failed');
@@ -340,7 +380,7 @@ export class RegisterApplicantComponent implements OnInit {
       next: (res: any) => {
         console.log('Response', res);
       },
-      error: (err: any) => {},
+      error: (err: any) => { },
     });
   }
 }

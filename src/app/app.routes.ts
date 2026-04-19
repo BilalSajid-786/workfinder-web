@@ -53,10 +53,7 @@ export const routes: Routes = [
         path: 'subscription',
         component: SubscriptionComponent,
       },
-            {
-        path: 'billing-details',
-        component: BillingDetailsComponent,
-      },
+      { path: 'subscription/:token', component: SubscriptionComponent },
     ],
   },
   {
@@ -132,6 +129,10 @@ export const routes: Routes = [
       {
         path: 'sendmessage',
         component: ChatComponent,
+      },
+                  {
+        path: 'billing-details',
+        component: BillingDetailsComponent,
       },
       {
         path: 'job/:id',

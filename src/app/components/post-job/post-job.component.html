@@ -16,21 +16,18 @@
           <!-- Form column -->
           <div class="col-md-6">
             <div class="mb-3">
-              <input
-                type="text"
-                class="form-control wf-input"
-                id="jobTitle"
-                placeholder="Job Title"
-                formControlName="jobTitle"
-              />
+              <input type="text" class="form-control wf-input" id="jobTitle" placeholder="Job Title"
+                formControlName="jobTitle" [ngClass]="{
+                'is-invalid':
+                  jobTitle?.invalid && (jobTitle?.dirty || jobTitle?.touched)
+              }" />
             </div>
             <div class="mb-3">
               <div class="wf-select-wrap">
-                <select
-                  class="wf-select"
-                  aria-label="company"
-                  formControlName="company"
-                >
+                <select class="wf-select" aria-label="company" formControlName="company" [ngClass]="{
+                'is-invalid':
+                  company?.invalid && (company?.dirty || company?.touched)
+              }">
                   <option [value]="companyName" disabled>
                     {{ companyName }}
                   </option>
@@ -40,16 +37,10 @@
             </div>
             <div class="mb-3">
               <div class="wf-select-wrap">
-                <select
-                  class="wf-select"
-                  aria-label="Industry"
-                  formControlName="industryId"
-                >
+                <select class="wf-select is-invalid" aria-label="Industry" formControlName="industryId"
+                  [class.invalid]="submitted && (industryId?.invalid && (industryId?.dirty || industryId?.touched))">
                   <option [value]="null" disabled selected>Industry</option>
-                  <option
-                    *ngFor="let industry of industries"
-                    [value]="industry.industryId"
-                  >
+                  <option *ngFor="let industry of industries" [value]="industry.industryId">
                     {{ industry.industryName }}
                   </option>
                 </select>
@@ -59,16 +50,10 @@
 
             <div class="mb-3">
               <div class="wf-select-wrap">
-                <select
-                  class="wf-select"
-                  aria-label="Country"
-                  formControlName="country"
-                >
+                <select class="wf-select" aria-label="Country" formControlName="country"
+                  [class.invalid]="submitted && (country?.invalid && (country?.dirty || country?.touched))">
                   <option [value]="null" disabled selected>Country</option>
-                  <option
-                    *ngFor="let country of countries"
-                    [value]="country.countryName"
-                  >
+                  <option *ngFor="let country of countries" [value]="country.countryName">
                     {{ country.countryName }}
                   </option>
                 </select>
@@ -77,23 +62,18 @@
             </div>
 
             <div class="mb-3">
-              <input
-                type="text"
-                class="form-control wf-input"
-                id="city"
-                placeholder="City"
-                formControlName="city"
-              />
+              <input type="text" class="form-control wf-input" id="city" placeholder="City" formControlName="city"
+                [ngClass]="{
+                'is-invalid':
+                  city?.invalid && (city?.dirty || city?.touched)
+              }" />
             </div>
 
             <div class="row">
               <div class="col-md-6 mb-3">
                 <div class="wf-select-wrap">
-                  <select
-                    class="wf-select"
-                    aria-label="JobType"
-                    formControlName="jobType"
-                  >
+                  <select class="wf-select" aria-label="JobType" formControlName="jobType"
+                    [class.invalid]="submitted && (jobType?.invalid && (jobType?.dirty || jobType?.touched))">
                     <option [value]="null" disabled selected>Job Type</option>
                     <option *ngFor="let job of jobTypes">{{ job }}</option>
                   </select>
@@ -108,18 +88,10 @@
                   formControlName="expiryDate"
                 /> -->
                 <div class="custom-date-wrapper">
-                  <input
-                    #expiryDate
-                    type="text"
-                    class="form-control wf-input customdatepicker"
-                    formControlName="expiryDate"
-                  />
-                  <span
-                    class="placeholder-text"
-                    [class.hidden]="expiryDate.value"
-                    (click)="focusInput()"
-                    *ngIf="!dateFocused"
-                  >
+                  <input #expiryDate type="text" class="form-control wf-input customdatepicker"
+                    formControlName="expiryDate" [ngClass]="{'is-invalid': submitted && jobSubmissionForm.get('expiryDate')?.invalid}" />
+                  <span class="placeholder-text" [class.hidden]="expiryDate.value" (click)="focusInput()"
+                    *ngIf="!dateFocused">
                     Expiry Date
                   </span>
                   <span class="calendar-icon" (click)="focusInput()">
@@ -135,70 +107,40 @@
             <div class="position-relative col-12 mb-2">
               <!-- Selected Skills -->
               <!-- Inline Input -->
-              <input
-                type="text"
-                class="form-control wf-input"
-                placeholder="Add a skill"
-                (input)="onSkillInput($event)"
-                (keydown)="onSkillEnter($event, skillInput)"
-                #skillInput
-                style="outline: none"
-                [ngClass]="{
+              <input type="text" class="form-control wf-input" placeholder="Add a skill" (input)="onSkillInput($event)"
+                (keydown)="onSkillEnter($event, skillInput)" #skillInput style="outline: none" [ngClass]="{
                   'is-invalid':
                     skills?.invalid && (skills?.dirty || skills?.touched)
-                }"
-              />
+                }" />
               <!-- <span class="text-danger position-absolute required-star">*</span> -->
 
               <!-- Selected Skills BELOW field -->
               <div class="d-flex flex-wrap gap-2 mt-2 mb-1">
-                <span
-                  *ngFor="let skill of skills?.value; let i = index"
-                  class="badge bg-primary"
-                >
+                <span *ngFor="let skill of skills?.value; let i = index" class="badge bg-primary">
                   {{ skill.skillName }}
-                  <button
-                    type="button"
-                    class="btn-close btn-close-white ms-1"
-                    (click)="removeSkill(i)"
-                  ></button>
+                  <button type="button" class="btn-close btn-close-white ms-1" (click)="removeSkill(i)"></button>
                 </span>
               </div>
 
               <!-- Dropdown -->
-              <ul
-                *ngIf="skillsList.length > 0"
-                class="list-group position-absolute w-100"
-                style="z-index: 1000"
-              >
-                <li
-                  *ngFor="let item of skillsList"
-                  class="list-group-item list-group-item-action"
-                  (click)="selectSkill(item, skillInput)"
-                >
+              <ul *ngIf="skillsList.length > 0" class="list-group position-absolute w-100" style="z-index: 1000">
+                <li *ngFor="let item of skillsList" class="list-group-item list-group-item-action"
+                  (click)="selectSkill(item, skillInput)">
                   {{ item.skillName }}
                 </li>
               </ul>
             </div>
-            <div
-              class="h-100 d-flex wf-input"
-              style="border-radius: 6px; height: 360px !important"
-            >
-              <textarea
-                class="form-control px-2 py-2 tarea"
-                placeholder="Description"
-                id="description"
-                formControlName="description"
-                rows="10"
-                style="
+            <div class="h-100 d-flex wf-input" [class.invalid]="submitted && (description?.invalid && (description?.dirty || description?.touched))" style="border-radius: 6px; height: 360px !important">
+              <textarea class="form-control px-2 py-2 tarea invalid" placeholder="Description" id="description"
+                
+                formControlName="description" rows="10" style="
                   resize: none;
                   width: 100%;
                   height: 100%;
                   border-radius: 6px;
-                  border: none !important;
+                  border: 1px solid transparent !important;
                   padding: 0 !important;
-                "
-              ></textarea>
+                "></textarea>
             </div>
           </div>
         </div>

@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import {FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { EmployerService } from '../../services/employer.service';
 import { Employer } from '../../models/employer.model';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { Industry } from '../../models/industry.model';
 import { IndustryService } from '../../services/industry.service';
+import { CountrycodeService } from '../../services/countrycode.service';
 
 @Component({
   selector: 'app-register-employer',
@@ -19,6 +20,7 @@ export class RegisterEmployerComponent implements OnInit {
   employerForm!: FormGroup;
   submitted = false;
   industries: Industry[] = [];
+  countryCodes: any[] = [];
 
   /**
    *
@@ -28,11 +30,13 @@ export class RegisterEmployerComponent implements OnInit {
     private employerSrvice: EmployerService,
     private router: Router,
     private toastr: ToastrService,
-    private industryService: IndustryService
-  ) {}
+    private industryService: IndustryService,
+    private countryCodeService: CountrycodeService
+  ) { }
   ngOnInit(): void {
     this.buildForm();
     this.getIndustries();
+    this.getCountryCodes();
   }
 
   private buildForm(): void {
@@ -130,7 +134,12 @@ export class RegisterEmployerComponent implements OnInit {
           if (res.isSuccess) {
             this.toastr.success(res.message);
             this.employerForm.markAllAsTouched();
-            this.router.navigate(['/subscription'], { state: { employerData: res.result } });
+            this.router.navigate(['']);
+            //this.router.navigate(['/subscription'], { state: { employerData: res.result } });
+          }
+          else
+          {
+            this.toastr.error(res.message);
           }
         },
         error: (err) => {
@@ -146,6 +155,12 @@ export class RegisterEmployerComponent implements OnInit {
   getIndustries(): void {
     this.industryService.getIndustries().subscribe((list) => {
       this.industries = list ?? [];
+    });
+  }
+
+  getCountryCodes(): void {
+    this.countryCodeService.getCountryCodes().subscribe((list) => {
+      this.countryCodes = list.result ?? [];
     });
   }
 }
@@ -168,20 +183,20 @@ export class RegisterEmployerComponent implements OnInit {
 // };
 
 // const values = this.employerForm.getRawValue();
-    // console.log("Values", values);
+// console.log("Values", values);
 
-    // const payload: Employer = {
-    //   // if your Employer model includes only employer fields, remove user props accordingly
-    //   companyName: values.companyName?.trim(),
-    //   websiteUrl: values.websiteUrl?.trim() || null,
-    //   industryId: values.industryId,
-    //   companySize: values.companySize?.trim(),
-    //   contactPerson: values.contactPerson?.trim(),
-    //   registrationNumber: values.registrationNumber?.trim() || null,
+// const payload: Employer = {
+//   // if your Employer model includes only employer fields, remove user props accordingly
+//   companyName: values.companyName?.trim(),
+//   websiteUrl: values.websiteUrl?.trim() || null,
+//   industryId: values.industryId,
+//   companySize: values.companySize?.trim(),
+//   contactPerson: values.contactPerson?.trim(),
+//   registrationNumber: values.registrationNumber?.trim() || null,
 
-    //   // If your Employer model or API expects these too, keep them; otherwise move them to a User DTO
-    //   email: values.email?.trim(),
-    //   password: values.password,            // backend should hash
-    //   city: values.city?.trim(),
-    //   phoneNumber: values.phoneNumber?.trim(),
-    // } as unknown as Employer;
+//   // If your Employer model or API expects these too, keep them; otherwise move them to a User DTO
+//   email: values.email?.trim(),
+//   password: values.password,            // backend should hash
+//   city: values.city?.trim(),
+//   phoneNumber: values.phoneNumber?.trim(),
+// } as unknown as Employer;

@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class NotificationService {
-  private apiUrl: string = 'https://localhost:7205/api/notifications';
+  private apiUrl: string = 'https://localhost:44389/api/notifications';
   // private apiUrl: string =
   //   'http://bilalsajid-001-site1.mtempurl.com/api/notifications';
   private _count = new BehaviorSubject<number>(0);

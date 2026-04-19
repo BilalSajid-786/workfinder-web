@@ -2,21 +2,22 @@
     <div class="row min-vh-100 g-0 m-0">
         <div class="col-12 col-md-9 content-stack d-flex flex-column justify-content-center align-items-center py-5">
             <!-- Brand -->
-             <div class="d-flex justify-content-center">
-    <img src="/background/initti.jpg" style="height:130px" class="col-12 mb-5">
-</div>
+            <div class="d-flex justify-content-center">
+                <img src="/background/initti.jpg" style="height:130px" class="col-12 mb-5">
+            </div>
             <!-- remaining code -->
             <div class="mt-3" style="padding: 0px 10px 0px 10px;">
-                <form class="w-100" [formGroup]="employerForm" (ngSubmit)="onSubmit()" novalidate style="max-width: 920px;">
+                <form class="w-100" [formGroup]="employerForm" (ngSubmit)="onSubmit()" novalidate
+                    style="max-width: 920px;">
                     <div class="row g-3">
                         <!-- Company Name (required) -->
                         <div class="col-md-6 position-relative">
                             <input type="text" class="form-control wf-input" id="companyName" placeholder="Company Name"
-                            formControlName="companyName" 
-                            [ngClass]="{'is-invalid': companyName?.invalid && (companyName?.dirty || companyName?.touched)}">
+                                formControlName="companyName"
+                                [ngClass]="{'is-invalid': companyName?.invalid && (companyName?.dirty || companyName?.touched)}">
                             <span class="text-danger position-absolute required-star">*</span>
                         </div>
-            
+
                         <!-- Company Size (required / dropdown) -->
                         <div class="col-md-6 position-relative">
                             <select class="form-select wf-select" id="companySize" formControlName="companySize"
@@ -31,68 +32,77 @@
                             <span class="wf-chev" style="top: 50%" aria-hidden="true">▾</span>
                             <span class="text-danger position-absolute required-star">*</span>
                         </div>
-                        
+
                         <!-- Company Email (required) -->
                         <div class="col-md-6 position-relative">
-                            <input type="email" class="form-control wf-input" id="email" placeholder="Company Email" formControlName="email"
+                            <input type="email" class="form-control wf-input" id="email" placeholder="Company Email"
+                                formControlName="email"
                                 [ngClass]="{'is-invalid': email?.invalid && (email?.dirty || email?.touched)}">
                             <span class="text-danger position-absolute required-star">*</span>
                         </div>
-                        
+
                         <div class="col-md-6 position-relative">
                             <div class="input-group wf-field wf-select-wrap">
                                 <!-- Country Code Dropdown -->
-                                <select class="form-select custom-select" style="max-width: 80px" formControlName="countryCode" [class.is-invalid]="
+                                <select class="form-select custom-select" style="max-width: 80px"
+                                    formControlName="countryCode" [class.is-invalid]="
                                               countryCode?.invalid && (countryCode?.touched || countryCode?.dirty)
                                             ">
                                     <option [ngValue]="null" disabled>+</option>
-                                    <option value="+92">+92</option>
+                                    <option *ngFor="let item of countryCodes" [value]="item.countryCodeId">
+                                        {{ item.countryCodeId }}
+                                    </option>
+                                    <!-- <option value="+92">+92</option>
                                     <option value="+1">+1</option>
                                     <option value="+44">+44</option>
-                                    <option value="+971">+971</option>
+                                    <option value="+971">+971</option> -->
                                     <!-- Add more as needed -->
                                 </select>
-                            
+
                                 <!-- Phone Number -->
-                                <input type="text" class="form-control wf-input" id="phoneNumber" placeholder="phoneNumber" formControlName="phoneNumber" [ngClass]="{
+                                <input type="text" class="form-control wf-input" id="phoneNumber"
+                                    placeholder="Phone Number" formControlName="phoneNumber" [ngClass]="{
                                               'is-invalid':
                                                 phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)
                                             }" />
                             </div>
-                        
+
                             <!-- Required star -->
                             <span class="text-danger position-absolute required-star">*</span>
                         </div>
-                        
-                        
-                        
+
+
+
                         <!-- Password (required) -->
                         <div class="col-md-6 position-relative">
-                            <input type="password" class="form-control wf-input pe-5" id="password" placeholder="Password"
-                                formControlName="password"
+                            <input type="password" class="form-control wf-input pe-5" id="password"
+                                placeholder="Password" formControlName="password"
                                 [ngClass]="{'is-invalid': password?.invalid && (password?.dirty || password?.touched)}">
                             <span class="text-danger position-absolute required-star">*</span>
                         </div>
-            
+
                         <!-- Contact Person name (required) -->
                         <div class="col-md-6 position-relative">
-                            <input type="text" class="form-control wf-input" id="contactPerson" placeholder="Contact Person name" formControlName="contactPerson"
-                            [ngClass]="{'is-invalid': contactPerson?.invalid && (contactPerson?.dirty || contactPerson?.touched)}">
+                            <input type="text" class="form-control wf-input" id="contactPerson"
+                                placeholder="Contact Person name" formControlName="contactPerson"
+                                [ngClass]="{'is-invalid': contactPerson?.invalid && (contactPerson?.dirty || contactPerson?.touched)}">
                             <span class="text-danger position-absolute required-star">*</span>
                         </div>
-            
+
                         <!-- Company’s Town/City (required) -->
                         <div class="col-md-6 position-relative">
-                            <input type="text" class="form-control wf-input" id="city" formControlName="city" placeholder="Company’s Town/city"
-                            [ngClass]="{'is-invalid': city?.invalid && (city?.dirty || city?.touched)}">
+                            <input type="text" class="form-control wf-input" id="city" formControlName="city"
+                                placeholder="Company’s Town/city"
+                                [ngClass]="{'is-invalid': city?.invalid && (city?.dirty || city?.touched)}">
                             <span class="text-danger position-absolute required-star">*</span>
                         </div>
-            
+
                         <!-- Company registered number (optional) -->
                         <div class="col-md-6">
-                            <input type="text" class="form-control wf-input" id="registrationNumber" formControlName="registrationNumber" placeholder="NTN(company registered number)">
+                            <input type="text" class="form-control wf-input" id="registrationNumber"
+                                formControlName="registrationNumber" placeholder="NTN(company registered number)">
                         </div>
-            
+
                         <!-- Industry / Nature of Work (required / dropdown) -->
                         <div class="col-md-6 position-relative">
                             <select class="form-select wf-select" id="industryId" formControlName="industryId"
@@ -106,12 +116,13 @@
                             <span class="wf-chev" style="top: 50%" aria-hidden="true">▾</span>
                             <span class="text-danger position-absolute required-star">*</span>
                         </div>
-            
+
                         <!-- Website URL (optional) -->
                         <div class="col-md-6">
-                            <input type="url" class="form-control wf-input" id="websiteUrl" formControlName="websiteUrl" placeholder="Website URL">
+                            <input type="url" class="form-control wf-input" id="websiteUrl" formControlName="websiteUrl"
+                                placeholder="Website URL">
                         </div>
-            
+
                         <!-- Terms -->
                         <!-- <div class="col-12">
                             <div class="form-check">
@@ -128,10 +139,11 @@
                                 <input type="checkbox" formControlName="terms" required [class.is-invalid]="
                                         terms?.invalid && (terms?.touched || terms?.touched)
                                       " />
-                                <span style="padding: 5px">I agree to the <a href="#">Terms &amp; Privacy Policy</a></span>
+                                <span style="padding: 5px">I agree to the <a href="#">Terms &amp; Privacy
+                                        Policy</a></span>
                             </label>
                         </div>
-            
+
                         <!-- Sign up -->
                         <div class="col-12 wf-cta">
                             <button type="submit" class="btn btn-primary btn-lg px-5 rounded-2 fw-semibold"
@@ -144,7 +156,8 @@
             </div>
         </div>
         <!-- Right: decorative image -->
-        <div class="col-12 col-md-3 d-flex justify-content-end align-items-end p-0 mt-3 mt-md-0" style="margin-left: 10px; padding-left: 10px;">
+        <div class="col-12 col-md-3 d-flex justify-content-end align-items-end p-0 mt-3 mt-md-0"
+            style="margin-left: 10px; padding-left: 10px;">
             <img src="/background/side-img.png" alt="Side illustration" class="img-fluid corner-img">
         </div>
     </div>

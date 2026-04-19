@@ -7,7 +7,7 @@
         <!-- Filters (right, compact) -->
         <div class="filters-row" [formGroup]="filtersForm">
             <span class="filters-label">Filters:</span>
-        
+
             <!-- Skills -->
             <div class="position-relative filter-compact">
                 <select class="form-select wf-select" formControlName="skillId">
@@ -20,7 +20,7 @@
                 <!-- Optional required star -->
                 <!-- <span class="text-danger position-absolute required-star">*</span> -->
             </div>
-        
+
             <!-- Country -->
             <div class="position-relative filter-compact">
                 <select class="form-select wf-select" formControlName="country" (change)="onFiltersChanged()">
@@ -38,9 +38,9 @@
                 </select>
                 <span class="wf-chev" aria-hidden="true">▾</span>
             </div>
-        
+
             <!-- Search icon -->
-            <button mat-icon-button class="filter-search-btn"  (click)="applyFilterFromControls()">
+            <button mat-icon-button class="filter-search-btn" (click)="applyFilterFromControls()">
                 <mat-icon>search</mat-icon>
             </button>
         </div>
@@ -110,14 +110,12 @@
                 </th>
                 <td mat-cell *matCellDef="let row; let i = index" class="actions">
                     <button mat-icon-button matTooltip="View" (click)="openApplicantDetails(i)">
-                        <i class="bi bi-eye"></i>
+                        <mat-icon>visibility</mat-icon>
                     </button>
-                    <button mat-icon-button matTooltip="Chat">
-                        <i class="bi bi-chat-square-text"></i>
+                    <button mat-icon-button matTooltip="Send Message" (click)="openChat(row)">
+                        <mat-icon>message</mat-icon>
                     </button>
-                    <button mat-icon-button matTooltip="Call">
-                        <i class="bi bi-camera-video"></i>
-                    </button>
+                  
                 </td>
             </ng-container>
 
@@ -136,3 +134,8 @@
 <app-applicant-details [selectedApplicant]="selectedApplicant" componentName="ViewApplicants">
 
 </app-applicant-details>
+
+<app-chat-pannel *ngIf="selectedUserId" [userId]="selectedUserId" [userName]="selectedUserName"
+    (onClose)="selectedUserId = null"></app-chat-pannel>
+
+    

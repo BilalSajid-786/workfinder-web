@@ -8,7 +8,7 @@ import { Industry } from '../models/industry.model';
   providedIn: 'root',
 })
 export class IndustryService {
-  private apiUrl: string = 'https://localhost:7205/api/industries';
+  private apiUrl: string = 'https://localhost:44389/api/industries';
   // private apiUrl: string =
   //   'http://bilalsajid-001-site1.mtempurl.com/api/industries';
 

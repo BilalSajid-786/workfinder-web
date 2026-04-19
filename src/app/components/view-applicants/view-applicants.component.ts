@@ -21,6 +21,7 @@ import { CountryService } from '../../services/country.service';
 import { CityService } from '../../services/city.service';
 import { DocumentService } from '../../services/document.service';
 import { ApplicantDetailsComponent } from '../applicant-details/applicant-details.component';
+import { ChatPannelComponent } from '../chat-pannel/chat-pannel.component';
 
 @Component({
   selector: 'app-view-applicants',
@@ -37,7 +38,8 @@ import { ApplicantDetailsComponent } from '../applicant-details/applicant-detail
     MatTooltipModule,
     MatSlideToggleModule,
     ReactiveFormsModule,
-    ApplicantDetailsComponent
+    ApplicantDetailsComponent,
+    ChatPannelComponent
 ],
   templateUrl: './view-applicants.component.html',
   styleUrl: './view-applicants.component.scss',
@@ -79,6 +81,9 @@ export class ViewApplicantsComponent implements AfterViewInit {
   totalCount: number = 0;
 
   selectedApplicant: any = {};
+
+    selectedUserId: any = null;
+  selectedUserName: string = '';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -209,6 +214,12 @@ export class ViewApplicantsComponent implements AfterViewInit {
       e.preventDefault();
       this.toastr.error('Please select country first.');
     }
+  }
+
+    openChat(user: any) {
+      debugger;
+    this.selectedUserId = user.applicantId;
+    this.selectedUserName = user.userName;
   }
 
   applyFilterFromControls(): void {

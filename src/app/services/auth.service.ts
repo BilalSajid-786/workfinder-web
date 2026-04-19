@@ -9,7 +9,7 @@ import { JwtPayload } from '../models/jwt-payload.model';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl: string = 'https://localhost:7205/api/authentication';
+  private apiUrl: string = 'https://localhost:44389/api/authentication';
   // private apiUrl: string =
   //   'http://bilalsajid-001-site1.mtempurl.com/api/authentication';
 
@@ -86,6 +86,15 @@ export class AuthService {
       .pipe(
         tap((response: any) => {
           // Save token in localStorage
+        })
+      );
+  }
+
+    validateToken(token: string): Observable<any> {
+    return this.http
+      .get(`${this.apiUrl}/validateVerificationToken/${token}`)
+      .pipe(
+        tap((response: any) => {
         })
       );
   }

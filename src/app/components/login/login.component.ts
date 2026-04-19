@@ -58,6 +58,7 @@ export class LoginComponent {
       this.authService.login(loginData).subscribe({
         next: (res) => {
           if (res.message == "Payment required") {
+            debugger;
             window.location.href = res.result;
           }
           else {
