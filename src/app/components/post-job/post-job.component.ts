@@ -70,7 +70,7 @@ export class PostJobComponent {
     });
   }
 
-  @ViewChild('expiryDate') expiryDateInput!: ElementRef;
+  @ViewChild('expiryDateInput') expiryDateInput!: ElementRef;
 
   focusInput() {
     this.expiryDateInput.nativeElement.type = 'date';

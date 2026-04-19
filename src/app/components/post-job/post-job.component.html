@@ -19,20 +19,26 @@
               <input type="text" class="form-control wf-input" id="jobTitle" placeholder="Job Title"
                 formControlName="jobTitle" [ngClass]="{
                 'is-invalid':
-                  jobTitle?.invalid && (jobTitle?.dirty || jobTitle?.touched)
+                  jobTitle?.invalid && (jobTitle?.dirty || jobTitle?.touched || submitted)
               }" />
+              <div class="invalid-feedback d-block" *ngIf="jobTitle?.invalid && (jobTitle?.dirty || jobTitle?.touched || submitted)">
+                Job title is required.
+              </div>
             </div>
             <div class="mb-3">
               <div class="wf-select-wrap">
                 <select class="wf-select" aria-label="company" formControlName="company" [ngClass]="{
                 'is-invalid':
-                  company?.invalid && (company?.dirty || company?.touched)
+                  company?.invalid && (company?.dirty || company?.touched || submitted)
               }">
                   <option [value]="companyName" disabled>
                     {{ companyName }}
                   </option>
                 </select>
                 <span class="wf-chev" aria-hidden="true">▾</span>
+              </div>
+              <div class="invalid-feedback d-block" *ngIf="company?.invalid && (company?.dirty || company?.touched || submitted)">
+                Company is required.
               </div>
             </div>
             <div class="mb-3">
@@ -45,6 +51,9 @@
                   </option>
                 </select>
                 <span class="wf-chev" aria-hidden="true">▾</span>
+              </div>
+              <div class="invalid-feedback d-block" *ngIf="industryId?.invalid && (industryId?.dirty || industryId?.touched || submitted)">
+                Industry is required.
               </div>
             </div>
 
@@ -59,14 +68,20 @@
                 </select>
                 <span class="wf-chev" aria-hidden="true">▾</span>
               </div>
+              <div class="invalid-feedback d-block" *ngIf="country?.invalid && (country?.dirty || country?.touched || submitted)">
+                Country is required.
+              </div>
             </div>
 
             <div class="mb-3">
               <input type="text" class="form-control wf-input" id="city" placeholder="City" formControlName="city"
                 [ngClass]="{
                 'is-invalid':
-                  city?.invalid && (city?.dirty || city?.touched)
+                  city?.invalid && (city?.dirty || city?.touched || submitted)
               }" />
+              <div class="invalid-feedback d-block" *ngIf="city?.invalid && (city?.dirty || city?.touched || submitted)">
+                City is required.
+              </div>
             </div>
 
             <div class="row">
@@ -79,6 +94,9 @@
                   </select>
                   <span class="wf-chev" aria-hidden="true">▾</span>
                 </div>
+                <div class="invalid-feedback d-block" *ngIf="jobType?.invalid && (jobType?.dirty || jobType?.touched || submitted)">
+                  Job type is required.
+                </div>
               </div>
               <div class="col-md-6 mb-3">
                 <!-- <input
@@ -88,15 +106,18 @@
                   formControlName="expiryDate"
                 /> -->
                 <div class="custom-date-wrapper">
-                  <input #expiryDate type="text" class="form-control wf-input customdatepicker"
+                  <input #expiryDateInput type="text" class="form-control wf-input customdatepicker"
                     formControlName="expiryDate" [ngClass]="{'is-invalid': submitted && jobSubmissionForm.get('expiryDate')?.invalid}" />
-                  <span class="placeholder-text" [class.hidden]="expiryDate.value" (click)="focusInput()"
+                  <span class="placeholder-text" [class.hidden]="expiryDateInput.value" (click)="focusInput()"
                     *ngIf="!dateFocused">
                     Expiry Date
                   </span>
                   <span class="calendar-icon" (click)="focusInput()">
                     <mat-icon>calendar_today</mat-icon>
                   </span>
+                </div>
+                <div class="invalid-feedback d-block" *ngIf="expiryDate?.invalid && (expiryDate?.dirty || expiryDate?.touched || submitted)">
+                  Expiry date is required.
                 </div>
               </div>
             </div>
@@ -110,10 +131,11 @@
               <input type="text" class="form-control wf-input" placeholder="Add a skill" (input)="onSkillInput($event)"
                 (keydown)="onSkillEnter($event, skillInput)" #skillInput style="outline: none" [ngClass]="{
                   'is-invalid':
-                    skills?.invalid && (skills?.dirty || skills?.touched)
+                    skills?.invalid && (skills?.dirty || skills?.touched || submitted)
                 }" />
-              <!-- <span class="text-danger position-absolute required-star">*</span> -->
-
+              <div class="invalid-feedback d-block" *ngIf="skills?.invalid && (skills?.dirty || skills?.touched || submitted)">
+                At least one skill is required.
+              </div>
               <!-- Selected Skills BELOW field -->
               <div class="d-flex flex-wrap gap-2 mt-2 mb-1">
                 <span *ngFor="let skill of skills?.value; let i = index" class="badge bg-primary">
@@ -141,6 +163,9 @@
                   border: 1px solid transparent !important;
                   padding: 0 !important;
                 "></textarea>
+            </div>
+            <div class="invalid-feedback d-block" *ngIf="description?.invalid && (description?.dirty || description?.touched || submitted)">
+              Description is required.
             </div>
           </div>
         </div>
