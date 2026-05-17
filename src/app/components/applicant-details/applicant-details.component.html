@@ -67,7 +67,7 @@
             />
             <img
               *ngIf="selectedApplicant?.profilePic != 'NoImage.png'"
-              [src]="'https://localhost:44389/profiles/' + (selectedApplicant.userId || selectedApplicant.applicantId) + '.' + getProfilePicExtension() + '?t=' + getCurrentTimestamp()"
+              [src]="'https://initti.com/profiles/' + (selectedApplicant.userId || selectedApplicant.applicantId) + '.' + getProfilePicExtension() + '?t=' + getCurrentTimestamp()"
               class="rounded-circle object-fit-cover"
               alt="applicant avatar"
               width="110"

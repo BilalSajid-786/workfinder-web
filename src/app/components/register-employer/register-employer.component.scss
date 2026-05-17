@@ -17,6 +17,19 @@
   border-width: 3px;                 /* thicker border */
 }
 
+.form-logo {
+  // This is the magic property! It blends the image with the background behind it.
+  // 'multiply' makes white pixels transparent, keeping the dark blue logo intact.
+  mix-blend-mode: multiply;
+  
+  // Optional: Good practice for responsive sizing in your form header
+  display: block;
+  margin: 0 auto;
+  max-width: 250px; // Adjust this based on your preferred size
+  height: auto;
+  object-fit: contain;
+}
+
 /* checkbox in brand color */
 .form-check-input{ accent-color: var(--wf-blue); width: 1.4em; height: 1.4em; border-width: 2px; margin-right: 5px;}
 

@@ -262,6 +262,26 @@
             </div>
 
             <div class="d-flex align-items-center mb-3">
+              <label class="me-2" style="width: 105px">Country</label>
+              <div class="mb-1 position-relative flex-grow-1 wf-field wf-select-wrap">
+                <select
+                  class="wf-select"
+                  formControlName="country"
+                  aria-label="Country"
+                  [class.is-invalid]="
+                    country?.invalid && (country?.dirty || isSubmitted)
+                  "
+                >
+                  <option [ngValue]="null" disabled>Country</option>
+                  <option *ngFor="let co of countries" [ngValue]="co.countryName">
+                    {{ co.countryName }}
+                  </option>
+                </select>
+                <span class="wf-chev" aria-hidden="true">▾</span>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
               <label class="me-2" style="width: 105px">Skills</label>
               <div class="position-relative flex-grow-1">
                 <!-- Selected Skills -->

@@ -87,7 +87,7 @@ export class SubscriptionComponent implements OnInit {
   //   }
 
   //   // 2️⃣ Call backend API
-  //   const response: any = await this.http.post('https://localhost:44389/api/payment/create', {
+  //   const response: any = await this.http.post('https://initti.com/api/payment/create', {
   //     userId: this.employerData.userId,               // signedup user id
   //     email: this.employerData.email,       // signedup user email
   //     paymentMethodId: paymentMethod.id,
@@ -116,7 +116,7 @@ export class SubscriptionComponent implements OnInit {
   async onCheckout() {
     // 1️⃣ Call backend to create Checkout Session
     const response: any = await this.http.post(
-      'https://localhost:44389/api/payment/checkout',
+      'https://initti.com/api/payment/checkout',
       {
         userId: this.employerData.userId,
         email: this.employerData.email,
