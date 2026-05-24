@@ -21,17 +21,22 @@
       <h3 class="section-title">Pricing & Details</h3>
       <div class="pricing-table">
         <div class="pricing-row">
-          <span class="pricing-label">Monthly Charge:</span>
-          <span class="pricing-value">€6.98 / month</span>
+          <span class="pricing-label">Charges:</span>
+          <span *ngIf="employerData.roleName === 'Applicant'" class="pricing-value">€27 annually</span>
+          <span *ngIf="employerData.roleName === 'Employer'" class="pricing-value">€6.98 / month</span>
         </div>
         <div class="pricing-row">
           <span class="pricing-label">Billing Frequency:</span>
-          <span class="pricing-value">Monthly Basis</span>
+          <span *ngIf="employerData.roleName === 'Employer'"  class="pricing-value">Monthly Basis</span>
+          <span *ngIf="employerData.roleName === 'Applicant'"  class="pricing-value">Annual Basis</span>
         </div>
         <div class="pricing-row highlight">
-          <span class="pricing-label">Total Monthly Cost:</span>
-          <span class="pricing-value highlight-value">
-            {{ monthlyPrice | currency:'EUR' }}
+          <span class="pricing-label">Total Cost:</span>
+          <span *ngIf="employerData.roleName === 'Applicant'" class="pricing-value highlight-value">
+            {{ 27 | currency:'EUR' }}
+          </span>
+               <span *ngIf="employerData.roleName === 'Employer'" class="pricing-value highlight-value">
+            {{ 6.98 | currency:'EUR' }}
           </span>
         </div>
       </div>
@@ -39,7 +44,7 @@
         <p><strong>📌 Payment Terms:</strong></p>
         <ul>
           <li>Enter your credit card details below</li>
-          <li>You will be charged €6.98 per month on a monthly basis</li>
+          <li>You will be charged as per above detauls</li>
           <li>Charges will continue automatically after your trial period ends</li>
           <li>You can cancel anytime from your account settings</li>
         </ul>

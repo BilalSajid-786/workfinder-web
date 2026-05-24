@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class QualificationService {
-  private apiUrl: string = 'https://localhost:44389/api/qualifications';
+  private apiUrl: string = 'https://initti.com/api/qualifications';
   // private apiUrl: string =
   //   'http://bilalsajid-001-site1.mtempurl.com/api/qualifications';
 

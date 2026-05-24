@@ -18,6 +18,7 @@ import { SkillService } from '../../services/skill.service';
 import { Qualification } from '../../models/qualification.model';
 import { QualificationService } from '../../services/qualification.service';
 import { ApplicantService } from '../../services/applicant.service';
+import { CountryService } from '../../services/country.service';
 import { CountrycodeService } from '../../services/countrycode.service';
 import { Guid } from '../../models/types.model';
 import { FileService } from '../../services/file.service';
@@ -36,6 +37,7 @@ export class UserProfileComponent implements OnInit {
   skillsList: Skill[] = [];
   qualificationList: Qualification[] = [];
   countryCodes: any[] = [];
+  countries: any[] = [];
   user: any;
   isSubmitted = false;
   userRole: any;
@@ -55,6 +57,7 @@ export class UserProfileComponent implements OnInit {
     private employerService: EmployerService,
     private qualificationService: QualificationService,
     private applicantService: ApplicantService,
+    private countryService: CountryService,
     private countryCodeService: CountrycodeService,
     private fileService: FileService,
     private sharedService: SharedService,
@@ -70,6 +73,8 @@ export class UserProfileComponent implements OnInit {
     debugger;
 
     this.getCountryCodes();
+
+    this.getCountries();
 
     if (this.userRole == 'Employer') {
       this.getEmployerById();
@@ -115,7 +120,6 @@ export class UserProfileComponent implements OnInit {
       password: [''],
       confirmPassword: ['', this.passwordMatchValidator.bind(this)],
       city: ['', Validators.required],
-      country: [''],
     };
 
     // Role-based controls
@@ -126,6 +130,7 @@ export class UserProfileComponent implements OnInit {
       controls['contactPerson'] = [''];
       controls['registrationNumber'] = [''];
     } else if (this.userRole === 'Applicant') {
+      controls['country'] = [null, Validators.required];
       controls['gender'] = [
         null,
         [Validators.required, Validators.pattern(/^(male|female)$/i)],
@@ -272,6 +277,9 @@ export class UserProfileComponent implements OnInit {
   }
   get city() {
     return this.profileForm.get('city');
+  }
+  get country() {
+    return this.profileForm.get('country');
   }
   get industryId() {
     return this.profileForm.get('industryId');
@@ -437,6 +445,7 @@ export class UserProfileComponent implements OnInit {
         countryCode: code,
         phone: number,
         city: this.user.city,
+        country: this.user.country,
         gender: this.user.gender,
       });
       this.profileForm.get('skills')?.setValue(this.user.skills);
@@ -457,7 +466,7 @@ export class UserProfileComponent implements OnInit {
           this.user.profilePic.lastIndexOf('.') + 1
         )
         : '';
-      this.profilePicName = `https://localhost:44389/profiles/${this.authService.getBaseUserId()}.${this.extension
+      this.profilePicName = `https://initti.com/api/profiles/${this.authService.getBaseUserId()}.${this.extension
         }?t=${Date.now()}`;
       if (upload) this.patchFormValue();
     });
@@ -473,7 +482,7 @@ export class UserProfileComponent implements OnInit {
           this.user.profilePic.lastIndexOf('.') + 1
         )
         : '';
-      this.profilePicName = `https://localhost:44389/profiles/${this.authService.getBaseUserId()}.${this.extension
+      this.profilePicName = `https://initti.com/api/profiles/${this.authService.getBaseUserId()}.${this.extension
         }?t=${Date.now()}`;
       if (upload) this.patchFormValue();
     });
@@ -482,6 +491,12 @@ export class UserProfileComponent implements OnInit {
   getCountryCodes(): void {
     this.countryCodeService.getCountryCodes().subscribe((list) => {
       this.countryCodes = list.result ?? [];
+    });
+  }
+
+  getCountries(): void {
+    this.countryService.getCountries().subscribe((list) => {
+      this.countries = list.result ?? [];
     });
   }
 

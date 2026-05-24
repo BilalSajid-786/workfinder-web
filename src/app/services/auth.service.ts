@@ -9,7 +9,7 @@ import { JwtPayload } from '../models/jwt-payload.model';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl: string = 'https://localhost:44389/api/authentication';
+  private apiUrl: string = 'https://initti.com/api/authentication';
   // private apiUrl: string =
   //   'http://bilalsajid-001-site1.mtempurl.com/api/authentication';
 

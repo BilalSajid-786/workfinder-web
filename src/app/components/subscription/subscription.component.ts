@@ -50,6 +50,7 @@ export class SubscriptionComponent implements OnInit {
         this.authService.validateToken(this.token).subscribe({
           next: (res) => {
             this.employerData = { ...res.result };
+            console.log(this.employerData);
             this.userEmail = this.employerData.email;
             if(res.result.accessStatus == "allowed")
             {
@@ -120,7 +121,8 @@ export class SubscriptionComponent implements OnInit {
       {
         userId: this.employerData.userId,
         email: this.employerData.email,
-        promoCode: this.promoCode || null
+        promoCode: this.promoCode || null,
+        roleName:this.employerData.roleName
       }
     ).toPromise();
 

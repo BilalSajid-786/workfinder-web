@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class DocumentService {
 
-  private apiUrl: string = 'https://localhost:44389';
+  private apiUrl: string = 'https://initti.com';
 
   constructor(private http: HttpClient) { }
 

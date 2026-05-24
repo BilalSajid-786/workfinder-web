@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CityService {
-  private apiUrl: string = 'https://localhost:44389/api/cities';
+  private apiUrl: string = 'https://initti.com/api/cities';
   // private apiUrl: string =
   //   'http://bilalsajid-001-site1.mtempurl.com/api/cities';
 

@@ -10,8 +10,8 @@ export class ChatService {
   constructor(private http: HttpClient) {}
 
   private hubConnection!: signalR.HubConnection;
-  private readonly hubUrl = 'https://localhost:44389/chatHub';
-  private apiUrl: string = 'https://localhost:44389/api/messages';
+  private readonly hubUrl = 'https://initti.com/api/chatHub';
+  private apiUrl: string = 'https://initti.com/api/messages';
   // private readonly hubUrl = 'http://bilalsajid-001-site1.mtempurl.com/chatHub';
   // private apiUrl: string =
   //   'http://bilalsajid-001-site1.mtempurl.com/api/messages';

@@ -7,7 +7,7 @@ import { ApiResponse } from '../models/api-response.model';
   providedIn: 'root',
 })
 export class MeetingService {
-  private apiUrl: string = 'https://localhost:44389/api/meetings';
+  private apiUrl: string = 'https://initti.com/api/meetings';
   // private apiUrl: string =
   //   'http://bilalsajid-001-site1.mtempurl.com/api/meetings';
   constructor(private http: HttpClient) {}

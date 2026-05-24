@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class CountrycodeService {
 
-    private apiUrl: string = 'https://localhost:44389/api/countrycodes';
+    private apiUrl: string = 'https://initti.com/api/countrycodes';
 
   constructor(private http: HttpClient) { }
 

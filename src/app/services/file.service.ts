@@ -7,7 +7,7 @@ import { Guid } from '../models/types.model';
   providedIn: 'root',
 })
 export class FileService {
-  private apiUrl: string = 'https://localhost:44389/api/Files';
+  private apiUrl: string = 'https://initti.com/api/Files';
   // private apiUrl: string = 'http://bilalsajid-001-site1.mtempurl.com/api/Files';
 
   constructor(private http: HttpClient) {}
