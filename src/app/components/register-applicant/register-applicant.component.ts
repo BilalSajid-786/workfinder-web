@@ -127,6 +127,14 @@ export class RegisterApplicantComponent implements OnInit {
     this.getSchoolDegrees();
     this.getCountries();
     this.getCountryCodes();
+     // Wait a tiny fraction of a second for Angular to draw the items in the DOM
+      setTimeout(() => {
+        const googleSelect = document.querySelector('#google_translate_element select') as HTMLSelectElement | null;
+        if (googleSelect) {
+          // Programmatically dispatch the event to force Google to scan the new dropdown items
+          googleSelect.dispatchEvent(new Event('change'));
+        }
+      }, 2000); 
   }
 
 
