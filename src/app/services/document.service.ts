@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
 
-  private apiUrl: string = 'https://initti.com';
+  private baseUrl: string = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
   downloadResume(userId: string, filename: string): void {
     const dot = filename.lastIndexOf('.');
     const ext = dot > 0 ? filename.slice(dot).toLowerCase() : '';
-    const url = `${this.apiUrl}/resumes/${userId}${ext}`; // backend serves wwwroot/resumes/{userId}{ext}
+    const url = `${this.baseUrl}/resumes/${userId}${ext}`; // backend serves wwwroot/resumes/{userId}{ext}
 
     this.http.get(url, { responseType: 'blob' }).subscribe({
       next: (blob) => this.saveBlob(blob, this.suggestName(userId, ext, filename)),

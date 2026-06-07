@@ -9,7 +9,7 @@
 
   <div class="subscription-content">
     <!-- Promo Code Section -->
-    <div class="promo-section">
+    <div class="promo-section" *ngIf="employerData.roleName === 'Employer'">
       <h3 class="section-title">Promo Code (Optional)</h3>
       <div class="promo-input-wrapper">
         <input type="text" [(ngModel)]="promoCode" placeholder="Enter promo code" class="promo-input" />

@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { Employer } from '../models/employer.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EmployerService {
-  private apiUrl: string = 'https://initti.com/api/authentication';
-  // private apiUrl: string =
-  //   'http://bilalsajid-001-site1.mtempurl.com/api/authentication';
+  private baseUrl: string = environment.apiUrl;
+  private apiUrl: string = `${this.baseUrl}/authentication`;
 
   constructor(private http: HttpClient) {}
 
@@ -27,15 +27,13 @@ export class EmployerService {
   editEmployer(employerId: any, employerModel: Employer): Observable<any> {
     return this.http
       .post(
-        `https://initti.com/api/employers/editEmployer/${employerId}`,
+        `${this.baseUrl}/employers/editEmployer/${employerId}`,
         employerModel
       )
       .pipe(tap((response: any) => {}));
   }
 
   getEmployerById(employerId: any): Observable<any> {
-    return this.http.get<any>(
-      `https://initti.com/api/employers/getemployerbyid/${employerId}`
-    );
+    return this.http.get<any>(`${this.baseUrl}/employers/getemployerbyid/${employerId}`);
   }
 }

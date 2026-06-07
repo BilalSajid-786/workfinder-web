@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Applicant } from '../models/applicant.model';
 import { Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApplicantService {
-  private apiUrl: string = 'https://initti.com/api/authentication';
-  // private apiUrl: string =
-  //   'http://bilalsajid-001-site1.mtempurl.com/api/authentication';
+  private baseUrl: string = environment.apiUrl;
+  private apiUrl: string = `${this.baseUrl}/authentication`;
 
   constructor(private http: HttpClient) {}
 
@@ -21,22 +21,17 @@ export class ApplicantService {
 
   getApplicants(pagingModel: any): Observable<any> {
     return this.http
-      .post(`https://initti.com/api/applicants/getApplicants`, pagingModel)
+      .post(`${this.baseUrl}/applicants/getApplicants`, pagingModel)
       .pipe(tap((response: any) => {}));
   }
 
   updateApplicant(applicantModel: any): Observable<any> {
     return this.http
-      .post(
-        `https://initti.com/api/applicants/UpdateApplicant`,
-        applicantModel
-      )
+      .post(`${this.baseUrl}/applicants/UpdateApplicant`, applicantModel)
       .pipe(tap((response: any) => {}));
   }
 
   getApplicantById(): Observable<any> {
-    return this.http.get<any>(
-      `https://initti.com/api/applicants/getapplicantbyid`
-    );
+    return this.http.get<any>(`${this.baseUrl}/applicants/getapplicantbyid`);
   }
 }

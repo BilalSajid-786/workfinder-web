@@ -4,14 +4,14 @@ import { Observable, tap } from 'rxjs';
 import { LoginRequest } from '../models/login-request.model';
 import { jwtDecode } from 'jwt-decode';
 import { JwtPayload } from '../models/jwt-payload.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl: string = 'https://initti.com/api/authentication';
-  // private apiUrl: string =
-  //   'http://bilalsajid-001-site1.mtempurl.com/api/authentication';
+  private baseUrl: string = environment.apiUrl;
+  private apiUrl: string = `${this.baseUrl}/authentication`;
 
   constructor(private http: HttpClient) {}
 

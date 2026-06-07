@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { Guid } from '../models/types.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FileService {
-  private apiUrl: string = 'https://initti.com/api/Files';
-  // private apiUrl: string = 'http://bilalsajid-001-site1.mtempurl.com/api/Files';
+  private baseUrl: string = environment.apiUrl;
+  private apiUrl: string = `${this.baseUrl}/Files`;
 
   constructor(private http: HttpClient) {}
 

@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { ApiResponse } from '../models/api-response.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MeetingService {
-  private apiUrl: string = 'https://initti.com/api/meetings';
-  // private apiUrl: string =
-  //   'http://bilalsajid-001-site1.mtempurl.com/api/meetings';
+  private baseUrl: string = environment.apiUrl;
+  private apiUrl: string = `${this.baseUrl}/meetings`;
   constructor(private http: HttpClient) {}
 
   ScheduleMeeting(meetingModel: any): Observable<ApiResponse<any>> {

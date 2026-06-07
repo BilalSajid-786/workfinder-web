@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CityService {
-  private apiUrl: string = 'https://initti.com/api/cities';
-  // private apiUrl: string =
-  //   'http://bilalsajid-001-site1.mtempurl.com/api/cities';
+  private baseUrl: string = environment.apiUrl;
+  private apiUrl: string = `${this.baseUrl}/cities`;
 
   constructor(private http: HttpClient) {}
 

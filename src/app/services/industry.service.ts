@@ -3,14 +3,14 @@ import { Observable } from 'rxjs';
 import { ModuleResponse } from '../models/module-response';
 import { HttpClient } from '@angular/common/http';
 import { Industry } from '../models/industry.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IndustryService {
-  private apiUrl: string = 'https://initti.com/api/industries';
-  // private apiUrl: string =
-  //   'http://bilalsajid-001-site1.mtempurl.com/api/industries';
+  private baseUrl: string = environment.apiUrl;
+  private apiUrl: string = `${this.baseUrl}/industries`;
 
   constructor(private http: HttpClient) {}
 

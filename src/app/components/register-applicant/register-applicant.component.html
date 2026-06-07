@@ -163,6 +163,20 @@
             <span class="text-danger position-absolute required-star">*</span>
           </div>
 
+                    <div class="mb-3 position-relative col-md-6 col-12 wf-field wf-select-wrap">
+            <select class="wf-select" formControlName="schoolDegree" aria-label="SchoolDegree" [class.invalid]="
+                schoolDegree?.invalid &&
+                (schoolDegree?.touched || isSubmitted)
+              ">
+              <option [ngValue]="null" disabled>SchoolDegree</option>
+              <option *ngFor="let q of schoolDegreesList" [value]="q.schoolDegreeId">
+                {{ q.schoolDegreeName }}
+              </option>
+            </select>
+            <span class="wf-chev" aria-hidden="true">▾</span>
+            <span class="text-danger position-absolute required-star">*</span>
+          </div>
+
           <!--Certificate-->
       
 
@@ -228,22 +242,9 @@
               <option [ngValue]="null" disabled>Gender</option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
+              <option value="Others">Others</option>
             </select>
             <span class="wf-chev" style="top: 50%" aria-hidden="true">▾</span>
-            <span class="text-danger position-absolute required-star">*</span>
-          </div>
-
-          <div class="mb-3 position-relative col-md-6 col-12 wf-field wf-select-wrap">
-            <select class="wf-select" formControlName="schoolDegree" aria-label="SchoolDegree" [class.invalid]="
-                schoolDegree?.invalid &&
-                (schoolDegree?.touched || isSubmitted)
-              ">
-              <option [ngValue]="null" disabled>SchoolDegree</option>
-              <option *ngFor="let q of schoolDegreesList" [value]="q.schoolDegreeId">
-                {{ q.schoolDegreeName }}
-              </option>
-            </select>
-            <span class="wf-chev" aria-hidden="true">▾</span>
             <span class="text-danger position-absolute required-star">*</span>
           </div>
         </div>
@@ -254,7 +255,7 @@
             <input type="checkbox" formControlName="terms" required [class.is-invalid]="
                 terms?.invalid && (terms?.touched || isSubmitted)
               " />
-            <span style="padding: 5px">I agree to the <a href="#">Terms &amp; Privacy Policy</a></span>
+            <span style="padding: 5px">I agree to the <a href="https://initti.com/privacypolicy.html">Terms &amp; Privacy Policy</a></span>
           </label>
         </div>
 

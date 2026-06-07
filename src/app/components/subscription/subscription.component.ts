@@ -8,6 +8,7 @@ import { StripeService } from '../../services/stripe.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-subscription',
@@ -88,7 +89,7 @@ export class SubscriptionComponent implements OnInit {
   //   }
 
   //   // 2️⃣ Call backend API
-  //   const response: any = await this.http.post('https://initti.com/api/payment/create', {
+  //   const response: any = await this.http.post(`${environment.apiUrl}/payment/create`, {
   //     userId: this.employerData.userId,               // signedup user id
   //     email: this.employerData.email,       // signedup user email
   //     paymentMethodId: paymentMethod.id,
@@ -117,7 +118,7 @@ export class SubscriptionComponent implements OnInit {
   async onCheckout() {
     // 1️⃣ Call backend to create Checkout Session
     const response: any = await this.http.post(
-      'https://initti.com/api/payment/checkout',
+      `${environment.apiUrl}/payment/checkout`,
       {
         userId: this.employerData.userId,
         email: this.employerData.email,

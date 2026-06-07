@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SchooldegreeService {
 
-  private apiUrl: string = 'https://initti.com/api/schooldegrees';
+  private baseUrl: string = environment.apiUrl;
+  private apiUrl: string = `${this.baseUrl}/schooldegrees`;
     // private apiUrl: string =
     //   'http://bilalsajid-001-site1.mtempurl.com/api/qualifications';
   

@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationService {
-  private apiUrl: string = 'https://initti.com/api/notifications';
-  // private apiUrl: string =
-  //   'http://bilalsajid-001-site1.mtempurl.com/api/notifications';
+  private baseUrl: string = environment.apiUrl;
+  private apiUrl: string = `${this.baseUrl}/notifications`;
   private _count = new BehaviorSubject<number>(0);
   count$ = this._count.asObservable();
 

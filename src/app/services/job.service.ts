@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { ApiResponse } from '../models/api-response.model';
 import { HttpClient, HttpRequest } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class JobService {
-  private apiUrl: string = 'https://initti.com/api/jobs';
-  // private apiUrl: string = 'http://bilalsajid-001-site1.mtempurl.com/api/jobs';
+  private baseUrl: string = environment.apiUrl;
+  private apiUrl: string = `${this.baseUrl}/jobs`;
   constructor(private http: HttpClient) {}
 
   GetJobTypes(): Observable<ApiResponse<string[]>> {

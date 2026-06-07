@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { BillingService } from '../../services/billing.service';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-billing-details',
@@ -41,7 +42,7 @@ export class BillingDetailsComponent {
     return;
   }
 
-  this.http.post('https://initti.com/api/payment/cancel', {subscriptionId:this.subscriptionId})
+  this.http.post(`${environment.apiUrl}/payment/cancel`, {subscriptionId:this.subscriptionId})
     .subscribe({
       next: () => {
         this.loadBilling(); // reload billing info

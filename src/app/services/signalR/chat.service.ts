@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,8 +11,8 @@ export class ChatService {
   constructor(private http: HttpClient) {}
 
   private hubConnection!: signalR.HubConnection;
-  private readonly hubUrl = 'https://initti.com/api/chatHub';
-  private apiUrl: string = 'https://initti.com/api/messages';
+  private readonly hubUrl = `${environment.apiUrl}/chatHub`;
+  private apiUrl: string = `${environment.apiUrl}/messages`;
   // private readonly hubUrl = 'http://bilalsajid-001-site1.mtempurl.com/chatHub';
   // private apiUrl: string =
   //   'http://bilalsajid-001-site1.mtempurl.com/api/messages';

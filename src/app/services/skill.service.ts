@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../models/api-response.model';
 import { Skill } from '../models/skill.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SkillService {
-  private apiUrl: string = 'https://initti.com/api/skills';
-  // private apiUrl: string =
-  //   'http://bilalsajid-001-site1.mtempurl.com/api/skills';
+  private baseUrl: string = environment.apiUrl;
+  private apiUrl: string = `${this.baseUrl}/skills`;
 
   constructor(private http: HttpClient) {}
 

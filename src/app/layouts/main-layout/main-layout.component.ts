@@ -10,6 +10,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../services/auth.service';
 import { SharedService } from '../../services/shared.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-main-layout',
@@ -55,7 +56,7 @@ export class MainLayoutComponent implements OnInit {
 
     this.sharedService.userProfile$.subscribe((profile) => {
       if (profile) {
-        this.profilePictureUrl = `https://initti.com/api/profiles/${profile}?t=${Date.now()}`;
+        this.profilePictureUrl = `${environment.apiUrl}/profiles/${profile}?t=${Date.now()}`;
       } else {
         this.updateProfilePicture();
       }
@@ -114,7 +115,7 @@ export class MainLayoutComponent implements OnInit {
       this.profilePictureUrl = 'https://dummyimage.com/150x150/cccccc/000000&text=User';
       return;
     }
-    this.profilePictureUrl = `https://initti.com/api/profiles/${this.authService.getUserProfilePic()}?t=${Date.now()}`;
+    this.profilePictureUrl = `${environment.apiUrl}/profiles/${this.authService.getUserProfilePic()}?t=${Date.now()}`;
   }
 
   // getProfilePictureUrl(profile: string): string | null {

@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ModuleResponse } from '../models/module-response';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl: string = 'https://initti.com/api/users';
-  // private apiUrl: string = 'http://bilalsajid-001-site1.mtempurl.com/api/users';
+  private baseUrl: string = environment.apiUrl;
+  private apiUrl: string = `${this.baseUrl}/users`;
 
   constructor(private http: HttpClient) {}
 

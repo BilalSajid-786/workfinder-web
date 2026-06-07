@@ -23,6 +23,7 @@ import { CountrycodeService } from '../../services/countrycode.service';
 import { Guid } from '../../models/types.model';
 import { FileService } from '../../services/file.service';
 import { SharedService } from '../../services/shared.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-user-profile',
@@ -207,15 +208,22 @@ export class UserProfileComponent implements OnInit {
           .subscribe({
             next: (res) => {
               debugger;
-              this.toastr.success('Profile Update Successfully');
-              // this.getEmployerById();
-              console.log(res);
-              localStorage.removeItem('token');
-              localStorage.setItem('token', res.result);
-              debugger;
-              this.sharedService.setUserName(
-                this.profileForm.get('userName')?.value
-              );
+              if(res.isSuccess)
+              {
+                this.toastr.success('Profile Update Successfully');
+                // this.getEmployerById();
+                console.log(res);
+                localStorage.removeItem('token');
+                localStorage.setItem('token', res.result);
+                debugger;
+                this.sharedService.setUserName(
+                  this.profileForm.get('userName')?.value
+                );
+              }
+              else
+              {
+                this.toastr.error(res.message);
+              }
             },
             error: (err) => { },
           });
@@ -238,13 +246,21 @@ export class UserProfileComponent implements OnInit {
         console.log('obj to send is', obj);
         this.applicantService.updateApplicant(obj).subscribe({
           next: (res) => {
-            this.toastr.success('Profile Update Successfully');
-            this.uploadResume(obj.applicantId);
-            localStorage.removeItem('token');
-            localStorage.setItem('token', res.result);
-            this.sharedService.setUserName(
+            if(res.isSuccess)
+            {
+              this.toastr.success('Profile Update Successfully');
+              this.uploadResume(obj.applicantId);
+              localStorage.removeItem('token');
+              localStorage.setItem('token', res.result);
+              this.sharedService.setUserName(
               this.profileForm.get('userName')?.value
             );
+            }
+            else
+            {
+              this.toastr.error(res.message);
+            }
+
           },
           error: (err) => { },
         });
@@ -466,8 +482,7 @@ export class UserProfileComponent implements OnInit {
           this.user.profilePic.lastIndexOf('.') + 1
         )
         : '';
-      this.profilePicName = `https://initti.com/api/profiles/${this.authService.getBaseUserId()}.${this.extension
-        }?t=${Date.now()}`;
+      this.profilePicName = `${environment.apiUrl}/profiles/${this.authService.getBaseUserId()}.${this.extension}?t=${Date.now()}`;
       if (upload) this.patchFormValue();
     });
   }
@@ -482,8 +497,7 @@ export class UserProfileComponent implements OnInit {
           this.user.profilePic.lastIndexOf('.') + 1
         )
         : '';
-      this.profilePicName = `https://initti.com/api/profiles/${this.authService.getBaseUserId()}.${this.extension
-        }?t=${Date.now()}`;
+      this.profilePicName = `${environment.apiUrl}/profiles/${this.authService.getBaseUserId()}.${this.extension}?t=${Date.now()}`;
       if (upload) this.patchFormValue();
     });
   }
